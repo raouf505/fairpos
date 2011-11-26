@@ -9,7 +9,7 @@ Here is the list of Suppliers
 
 ||Supplier   ||    articles  ||pictures||project info||product info|| delivery receipt ||
 ||Contigo||x|| -  ||  -  || -  || -  ||
-||Gepa||x|| -  ||  -  || -  || -  ||
+||[http://www.gepa.de/wug Gepa]||x|| -  ||  -  || -  || -  ||
 ||DWP||x|| -  ||  -  || -  || -  ||
 ||El Puente||x|| -  ||  -  || -  || -  ||
 ||Akar||-|| -  ||  -  || -  || -  ||
