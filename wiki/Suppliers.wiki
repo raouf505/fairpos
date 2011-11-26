@@ -1,28 +1,27 @@
-# Supported Suppliers for FairPOS
-
-= Introduction =
+= Supported Suppliers for FairPOS =
 
 Here is the list of Suppliers
 
-
 = List of Suppliers =
 
-||Supplier   ||    articles  ||pictures||project info||product info|| delivery receipt ||
-||[ftp://dwp.login-freiburg.de DWP]||x||o||o||o||o||
-||[http://www.el-puente.de/download/kataloge/ El Puente]||x||o||-||-||o||
-||[http://www.gepa.de/wug Gepa]||x||o||o||o||o||
-||[ftp://contigozentrale.dyndns.org Contigo]||x||o||-||-||o||
-||[http://akar-fairtrade.de/ Akar]||o||-||-||-||-||
-||[http://www.regenwaldladen.de/ Regenwaldladen]||o||-||-||-||-||
-||[http://www.globo-fairtrade.de/ Globo]||o||-||-||-||-||
-||[http://www.suedsinn.de/ Südsinn]||o||-||-||-||-||
-||[http://www.nature-and-art.de/ nature+art]||o||-||-||-||-||
-||_self-defined_||o||-||-||-||-||
+||Supplier   ||    articles  ||pictures||project info||product info|| delivery receipt ||auto update||
+||[ftp://dwp.login-freiburg.de DWP]||x||o||o||o||o||o||
+||[http://www.el-puente.de/download/kataloge/ El Puente]||x||o||-||-||o||?||
+||[http://www.gepa.de/wug Gepa]||x||o||o||o||o||o||
+||[ftp://contigozentrale.dyndns.org Contigo]||x||o||-||-||o||o||
+||[http://akar-fairtrade.de/ Akar]||o||-||-||-||-||?||
+||[http://www.regenwaldladen.de/ Regenwaldladen]||o||-||-||-||-||?||
+||[http://www.globo-fairtrade.de/ Globo]||o||-||-||-||-||?||
+||[http://www.suedsinn.de/ Südsinn]||o||-||-||-||-||?||
+||[http://www.nature-and-art.de/ nature+art]||o||-||-||-||-||?||
+||_self-defined_||o||-||-||-||-||o||
+
  
 Legend:
-* x done
-* o open point,to do
-* - currently not offered by provider
+  * x done
+  * o open point,to do
+  * - currently not offered by supplier
+  * auto update means we have an URL to automatically download
 
 List of Suppliers of Wenger EDV: http://www.wenger-edv.at/inhalt/index.html?id=4671&sub_id=58417&vorlagen_id=0
 
