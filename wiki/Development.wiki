@@ -14,3 +14,9 @@ Add your content here.  Format your content with:
     * user and pass
   * [http://www.postgresql.org/download/windows PostgreSQL 9.0] - using pgAdmin III for administration
   * Talend Open Studio (4.1.1.r50363) - for Extract Transform Load of data
+
+
+= ETL-Synchronization = 
+  # Once the database needs to be set up with ETL job
+  # every day ETL job downloads the newest article data
+  # after that each supplier ETL job is executed
