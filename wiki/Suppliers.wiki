@@ -8,10 +8,10 @@ Here is the list of Suppliers
 = List of Suppliers =
 
 ||Supplier   ||    articles  ||pictures||project info||product info|| delivery receipt ||
-||Contigo||x|| -  ||  -  || -  || -  ||
+||ftp://contigozentrale.dyndns.org Contigo||x|| -  ||  -  || -  || -  ||
 ||[http://www.gepa.de/wug Gepa]||x|| -  ||  -  || -  || -  ||
-||DWP||x|| -  ||  -  || -  || -  ||
-||El Puente||x|| -  ||  -  || -  || -  ||
+||ftp://dwp.login-freiburg.de DWP||x|| -  ||  -  || -  || -  ||
+||http://www.el-puente.de/download/kataloge/ El Puente||x|| -  ||  -  || -  || -  ||
 ||Akar||-|| -  ||  -  || -  || -  ||
 ||Regenwaldladen||-|| -  ||  -  || -  || -  ||
 ||Globo||-|| -  ||  -  || -  || -  ||
