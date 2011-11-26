@@ -8,18 +8,20 @@ Here is the list of Suppliers
 = List of Suppliers =
 
 ||Supplier   ||    articles  ||pictures||project info||product info|| delivery receipt ||
-||[ftp://contigozentrale.dyndns.org Contigo]||x|| -  ||  -  || -  || -  ||
-||[http://www.gepa.de/wug Gepa]||x|| -  ||  -  || -  || -  ||
-||[ftp://dwp.login-freiburg.de DWP]||x|| -  ||  -  || -  || -  ||
-||[http://www.el-puente.de/download/kataloge/ El Puente]||x|| -  ||  -  || -  || -  ||
-||[http://akar-fairtrade.de/ Akar]||-|| -  ||  -  || -  || -  ||
-||[http://www.regenwaldladen.de/ Regenwaldladen]||-|| -  ||  -  || -  || -  ||
-||[http://www.globo-fairtrade.de/ Globo]||-|| -  ||  -  || -  || -  ||
-||[http://www.suedsinn.de/ Südsinn]||-|| -  ||  -  || -  || -  ||
-||[http://www.nature-and-art.de/ nature+art]||-|| -  ||  -  || -  || -  ||
-||_self-defined_||-|| -  ||  -  || -  || -  ||
+||[ftp://dwp.login-freiburg.de DWP]||x|| *  ||  *  || *  || *  ||
+||[http://www.el-puente.de/download/kataloge/ El Puente]||x|| *  ||  -  || -  || *  ||
+||[http://www.gepa.de/wug Gepa]||x|| *  ||  *  || *  || *  ||
+||[ftp://contigozentrale.dyndns.org Contigo]||x|| *  ||  -  || -  || *  ||
+||[http://akar-fairtrade.de/ Akar]||*|| -  ||  -  || -  || -  ||
+||[http://www.regenwaldladen.de/ Regenwaldladen]||*|| -  ||  -  || -  || -  ||
+||[http://www.globo-fairtrade.de/ Globo]||*|| -  ||  -  || -  || -  ||
+||[http://www.suedsinn.de/ Südsinn]||*|| -  ||  -  || -  || -  ||
+||[http://www.nature-and-art.de/ nature+art]||*|| -  ||  -  || -  || -  ||
+||_self-defined_||*|| -  ||  -  || -  || -  ||
  
-
+x - done
+* - to do
+- - currently not offered by provider
 
 List of Suppliers of Wenger EDV: http://www.wenger-edv.at/inhalt/index.html?id=4671&sub_id=58417&vorlagen_id=0
 
