@@ -1,0 +1,25 @@
+# Supported Suppliers for FairPOS
+
+= Introduction =
+
+Here is the list of Suppliers
+
+
+= List of Suppliers =
+
+||Supplier   ||    articles  ||pictures||project info||product info|| delivery receipt ||
+||Contigo||x|| -  ||  -  || -  || -  ||
+||Gepa||x|| -  ||  -  || -  || -  ||
+||DWP||x|| -  ||  -  || -  || -  ||
+||El Puente||x|| -  ||  -  || -  || -  ||
+||Akar||-|| -  ||  -  || -  || -  ||
+||Regenwaldladen||-|| -  ||  -  || -  || -  ||
+||Globo||-|| -  ||  -  || -  || -  ||
+||Damian||-|| -  ||  -  || -  || -  ||
+||Südsinn||-|| -  ||  -  || -  || -  ||
+||nature+art||-|| -  ||  -  || -  || -  ||
+||_self-defined_||-|| -  ||  -  || -  || -  ||
+ 
+
+
+List of Suppliers of Wenger EDV: http://www.wenger-edv.at/inhalt/index.html?id=4671&sub_id=58417&vorlagen_id=0
