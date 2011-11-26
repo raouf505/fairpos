@@ -29,9 +29,8 @@ List of Suppliers of Wenger EDV: http://www.wenger-edv.at/inhalt/index.html?id=4
  * [http://www.gepa.de/wug Gepa] - [http://www.gepa.de/wug/Templates/pdf/pdf_win.php?doknr=209 Service->"Preise & Konditionen"->Artikeldaten]
  * [ftp://dwp.login-freiburg.de/WeltladenExport/ DWP] - [ftp://dwp.login-freiburg.de/WeltladenExport/artikel_bilder/ Bilder]
  * [http://www.el-puente.de/download/kataloge/ El Puente] - 
- * Akar
- * Regenwaldladen
- * Globo
- * Damian
- * Südsinn
- * nature+art
+ * Akar - [mailto:akar@chrisscholz.net per mail]
+ * Regenwaldladen - [mailto:info@regenwaldladen.de per mail]
+ * Globo - [mailto:info@globo-fairtrade.de per mail]
+ * Südsinn - todo
+ * nature+art - todo
