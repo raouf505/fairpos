@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<talendfile:ProcessType xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:talendfile="platform:/resource/org.talend.model/model/TalendFile.xsd" xmi:id="_b5-loB-UEeGMIY0la1fGwQ" defaultContext="Default" screenshot="iVBORw0KGgoAAAANSUhEUgAAA0AAAAGVCAIAAABYbQagAAAIA0lEQVR4nO3WsRHAQAzDMO+/dPJD2AXvgAGkljMz3yX79u3bt2/fvn37y/un6wAArBNwAAAxAg4AIEbAAQDECDgAgBgBBwAQI+AAAGIEHABAjIADAIgRcAAAMQIOACBGwAEAxAg4AIAYAQcAECPgAABiBBwAQIyAAwCIEXAAADECDgAgRsABAMQIOACAGAEHABAj4AAAYgQcAECMgAMAiBFwAAAxAg4AIEbAAQDECDgAgBgBBwAQI+AAAGLmuT6wb9++ffv27du3v7l/ug4AwDoBBwAQI+AAAGIEHABAjIADAIgRcAAAMQIOACBGwAEAxAg4AIAYAQcAECPgAABiBBwAQIyAAwCIEXAAADECDgAgRsABAMQIOACAGAEHABAj4AAAYgQcAECMgAMAiBFwAAAxAg4AIEbAAQDECDgAgBgBBwAQI+AAAGIEHABAjIADAIgRcAAAMQIOACBmnusD+/bt27dv3759+5v7p+sAAKwTcAAAMQIOACBGwAEAxAg4AIAYAQcAECPgAABiBBwAQIyAAwCIEXAAADECDgAgRsABAMQIOACAGAEHABAj4AAAYgQcAECMgAMAiBFwAAAxAg4AIEbAAQDECDgAgBgBBwAQI+AAAGIEHABAjIADAIgRcAAAMQIOACBGwAEAxAg4AIAYAQcAECPgAABi5rk+sG/fvn379u3bt7+5f7oOAMA6AQcAECPgAABiBBwAQIyAAwCIEXAAADECDgAgRsABAMQIOACAGAEHABAj4AAAYgQcAECMgAMAiBFwAAAxAg4AIEbAAQDECDgAgBgBBwAQI+AAAGIEHABAjIADAIgRcAAAMQIOACBGwAEAxAg4AIAYAQcAECPgAABiBBwAQIyAAwCIEXAAADECDgAgZp7rA/v27du3b9++ffub+6frAACsE3AAADECDgAgRsABAMQIOACAGAEHABAj4AAAYgQcAECMgAMAiBFwAAAxAg4AIEbAAQDECDgAgBgBBwAQI+AAAGIEHABAjIADAIgRcAAAMQIOACBGwAEAxAg4AIAYAQcAECPgAABiBBwAQIyAAwCIEXAAADECDgAgRsABAMQIOACAGAEHABAj4AAAYua5PrBv3759+/bt27e/uX+6DgDAOgEHABAj4AAAYgQcAECMgAMAiBFwAAAxAg4AIEbAAQDECDgAgBgBBwAQI+AAAGIEHABAjIADAIgRcAAAMQIOACBGwAEAxAg4AIAYAQcAECPgAABiBBwAQIyAAwCIEXAAADECDgAgRsABAMQIOACAGAEHABAj4AAAYgQcAECMgAMAiBFwAAAxAg4AIGae6wP79u3bt2/fvn37m/un6wAArBNwAAAxAg4AIEbAAQDECDgAgBgBBwAQI+AAAGIEHABAjIADAIgRcAAAMQIOACBGwAEAxAg4AIAYAQcAECPgAABiBBwAQIyAAwCIEXAAADECDgAgRsABAMQIOACAGAEHABAj4AAAYgQcAECMgAMAiBFwAAAxAg4AIEbAAQDECDgAgBgBBwAQI+AAAGLmuT6wb9++ffv27du3v7l/ug4AwDoBBwAQI+AAAGIEHABAjIADAIgRcAAAMQIOACBGwAEAxAg4AIAYAQcAECPgAABiBBwAQIyAAwCIEXAAADECDgAgRsABAMQIOACAGAEHABAj4AAAYgQcAECMgAMAiBFwAAAxAg4AIEbAAQDECDgAgBgBBwAQI+AAAGIEHABAjIADAIgRcAAAMQIOACBmnusD+/bt27dv3759+5v7p+sAAKwTcAAAMQIOACBGwAEAxAg4AIAYAQcAECPgAABiBBwAQIyAAwCIEXAAADECDgAgRsABAMQIOACAGAEHABAj4AAAYgQcAECMgAMAiBFwAAAxAg4AIEbAAQDECDgAgBgBBwAQI+AAAGIEHABAjIADAIgRcAAAMQIOACBGwAEAxAg4AIAYAQcAECPgAABi5rk+sG/fvn379u3bt7+5f7oOAMA6AQcAECPgAABiBBwAQIyAAwCIEXAAADECDgAgRsABAMQIOACAGAEHABAj4AAAYgQcAECMgAMAiBFwAAAxAg4AIEbAAQDECDgAgBgBBwAQI+AAAGIEHABAjIADAIgRcAAAMQIOACBGwAEAxAg4AIAYAQcAECPgAABiBBwAQIyAAwCIEXAAADECDgAgZp7rA/v27du3b9++ffub+6frAACsE3AAADECDgAgRsABAMQIOACAGAEHABAj4AAAYgQcAECMgAMAiBFwAAAxAg4AIEbAAQDECDgAgBgBBwAQI+AAAGIEHABAjIADAIgRcAAAMQIOACBGwAEAxAg4AIAYAQcAECPgAABiBBwAQIyAAwCIEXAAADECDgAgRsABAMQIOACAGAEHABAj4AAAYua5PrBv3759+/bt27e/uX+6DgDAOgEHABAj4AAAYgQcAECMgAMAiBFwAAAxAg4AIEbAAQDECDgAgBgBBwAQI+AAAGIEHABAjIADAIgRcAAAMQIOACBGwAEAxAg4AIAYAQcAECPgAABiBBwAQIyAAwCIEXAAADECDgAgRsABAMQIOACAGAEHABAj4AAAYgQcAECMgAMAiBFwAAAxAg4AIGae6wP79u3bt2/fvn37m/un6wAArBNwAAAxAg4AIEbAAQDECDgAgBgBBwAQI+AAAGIEHABAjIADAIgRcAAAMQIOACBGwAEAxAg4AIAYAQcAECPgAABiBBwAQIyAAwCIEXAAADECDgAgRsABAMT88WJHfQ3szT0AAAAASUVORK5CYII=">
+  <context xmi:id="_b5-loR-UEeGMIY0la1fGwQ" confirmationNeeded="false" name="Default"/>
+  <parameters xmi:id="_b5-loh-UEeGMIY0la1fGwQ">
+    <elementParameter xmi:id="_b5-lox-UEeGMIY0la1fGwQ" field="DIRECTORY" name="COMP_DEFAULT_FILE_DIR" value="C:/Dev/TOS-Win32-r50363-V4.1.1/workspace"/>
+    <elementParameter xmi:id="_b5-lpB-UEeGMIY0la1fGwQ" field="DIRECTORY" name="COMP_DEFAULT_PROJECT_DIR" value="C:/Dev/TOS-Win32-r50363-V4.1.1/workspace/Fairtrade"/>
+    <elementParameter xmi:id="_b5-lpR-UEeGMIY0la1fGwQ" field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx1024M"/>
+    <elementParameter xmi:id="_b5-lph-UEeGMIY0la1fGwQ" field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="false"/>
+    <elementParameter xmi:id="_b5-lpx-UEeGMIY0la1fGwQ" field="TEXT" name="AUTHOR" value="thorsten.harbig@de.bosch.com"/>
+    <elementParameter xmi:id="_b5-lqB-UEeGMIY0la1fGwQ" field="TEXT" name="STATUS" value=""/>
+    <elementParameter xmi:id="_b5-lqR-UEeGMIY0la1fGwQ" field="TEXT" name="NAME" value="NatureArt"/>
+    <elementParameter xmi:id="_b5-lqh-UEeGMIY0la1fGwQ" field="TEXT" name="VERSION" value="0.1"/>
+    <elementParameter xmi:id="_b5-lqx-UEeGMIY0la1fGwQ" field="TEXT" name="PURPOSE" value=""/>
+    <elementParameter xmi:id="_b5-lrB-UEeGMIY0la1fGwQ" field="TEXT" name="DESCRIPTION" value=""/>
+    <elementParameter xmi:id="_b5-lrR-UEeGMIY0la1fGwQ" field="TEXT" name="SCREEN_OFFSET_X" value="0"/>
+    <elementParameter xmi:id="_b5-lrh-UEeGMIY0la1fGwQ" field="TEXT" name="SCREEN_OFFSET_Y" value="0"/>
+    <elementParameter xmi:id="_b5-lrx-UEeGMIY0la1fGwQ" field="TEXT" name="SCHEMA_OPTIONS" value="none"/>
+    <elementParameter xmi:id="_b5-lsB-UEeGMIY0la1fGwQ" field="CHECK" name="IMPLICITCONTEXT_USE_PROJECT_SETTINGS" value="true"/>
+    <elementParameter xmi:id="_b5-lsR-UEeGMIY0la1fGwQ" field="CHECK" name="STATANDLOG_USE_PROJECT_SETTINGS" value="true"/>
+    <elementParameter xmi:id="_b5-lsh-UEeGMIY0la1fGwQ" field="CHECK" name="MULTI_THREAD_EXECATION" value="false"/>
+    <elementParameter xmi:id="_b5-lsx-UEeGMIY0la1fGwQ" field="CHECK" name="IMPLICIT_TCONTEXTLOAD" value="false"/>
+    <elementParameter xmi:id="_b5-ltB-UEeGMIY0la1fGwQ" field="RADIO" name="FROM_FILE_FLAG_IMPLICIT_CONTEXT" value="false"/>
+    <elementParameter xmi:id="_b5-ltR-UEeGMIY0la1fGwQ" field="RADIO" name="FROM_DATABASE_FLAG_IMPLICIT_CONTEXT" value="false"/>
+    <elementParameter xmi:id="_b5-lth-UEeGMIY0la1fGwQ" field="FILE" name="IMPLICIT_TCONTEXTLOAD_FILE" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-ltx-UEeGMIY0la1fGwQ" field="TEXT" name="FIELDSEPARATOR" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-luB-UEeGMIY0la1fGwQ" field="TECHNICAL" name="PROPERTY_TYPE_IMPLICIT_CONTEXT:PROPERTY_TYPE" value=""/>
+    <elementParameter xmi:id="_b5-luR-UEeGMIY0la1fGwQ" field="TECHNICAL" name="PROPERTY_TYPE_IMPLICIT_CONTEXT:REPOSITORY_PROPERTY_TYPE" value=""/>
+    <elementParameter xmi:id="_b5-luh-UEeGMIY0la1fGwQ" field="CLOSED_LIST" name="DB_TYPE_IMPLICIT_CONTEXT" value=""/>
+    <elementParameter xmi:id="_b5-lux-UEeGMIY0la1fGwQ" field="CLOSED_LIST" name="DB_VERSION_IMPLICIT_CONTEXT" value=""/>
+    <elementParameter xmi:id="_b5-lvB-UEeGMIY0la1fGwQ" field="TEXT" name="HOST_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-lvR-UEeGMIY0la1fGwQ" field="TEXT" name="PORT_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-lvh-UEeGMIY0la1fGwQ" field="TEXT" name="DBNAME_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-lvx-UEeGMIY0la1fGwQ" field="TEXT" name="LOCAL_SERVICE_NAME_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-lwB-UEeGMIY0la1fGwQ" field="TEXT" name="PROPERTIES_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-lwR-UEeGMIY0la1fGwQ" field="TEXT" name="SCHEMA_DB_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-lwh-UEeGMIY0la1fGwQ" field="TEXT" name="USER_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-lwx-UEeGMIY0la1fGwQ" field="TEXT" name="PASS_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-lxB-UEeGMIY0la1fGwQ" field="FILE" name="DBFILE_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-lxR-UEeGMIY0la1fGwQ" field="DBTABLE" name="DBTABLE_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-lxh-UEeGMIY0la1fGwQ" field="TEXT" name="QUERY_CONDITION_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-lxx-UEeGMIY0la1fGwQ" field="CLOSED_LIST" name="LOAD_NEW_VARIABLE" value=""/>
+    <elementParameter xmi:id="_b5-lyB-UEeGMIY0la1fGwQ" field="CLOSED_LIST" name="NOT_LOAD_OLD_VARIABLE" value=""/>
+    <elementParameter xmi:id="_b5-lyR-UEeGMIY0la1fGwQ" field="CHECK" name="PRINT_OPERATIONS" value="false"/>
+    <elementParameter xmi:id="_b5-lyh-UEeGMIY0la1fGwQ" field="CHECK" name="DISABLE_ERROR" value="false"/>
+    <elementParameter xmi:id="_b5-lyx-UEeGMIY0la1fGwQ" field="CHECK" name="DISABLE_WARNINGS" value="false"/>
+    <elementParameter xmi:id="_b5-lzB-UEeGMIY0la1fGwQ" field="CHECK" name="DISABLE_INFO" value="false"/>
+    <elementParameter xmi:id="_b5-lzR-UEeGMIY0la1fGwQ" field="CHECK" name="ON_STATCATCHER_FLAG" value="false"/>
+    <elementParameter xmi:id="_b5-lzh-UEeGMIY0la1fGwQ" field="CHECK" name="ON_LOGCATCHER_FLAG" value="false"/>
+    <elementParameter xmi:id="_b5-lzx-UEeGMIY0la1fGwQ" field="CHECK" name="ON_METERCATCHER_FLAG" value="false"/>
+    <elementParameter xmi:id="_b5-l0B-UEeGMIY0la1fGwQ" field="CHECK" name="ON_CONSOLE_FLAG" value="false"/>
+    <elementParameter xmi:id="_b5-l0R-UEeGMIY0la1fGwQ" field="CHECK" name="ON_FILES_FLAG" value="false"/>
+    <elementParameter xmi:id="_b5-l0h-UEeGMIY0la1fGwQ" field="DIRECTORY" name="FILE_PATH" value="&quot;C:/Users/harbig/dev/TOS-Win32-r46802-V4.1.0M4/workspace/.metadata&quot;"/>
+    <elementParameter xmi:id="_b5-l0x-UEeGMIY0la1fGwQ" field="TEXT" name="FILENAME_STATS" value="&quot;stats_file.txt&quot;"/>
+    <elementParameter xmi:id="_b5-l1B-UEeGMIY0la1fGwQ" field="TEXT" name="FILENAME_LOGS" value="&quot;logs_file.txt&quot;"/>
+    <elementParameter xmi:id="_b5-l1R-UEeGMIY0la1fGwQ" field="TEXT" name="FILENAME_METTER" value="&quot;meter_file.txt&quot;"/>
+    <elementParameter xmi:id="_b5-l1h-UEeGMIY0la1fGwQ" field="ENCODING_TYPE" name="ENCODING" value="ISO-8859-15"/>
+    <elementParameter xmi:id="_b5-l1x-UEeGMIY0la1fGwQ" field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter xmi:id="_b5-l2B-UEeGMIY0la1fGwQ" field="CHECK" name="ON_DATABASE_FLAG" value="false"/>
+    <elementParameter xmi:id="_b5-l2R-UEeGMIY0la1fGwQ" field="CLOSED_LIST" name="DB_TYPE" value="tJDBCOutput"/>
+    <elementParameter xmi:id="_b5-l2h-UEeGMIY0la1fGwQ" field="CLOSED_LIST" name="DB_VERSION" value="ojdbc14-10g.jar"/>
+    <elementParameter xmi:id="_b5-l2x-UEeGMIY0la1fGwQ" field="TEXT" name="URL" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-l3B-UEeGMIY0la1fGwQ" field="TABLE" name="DRIVER_JAR"/>
+    <elementParameter xmi:id="_b5-l3R-UEeGMIY0la1fGwQ" field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-l3h-UEeGMIY0la1fGwQ" field="TEXT" name="HOST" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-l3x-UEeGMIY0la1fGwQ" field="TEXT" name="PORT" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-l4B-UEeGMIY0la1fGwQ" field="TEXT" name="DATASOURCE" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-l4R-UEeGMIY0la1fGwQ" field="TEXT" name="DBNAME" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-l4h-UEeGMIY0la1fGwQ" field="TEXT" name="LOCAL_SERVICE_NAME" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-l4x-UEeGMIY0la1fGwQ" field="TEXT" name="PROPERTIES" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-l5B-UEeGMIY0la1fGwQ" field="TEXT" name="SCHEMA_DB" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-l5R-UEeGMIY0la1fGwQ" field="TEXT" name="USER" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-l5h-UEeGMIY0la1fGwQ" field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-l5x-UEeGMIY0la1fGwQ" field="FILE" name="DBFILE" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-l6B-UEeGMIY0la1fGwQ" field="DBTABLE" name="TABLE_STATS" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-l6R-UEeGMIY0la1fGwQ" field="DBTABLE" name="TABLE_LOGS" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-l6h-UEeGMIY0la1fGwQ" field="DBTABLE" name="TABLE_METER" value="&quot;&quot;"/>
+    <elementParameter xmi:id="_b5-l6x-UEeGMIY0la1fGwQ" field="CHECK" name="CATCH_RUNTIME_ERRORS" value="true"/>
+    <elementParameter xmi:id="_b5-l7B-UEeGMIY0la1fGwQ" field="CHECK" name="CATCH_USER_ERRORS" value="true"/>
+    <elementParameter xmi:id="_b5-l7R-UEeGMIY0la1fGwQ" field="CHECK" name="CATCH_USER_WARNING" value="true"/>
+    <elementParameter xmi:id="_b5-l7h-UEeGMIY0la1fGwQ" field="CHECK" name="CATCH_REALTIME_STATS" value="false"/>
+    <elementParameter xmi:id="_b5-l7x-UEeGMIY0la1fGwQ" field="TEXT" name="HEADERFOOTER_HEADERID" value=""/>
+    <elementParameter xmi:id="_b5-l8B-UEeGMIY0la1fGwQ" field="CHECK" name="HEADER_ENABLED" value="false"/>
+    <elementParameter xmi:id="_b5-l8R-UEeGMIY0la1fGwQ" field="TEXT" name="HEADER_LIBRARY" value=""/>
+    <elementParameter xmi:id="_b5-l8h-UEeGMIY0la1fGwQ" field="TEXT" name="HEADER_CODE" value=""/>
+    <elementParameter xmi:id="_b5-l8x-UEeGMIY0la1fGwQ" field="TEXT" name="HEADER_IMPORT" value=""/>
+    <elementParameter xmi:id="_b5-l9B-UEeGMIY0la1fGwQ" field="TEXT" name="HEADERFOOTER_FOOTERID" value=""/>
+    <elementParameter xmi:id="_b5-l9R-UEeGMIY0la1fGwQ" field="CHECK" name="FOOTER_ENABLED" value="false"/>
+    <elementParameter xmi:id="_b5-l9h-UEeGMIY0la1fGwQ" field="TEXT" name="FOOTER_LIBRARY" value=""/>
+    <elementParameter xmi:id="_b5-l9x-UEeGMIY0la1fGwQ" field="TEXT" name="FOOTER_CODE" value=""/>
+    <elementParameter xmi:id="_b5-l-B-UEeGMIY0la1fGwQ" field="TEXT" name="FOOTER_IMPORT" value=""/>
+  </parameters>
+  <routinesDependencies xmi:id="_ax1R0h-UEeGMIY0la1fGwQ" idOrName="DataOperation" system="true"/>
+  <routinesDependencies xmi:id="_ax1R0x-UEeGMIY0la1fGwQ" idOrName="Mathematical" system="true"/>
+  <routinesDependencies xmi:id="_ax1R1B-UEeGMIY0la1fGwQ" idOrName="Numeric" system="true"/>
+  <routinesDependencies xmi:id="_ax1R1R-UEeGMIY0la1fGwQ" idOrName="Relational" system="true"/>
+  <routinesDependencies xmi:id="_ax1R1h-UEeGMIY0la1fGwQ" idOrName="StringHandling" system="true"/>
+  <routinesDependencies xmi:id="_ax1R1x-UEeGMIY0la1fGwQ" idOrName="TalendDataGenerator" system="true"/>
+  <routinesDependencies xmi:id="_ax1R2B-UEeGMIY0la1fGwQ" idOrName="TalendDate" system="true"/>
+  <routinesDependencies xmi:id="_ax1R2R-UEeGMIY0la1fGwQ" idOrName="TalendString" system="true"/>
+  <routinesDependencies xmi:id="_ax1R2h-UEeGMIY0la1fGwQ" idOrName="_xvtskOoPEeCGjaaf9UZXEg"/>
+</talendfile:ProcessType>
