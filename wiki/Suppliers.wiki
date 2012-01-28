@@ -23,7 +23,7 @@ Legend:
   * - currently not offered by supplier
   * auto update means we have an URL to automatically download
 
-List of Suppliers of Wenger EDV: http://www.wenger-edv.at/inhalt/index.html?id=4671&sub_id=58417&vorlagen_id=0
+List of Suppliers of Wenger EDV: http://www.wenger-edv.at/das-wlp/angebundene-lieferanten/
 
 
 = Suppliers and data = 
