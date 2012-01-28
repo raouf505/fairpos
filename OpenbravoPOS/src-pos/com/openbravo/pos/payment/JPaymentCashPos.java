@@ -57,6 +57,7 @@ public class JPaymentCashPos extends javax.swing.JPanel implements JPaymentInter
         
         m_jTendered.addPropertyChangeListener("Edition", new RecalculateState());
         m_jTendered.addEditorKeys(m_jKeys);
+        m_jTendered.setVisible(false);
         
         String code = dlSystem.getResourceAsXML("payment.cash");
         if (code != null) {
@@ -78,6 +79,7 @@ public class JPaymentCashPos extends javax.swing.JPanel implements JPaymentInter
         
         m_jTendered.reset();
         m_jTendered.activate();
+        m_jTendered.setVisible(false);
         
         printState();        
     }
@@ -100,7 +102,7 @@ public class JPaymentCashPos extends javax.swing.JPanel implements JPaymentInter
         if (value == null || value == 0.0) {
             m_dPaid = m_dTotal;
         } else {            
-            m_dPaid = value;
+            m_dPaid = value / 100;
         }   
 
         int iCompare = RoundUtils.compare(m_dPaid, m_dTotal);
@@ -138,7 +140,7 @@ public class JPaymentCashPos extends javax.swing.JPanel implements JPaymentInter
             btn.setHorizontalTextPosition(SwingConstants.CENTER);
             btn.setVerticalTextPosition(SwingConstants.BOTTOM);
             btn.setMargin(new Insets(2, 2, 2, 2));
-            btn.addActionListener(new AddAmount(amount));
+            btn.addActionListener(new AddAmount(amount * 100));
             jPanel6.add(btn);  
         }
     }

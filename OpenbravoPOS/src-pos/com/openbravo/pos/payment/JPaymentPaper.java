@@ -76,7 +76,7 @@ public class JPaymentPaper extends javax.swing.JPanel implements JPaymentInterfa
         if (value == null) {
             m_dTicket = 0.0;
         } else {
-            m_dTicket = value;
+            m_dTicket = value / 100;
         } 
         
         m_jMoneyEuros.setText(Formats.CURRENCY.formatValue(new Double(m_dTicket)));

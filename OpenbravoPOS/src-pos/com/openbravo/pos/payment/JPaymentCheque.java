@@ -68,7 +68,7 @@ public class JPaymentCheque extends javax.swing.JPanel implements JPaymentInterf
         if (value == null) {
             m_dPaid = m_dTotal;
         } else {
-            m_dPaid = value;
+            m_dPaid = value / 100;
         } 
 
         m_jMoneyEuros.setText(Formats.CURRENCY.formatValue(new Double(m_dPaid)));

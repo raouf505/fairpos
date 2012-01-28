@@ -35,7 +35,7 @@ public abstract class JEditorNumber extends JEditorAbstract {
     private String m_sNumber;
     private boolean m_bNegative;
     
-    private Formats m_fmt;
+    protected Formats m_fmt;
     
     /** Creates a new instance of JEditorNumber */
     public JEditorNumber() {
@@ -160,7 +160,7 @@ public abstract class JEditorNumber extends JEditorAbstract {
             reset();
         } else if (cTrans == '-') {
             m_bNegative = !m_bNegative;
-        } else if ((cTrans == '0')
+        } else if ((cTrans == '0' || cTrans == 'h')
         && (m_iNumberStatus == NUMBER_ZERONULL)) {
             // m_iNumberStatus = NUMBER_ZERO;
             m_sNumber = "0";
@@ -172,17 +172,26 @@ public abstract class JEditorNumber extends JEditorAbstract {
             m_iNumberStatus = NUMBER_DEC;
             m_sNumber = "0.";
             
-        } else if ((cTrans == '0' || cTrans == '1' || cTrans == '2' || cTrans == '3' || cTrans == '4' || cTrans == '5' || cTrans == '6' || cTrans == '7' || cTrans == '8' || cTrans == '9')
+        } else if ((cTrans == '0' || cTrans == 'h' || cTrans == '1' || cTrans == '2' || cTrans == '3' || cTrans == '4' || cTrans == '5' || cTrans == '6' || cTrans == '7' || cTrans == '8' || cTrans == '9')
         && (m_iNumberStatus == NUMBER_INT)) {
-            //m_iNumberStatus = NUMBER_INT;
-            m_sNumber += cTrans;
+            if (cTrans == 'h')
+                // 'h' = hundred, add two zeros
+                m_sNumber += "00";
+            else
+                // add the entered int digit
+                m_sNumber += cTrans;
         } else if (cTrans == '.' &&  m_iNumberStatus == NUMBER_INT) {
             m_iNumberStatus = NUMBER_DEC;
             m_sNumber += '.';
             
-        } else if ((cTrans == '0' || cTrans == '1' || cTrans == '2' || cTrans == '3' || cTrans == '4' || cTrans == '5' || cTrans == '6' || cTrans == '7' || cTrans == '8' || cTrans == '9')
+        } else if ((cTrans == '0' || cTrans == 'h' || cTrans == '1' || cTrans == '2' || cTrans == '3' || cTrans == '4' || cTrans == '5' || cTrans == '6' || cTrans == '7' || cTrans == '8' || cTrans == '9')
         && (m_iNumberStatus == NUMBER_DEC)) {
-            m_sNumber += cTrans;
+            if (cTrans == 'h')
+                // 'h' = hundred, add two zeros
+                m_sNumber += "00";
+            else
+                // add the entered int digit
+                m_sNumber += cTrans;
             
         } else {
             Toolkit.getDefaultToolkit().beep();

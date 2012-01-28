@@ -59,7 +59,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
     private ComboBoxValModel m_CodetypeModel;
     
     private Object m_id;
-    private Object pricesell;
+    private Double pricesell;
+    private Double pricesellRecommended;
     private boolean priceselllock = false;
     
     private boolean reportlock = false;
@@ -98,6 +99,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
         m_jCategory.addActionListener(dirty);
         m_jTax.addActionListener(dirty);
         m_jAtt.addActionListener(dirty);
+        m_jManualPrice.addActionListener(dirty);
         m_jPriceBuy.getDocument().addDocumentListener(dirty);
         m_jPriceSell.getDocument().addDocumentListener(dirty);
         m_jImage.addPropertyChangeListener("image", dirty);
@@ -151,8 +153,10 @@ public class ProductsEditor extends JPanel implements EditorRecord {
         m_CategoryModel.setSelectedKey(null);
         taxcatmodel.setSelectedKey(null);
         attmodel.setSelectedKey(null);
+        m_jManualPrice.setSelected(false);
         m_jPriceBuy.setText(null);
         setPriceSell(null);         
+        setPriceSellRecommended(null);
         m_jImage.setImage(null);
         m_jstockcost.setText(null);
         m_jstockvolume.setText(null);
@@ -170,16 +174,15 @@ public class ProductsEditor extends JPanel implements EditorRecord {
         m_jCategory.setEnabled(false);
         m_jTax.setEnabled(false);
         m_jAtt.setEnabled(false);
-        m_jPriceBuy.setEnabled(false);
-        m_jPriceSell.setEnabled(false);
-        m_jPriceSellTax.setEnabled(false);
-        m_jmargin.setEnabled(false);
+        m_jManualPrice.setEnabled(false);
+        enablePriceGroup(false);
         m_jImage.setEnabled(false);
         m_jstockcost.setEnabled(false);
         m_jstockvolume.setEnabled(false);
         m_jInCatalog.setEnabled(false);
         m_jCatalogOrder.setEnabled(false);
         txtAttributes.setEnabled(false);
+        m_jPriceSellRecommendedTax.setEnabled(false);
         
         calculateMargin();
         calculatePriceSellTax();
@@ -198,8 +201,10 @@ public class ProductsEditor extends JPanel implements EditorRecord {
         m_CategoryModel.setSelectedKey(null);
         taxcatmodel.setSelectedKey(null);
         attmodel.setSelectedKey(null);
+        m_jManualPrice.setSelected(false);
         m_jPriceBuy.setText(null);
         setPriceSell(null);                     
+        setPriceSellRecommended(null);
         m_jImage.setImage(null);
         m_jstockcost.setText(null);
         m_jstockvolume.setText(null);
@@ -217,16 +222,15 @@ public class ProductsEditor extends JPanel implements EditorRecord {
         m_jCategory.setEnabled(true);
         m_jTax.setEnabled(true);
         m_jAtt.setEnabled(true);
-        m_jPriceBuy.setEnabled(true);
-        m_jPriceSell.setEnabled(true); 
-        m_jPriceSellTax.setEnabled(true);
-        m_jmargin.setEnabled(true);
+        m_jManualPrice.setEnabled(true);
+        enablePriceGroup(true);
         m_jImage.setEnabled(true);
         m_jstockcost.setEnabled(true);
         m_jstockvolume.setEnabled(true);
         m_jInCatalog.setEnabled(true); 
         m_jCatalogOrder.setEnabled(false);
         txtAttributes.setEnabled(true);
+        m_jPriceSellRecommendedTax.setEnabled(false);
         
         calculateMargin();
         calculatePriceSellTax();
@@ -242,8 +246,10 @@ public class ProductsEditor extends JPanel implements EditorRecord {
         m_jName.setText(Formats.STRING.formatValue(myprod[3]));
         m_jComment.setSelected(((Boolean)myprod[4]).booleanValue());
         m_jScale.setSelected(((Boolean)myprod[5]).booleanValue());
+        m_jManualPrice.setSelected(Boolean.parseBoolean(Formats.BOOLEAN.formatValue(myprod[18])));
         m_jPriceBuy.setText(Formats.CURRENCY.formatValue(myprod[6]));
-        setPriceSell(myprod[7]);                    
+        setPriceSell((Double)myprod[7]);
+        setPriceSellRecommended((Double)myprod[17]);
         m_CategoryModel.setSelectedKey(myprod[8]);
         taxcatmodel.setSelectedKey(myprod[9]);
         attmodel.setSelectedKey(myprod[10]);
@@ -265,16 +271,15 @@ public class ProductsEditor extends JPanel implements EditorRecord {
         m_jCategory.setEnabled(false);
         m_jTax.setEnabled(false);
         m_jAtt.setEnabled(false);
-        m_jPriceBuy.setEnabled(false);
-        m_jPriceSell.setEnabled(false);
-        m_jPriceSellTax.setEnabled(false);
-        m_jmargin.setEnabled(false);
+        m_jManualPrice.setEnabled(false);
+        enablePriceGroup(false);
         m_jImage.setEnabled(false);
         m_jstockcost.setEnabled(false);
         m_jstockvolume.setEnabled(false);
         m_jInCatalog.setEnabled(false);
         m_jCatalogOrder.setEnabled(false);
         txtAttributes.setEnabled(false);
+        m_jPriceSellRecommendedTax.setEnabled(false);
         
         calculateMargin();
         calculatePriceSellTax();
@@ -291,8 +296,10 @@ public class ProductsEditor extends JPanel implements EditorRecord {
         m_jName.setText(Formats.STRING.formatValue(myprod[3]));
         m_jComment.setSelected(((Boolean)myprod[4]).booleanValue());
         m_jScale.setSelected(((Boolean)myprod[5]).booleanValue());
+        m_jManualPrice.setSelected(Boolean.parseBoolean(Formats.BOOLEAN.formatValue(myprod[18])));
         m_jPriceBuy.setText(Formats.CURRENCY.formatValue(myprod[6]));
-        setPriceSell(myprod[7]);                               
+        setPriceSell((Double)myprod[7]);
+        setPriceSellRecommended((Double)myprod[17]);
         m_CategoryModel.setSelectedKey(myprod[8]);
         taxcatmodel.setSelectedKey(myprod[9]);
         attmodel.setSelectedKey(myprod[10]);
@@ -314,16 +321,15 @@ public class ProductsEditor extends JPanel implements EditorRecord {
         m_jCategory.setEnabled(true);
         m_jTax.setEnabled(true);
         m_jAtt.setEnabled(true);
-        m_jPriceBuy.setEnabled(true);
-        m_jPriceSell.setEnabled(true); 
-        m_jPriceSellTax.setEnabled(true);
-        m_jmargin.setEnabled(true);
+        m_jManualPrice.setEnabled(true);
+        enablePriceGroup(true);
         m_jImage.setEnabled(true);
         m_jstockcost.setEnabled(true);
         m_jstockvolume.setEnabled(true);
         m_jInCatalog.setEnabled(true);
         m_jCatalogOrder.setEnabled(m_jInCatalog.isSelected());  
         txtAttributes.setEnabled(true);
+        m_jPriceSellRecommendedTax.setEnabled(false);
         
         calculateMargin();
         calculatePriceSellTax();
@@ -331,7 +337,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
     public Object createValue() throws BasicException {
         
-        Object[] myprod = new Object[17];
+        Object[] myprod = new Object[19];
         myprod[0] = m_id;
         myprod[1] = m_jRef.getText();
         myprod[2] = m_jCode.getText();
@@ -349,6 +355,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
         myprod[14] = Boolean.valueOf(m_jInCatalog.isSelected());
         myprod[15] = Formats.INT.parseValue(m_jCatalogOrder.getText());
         myprod[16] = Formats.BYTEA.parseValue(txtAttributes.getText());
+        myprod[17] = pricesellRecommended;
+        myprod[18] = Boolean.valueOf(m_jManualPrice.isSelected());
         
         return myprod;
     }    
@@ -387,10 +395,27 @@ public class ProductsEditor extends JPanel implements EditorRecord {
                 double dTaxRate = taxeslogic.getTaxRate((TaxCategoryInfo) taxcatmodel.getSelectedItem(), new Date());
                 m_jPriceSellTax.setText(Formats.CURRENCY.formatValue(new Double(dPriceSell.doubleValue() * (1.0 + dTaxRate))));
             }            
+            // on change of sell price, also update recommended sell price (i.e. taxtes might have changed)
+            updatePriceSellRecommended();
+
             reportlock = false;
         }
     }
     
+    private void setPriceSellRecommended(Double value) {
+        pricesellRecommended = value;
+        updatePriceSellRecommended();
+    }
+
+    private void updatePriceSellRecommended() {
+        if (pricesellRecommended==null)
+            m_jPriceSellRecommendedTax.setText("");
+        else {
+            double dTaxRate = taxeslogic.getTaxRate((TaxCategoryInfo) taxcatmodel.getSelectedItem(), new Date());
+            m_jPriceSellRecommendedTax.setText(Formats.CURRENCY.formatValue(pricesellRecommended * (1.0 + dTaxRate)));
+        }
+    }
+
     private void calculatePriceSellfromMargin() {
         
         if (!reportlock) {
@@ -427,8 +452,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
             reportlock = false;
         }    
     }
-    
-    private void setPriceSell(Object value) {
+
+    private void setPriceSell(Double value) {
         
         if (!priceselllock) {
             priceselllock = true;
@@ -532,6 +557,13 @@ public class ProductsEditor extends JPanel implements EditorRecord {
             return null;
         }
     }
+
+    private void enablePriceGroup (boolean enable) {
+        enable &= !m_jManualPrice.isSelected();
+        m_jPriceSell.setEnabled(enable);
+        m_jPriceSellTax.setEnabled(enable);
+        m_jmargin.setEnabled(enable);
+    }
     
     /** This method is called from within the constructor to
      * initialize the form.
@@ -565,6 +597,9 @@ public class ProductsEditor extends JPanel implements EditorRecord {
         m_jCodetype = new javax.swing.JComboBox();
         jLabel13 = new javax.swing.JLabel();
         m_jAtt = new javax.swing.JComboBox();
+        jLabel14 = new javax.swing.JLabel();
+        m_jPriceSellRecommendedTax = new javax.swing.JTextField();
+        m_jManualPrice = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         m_jstockcost = new javax.swing.JTextField();
@@ -586,15 +621,15 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
         jLabel1.setText(AppLocal.getIntString("label.prodref")); // NOI18N
         add(jLabel1);
-        jLabel1.setBounds(10, 50, 80, 15);
+        jLabel1.setBounds(10, 50, 80, 16);
 
         jLabel2.setText(AppLocal.getIntString("label.prodname")); // NOI18N
         add(jLabel2);
-        jLabel2.setBounds(180, 50, 70, 15);
+        jLabel2.setBounds(180, 50, 70, 16);
         add(m_jRef);
-        m_jRef.setBounds(90, 50, 70, 19);
+        m_jRef.setBounds(90, 50, 70, 22);
         add(m_jName);
-        m_jName.setBounds(250, 50, 220, 19);
+        m_jName.setBounds(250, 50, 220, 22);
 
         m_jTitle.setFont(new java.awt.Font("SansSerif", 3, 18));
         add(m_jTitle);
@@ -604,59 +639,76 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
         jLabel6.setText(AppLocal.getIntString("label.prodbarcode")); // NOI18N
         jPanel1.add(jLabel6);
-        jLabel6.setBounds(10, 20, 150, 15);
+        jLabel6.setBounds(10, 20, 150, 16);
         jPanel1.add(m_jCode);
-        m_jCode.setBounds(160, 20, 170, 19);
+        m_jCode.setBounds(160, 20, 170, 22);
         jPanel1.add(m_jImage);
         m_jImage.setBounds(340, 20, 200, 180);
 
         jLabel3.setText(AppLocal.getIntString("label.prodpricebuy")); // NOI18N
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(10, 50, 150, 15);
+        jLabel3.setBounds(10, 50, 150, 16);
 
         m_jPriceBuy.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel1.add(m_jPriceBuy);
-        m_jPriceBuy.setBounds(160, 50, 80, 19);
+        m_jPriceBuy.setBounds(160, 50, 80, 22);
 
         jLabel4.setText(AppLocal.getIntString("label.prodpricesell")); // NOI18N
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(10, 80, 150, 15);
+        jLabel4.setBounds(10, 100, 150, 16);
 
         m_jPriceSell.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel1.add(m_jPriceSell);
-        m_jPriceSell.setBounds(160, 80, 80, 19);
+        m_jPriceSell.setBounds(160, 100, 80, 22);
 
         jLabel5.setText(AppLocal.getIntString("label.prodcategory")); // NOI18N
         jPanel1.add(jLabel5);
-        jLabel5.setBounds(10, 170, 150, 15);
+        jLabel5.setBounds(10, 220, 150, 16);
         jPanel1.add(m_jCategory);
-        m_jCategory.setBounds(160, 170, 170, 20);
+        m_jCategory.setBounds(160, 220, 170, 20);
 
         jLabel7.setText(AppLocal.getIntString("label.taxcategory")); // NOI18N
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(10, 140, 150, 15);
+        jLabel7.setBounds(10, 190, 150, 16);
         jPanel1.add(m_jTax);
-        m_jTax.setBounds(160, 140, 170, 20);
+        m_jTax.setBounds(160, 190, 170, 20);
 
         m_jmargin.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel1.add(m_jmargin);
-        m_jmargin.setBounds(250, 80, 80, 19);
+        m_jmargin.setBounds(250, 100, 80, 22);
 
         m_jPriceSellTax.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel1.add(m_jPriceSellTax);
-        m_jPriceSellTax.setBounds(160, 110, 80, 19);
+        m_jPriceSellTax.setBounds(160, 130, 80, 22);
 
         jLabel16.setText(AppLocal.getIntString("label.prodpriceselltax")); // NOI18N
         jPanel1.add(jLabel16);
-        jLabel16.setBounds(10, 110, 150, 15);
+        jLabel16.setBounds(10, 130, 150, 16);
         jPanel1.add(m_jCodetype);
         m_jCodetype.setBounds(250, 40, 80, 20);
 
         jLabel13.setText(AppLocal.getIntString("label.attributes")); // NOI18N
         jPanel1.add(jLabel13);
-        jLabel13.setBounds(10, 200, 150, 15);
+        jLabel13.setBounds(10, 250, 150, 16);
         jPanel1.add(m_jAtt);
-        m_jAtt.setBounds(160, 200, 170, 20);
+        m_jAtt.setBounds(160, 250, 170, 20);
+
+        jLabel14.setText(AppLocal.getIntString("label.prodpricerecommended")); // NOI18N
+        jPanel1.add(jLabel14);
+        jLabel14.setBounds(10, 160, 150, 16);
+
+        m_jPriceSellRecommendedTax.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jPanel1.add(m_jPriceSellRecommendedTax);
+        m_jPriceSellRecommendedTax.setBounds(160, 160, 80, 22);
+
+        m_jManualPrice.setText(AppLocal.getIntString("label.manualprice")); // NOI18N
+        m_jManualPrice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_jManualPriceActionPerformed(evt);
+            }
+        });
+        jPanel1.add(m_jManualPrice);
+        m_jManualPrice.setBounds(5, 73, 320, 20);
 
         jTabbedPane1.addTab(AppLocal.getIntString("label.prodgeneral"), jPanel1); // NOI18N
 
@@ -664,31 +716,31 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
         jLabel9.setText(AppLocal.getIntString("label.prodstockcost")); // NOI18N
         jPanel2.add(jLabel9);
-        jLabel9.setBounds(10, 20, 150, 15);
+        jLabel9.setBounds(10, 20, 150, 16);
 
         m_jstockcost.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel2.add(m_jstockcost);
-        m_jstockcost.setBounds(160, 20, 80, 19);
+        m_jstockcost.setBounds(160, 20, 80, 22);
 
         jLabel10.setText(AppLocal.getIntString("label.prodstockvol")); // NOI18N
         jPanel2.add(jLabel10);
-        jLabel10.setBounds(10, 50, 150, 15);
+        jLabel10.setBounds(10, 50, 150, 16);
 
         m_jstockvolume.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel2.add(m_jstockvolume);
-        m_jstockvolume.setBounds(160, 50, 80, 19);
+        m_jstockvolume.setBounds(160, 50, 80, 22);
         jPanel2.add(m_jScale);
-        m_jScale.setBounds(160, 140, 80, 21);
+        m_jScale.setBounds(160, 140, 80, 25);
         jPanel2.add(m_jComment);
-        m_jComment.setBounds(160, 110, 80, 21);
+        m_jComment.setBounds(160, 110, 80, 25);
 
         jLabel18.setText(AppLocal.getIntString("label.prodorder")); // NOI18N
         jPanel2.add(jLabel18);
-        jLabel18.setBounds(250, 80, 60, 15);
+        jLabel18.setBounds(250, 80, 60, 16);
 
         m_jCatalogOrder.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel2.add(m_jCatalogOrder);
-        m_jCatalogOrder.setBounds(310, 80, 80, 19);
+        m_jCatalogOrder.setBounds(310, 80, 80, 22);
 
         m_jInCatalog.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -696,19 +748,19 @@ public class ProductsEditor extends JPanel implements EditorRecord {
             }
         });
         jPanel2.add(m_jInCatalog);
-        m_jInCatalog.setBounds(160, 80, 50, 21);
+        m_jInCatalog.setBounds(160, 80, 50, 25);
 
         jLabel8.setText(AppLocal.getIntString("label.prodincatalog")); // NOI18N
         jPanel2.add(jLabel8);
-        jLabel8.setBounds(10, 80, 150, 15);
+        jLabel8.setBounds(10, 80, 150, 16);
 
         jLabel11.setText(AppLocal.getIntString("label.prodaux")); // NOI18N
         jPanel2.add(jLabel11);
-        jLabel11.setBounds(10, 110, 150, 15);
+        jLabel11.setBounds(10, 110, 150, 16);
 
         jLabel12.setText(AppLocal.getIntString("label.prodscale")); // NOI18N
         jPanel2.add(jLabel12);
-        jLabel12.setBounds(10, 140, 150, 15);
+        jLabel12.setBounds(10, 140, 150, 16);
 
         jTabbedPane1.addTab(AppLocal.getIntString("label.prodstock"), jPanel2); // NOI18N
 
@@ -723,7 +775,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
         jTabbedPane1.addTab(AppLocal.getIntString("label.properties"), jPanel3); // NOI18N
 
         add(jTabbedPane1);
-        jTabbedPane1.setBounds(10, 90, 560, 280);
+        jTabbedPane1.setBounds(10, 90, 560, 310);
     }// </editor-fold>//GEN-END:initComponents
 
     private void m_jInCatalogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jInCatalogActionPerformed
@@ -737,6 +789,17 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
     }//GEN-LAST:event_m_jInCatalogActionPerformed
 
+    private void m_jManualPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jManualPriceActionPerformed
+        enablePriceGroup(true);
+        if (m_jManualPrice.isSelected()) {
+            m_jPriceBuy.setText("0");
+            setPriceSell(new Double(1));
+        } else {
+            m_jPriceBuy.setText(null);
+            setPriceSell(null);
+        }
+    }//GEN-LAST:event_m_jManualPriceActionPerformed
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -744,6 +807,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
@@ -767,9 +831,11 @@ public class ProductsEditor extends JPanel implements EditorRecord {
     private javax.swing.JCheckBox m_jComment;
     private com.openbravo.data.gui.JImageEditor m_jImage;
     private javax.swing.JCheckBox m_jInCatalog;
+    private javax.swing.JCheckBox m_jManualPrice;
     private javax.swing.JTextField m_jName;
     private javax.swing.JTextField m_jPriceBuy;
     private javax.swing.JTextField m_jPriceSell;
+    private javax.swing.JTextField m_jPriceSellRecommendedTax;
     private javax.swing.JTextField m_jPriceSellTax;
     private javax.swing.JTextField m_jRef;
     private javax.swing.JCheckBox m_jScale;

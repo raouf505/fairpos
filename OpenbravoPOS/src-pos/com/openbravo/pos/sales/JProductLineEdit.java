@@ -54,7 +54,8 @@ public class JProductLineEdit extends javax.swing.JDialog {
     private TicketLineInfo init(AppView app, TicketLineInfo oLine) throws BasicException {
         // Inicializo los componentes
         initComponents();
-
+        oLine.setPrice(oLine.getPrice()*100);
+        
         if (oLine.getTaxInfo() == null) {
             throw new BasicException(AppLocal.getIntString("message.cannotcalculatetaxes"));
         }
@@ -89,6 +90,16 @@ public class JProductLineEdit extends javax.swing.JDialog {
             m_jUnits.activate();
         }
         
+        // disable some unneeded things
+        m_jUnits.setEnabled(false);
+        m_jPrice.setVisible(false);
+        m_jTaxrate.setVisible(false);
+        m_jSubtotal.setVisible(false);
+        jLabel1.setVisible(false);
+        jLabel5.setVisible(false);
+        jLabel7.setVisible(false);
+        m_jPriceTax.activate();
+                
         printTotals();
 
         getRootPane().setDefaultButton(m_jButtonOK);   
@@ -101,6 +112,7 @@ public class JProductLineEdit extends javax.swing.JDialog {
     private void printTotals() {
         
         if (m_bunitsok && m_bpriceok) {
+            m_oLine.setPrice(m_oLine.getPrice()/100);
             m_jSubtotal.setText(m_oLine.printSubValue());
             m_jTotal.setText(m_oLine.printValue());
             m_jButtonOK.setEnabled(true);
@@ -228,19 +240,19 @@ public class JProductLineEdit extends javax.swing.JDialog {
 
         jLabel1.setText(AppLocal.getIntString("label.price")); // NOI18N
         jPanel2.add(jLabel1);
-        jLabel1.setBounds(10, 80, 90, 15);
+        jLabel1.setBounds(10, 80, 90, 16);
 
         jLabel2.setText(AppLocal.getIntString("label.units")); // NOI18N
         jPanel2.add(jLabel2);
-        jLabel2.setBounds(10, 50, 90, 15);
+        jLabel2.setBounds(10, 50, 90, 16);
 
         jLabel3.setText(AppLocal.getIntString("label.pricetax")); // NOI18N
         jPanel2.add(jLabel3);
-        jLabel3.setBounds(10, 110, 90, 15);
+        jLabel3.setBounds(10, 110, 90, 16);
 
         jLabel4.setText(AppLocal.getIntString("label.item")); // NOI18N
         jPanel2.add(jLabel4);
-        jLabel4.setBounds(10, 20, 90, 15);
+        jLabel4.setBounds(10, 20, 90, 16);
         jPanel2.add(m_jName);
         m_jName.setBounds(100, 20, 270, 25);
         jPanel2.add(m_jUnits);
@@ -261,11 +273,11 @@ public class JProductLineEdit extends javax.swing.JDialog {
 
         jLabel5.setText(AppLocal.getIntString("label.tax")); // NOI18N
         jPanel2.add(jLabel5);
-        jLabel5.setBounds(10, 140, 90, 15);
+        jLabel5.setBounds(10, 140, 90, 16);
 
         jLabel6.setText(AppLocal.getIntString("label.totalcash")); // NOI18N
         jPanel2.add(jLabel6);
-        jLabel6.setBounds(10, 200, 90, 15);
+        jLabel6.setBounds(10, 200, 90, 16);
 
         m_jTotal.setBackground(javax.swing.UIManager.getDefaults().getColor("TextField.disabledBackground"));
         m_jTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -278,7 +290,7 @@ public class JProductLineEdit extends javax.swing.JDialog {
 
         jLabel7.setText(AppLocal.getIntString("label.subtotalcash")); // NOI18N
         jPanel2.add(jLabel7);
-        jLabel7.setBounds(10, 170, 90, 15);
+        jLabel7.setBounds(10, 170, 90, 16);
 
         m_jSubtotal.setBackground(javax.swing.UIManager.getDefaults().getColor("TextField.disabledBackground"));
         m_jSubtotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -326,6 +338,12 @@ public class JProductLineEdit extends javax.swing.JDialog {
         jPanel3.setLayout(new java.awt.BorderLayout());
 
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
+
+        m_jKeys.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_jKeysActionPerformed(evt);
+            }
+        });
         jPanel4.add(m_jKeys);
 
         jPanel3.add(jPanel4, java.awt.BorderLayout.NORTH);
@@ -349,6 +367,10 @@ public class JProductLineEdit extends javax.swing.JDialog {
         dispose();
 
     }//GEN-LAST:event_m_jButtonOKActionPerformed
+
+    private void m_jKeysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jKeysActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_m_jKeysActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

@@ -38,7 +38,8 @@ public class ScaleDialog implements Scale {
 
     public Double readWeight() throws ScaleException {
         
-        // Set title for grams Kilos, ounzes, pounds, ...
-        return JNumberDialog.showEditNumber(parent, AppLocal.getIntString("label.scale"), AppLocal.getIntString("label.scaleinput"), new ImageIcon(ScaleDialog.class.getResource("/com/openbravo/images/ark2.png")));
+        // Set title test
+        // divide by 1000 to return entered gramms as kg
+        return JNumberDialog.showEditNumber(parent, AppLocal.getIntString("label.scale"), AppLocal.getIntString("label.scaleinput"), new ImageIcon(ScaleDialog.class.getResource("/com/openbravo/images/ark2.png"))) / 1000;
     }
 }

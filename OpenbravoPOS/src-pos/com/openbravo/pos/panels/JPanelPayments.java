@@ -21,6 +21,7 @@ package com.openbravo.pos.panels;
 
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.ListProvider;
+import com.openbravo.data.user.ListProviderCreator;
 import com.openbravo.data.user.SaveProvider;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.DataLogicSales;
@@ -44,11 +45,12 @@ public class JPanelPayments extends JPanelTable {
     }
     
     public ListProvider getListProvider() {
-        return null;
+        return new ListProviderCreator(m_dlSales.getTablePayments());
     }
     
     public SaveProvider getSaveProvider() {
-        return  new SaveProvider(null
+        return  new SaveProvider(
+                  m_dlSales.getPaymentMovementUpdate()
                 , m_dlSales.getPaymentMovementInsert()
                 , m_dlSales.getPaymentMovementDelete());
     }

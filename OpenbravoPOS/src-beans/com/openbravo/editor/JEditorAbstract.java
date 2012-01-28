@@ -88,11 +88,11 @@ public abstract class JEditorAbstract extends javax.swing.JPanel implements Edit
     protected void reprintText() {
         
         m_jText.setHorizontalAlignment(getAlignment());
-        if (m_bActive) {
-            m_jMode.setText(getEditMode());
-            m_jText.setText(getTextEdit());
-            m_jText.setForeground(javax.swing.UIManager.getDefaults().getColor("Label.foreground"));
-        } else {
+//        if (m_bActive) {
+//            m_jMode.setText(getEditMode());
+//            m_jText.setText(getTextEdit());
+//            m_jText.setForeground(javax.swing.UIManager.getDefaults().getColor("Label.foreground"));
+//        } else {
             m_jMode.setText(null);
             try {
                 m_jText.setText(getTextFormat());
@@ -101,7 +101,7 @@ public abstract class JEditorAbstract extends javax.swing.JPanel implements Edit
                 m_jText.setText(getTextEdit());
                 m_jText.setForeground(Color.RED);
             }
-        }
+//        }
     }
     
     public void setEnabled(boolean b) {

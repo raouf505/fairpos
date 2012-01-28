@@ -108,7 +108,7 @@ public class JPaymentDebt extends javax.swing.JPanel implements JPaymentInterfac
             if (value == null || value == 0.0) {
                 m_dPaid = m_dTotal;
             } else {
-                m_dPaid = value;
+                m_dPaid = value / 100;
             } 
 
             m_jMoneyEuros.setText(Formats.CURRENCY.formatValue(new Double(m_dPaid)));
