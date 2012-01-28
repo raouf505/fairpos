@@ -49,7 +49,9 @@ public class ProductInfoExt {
     protected double m_dPriceSell;
     protected BufferedImage m_Image;
     protected Properties attributes;
-    
+    protected double m_dPriceSellRecommended;
+    protected boolean m_manualPrice;
+
     /** Creates new ProductInfo */
     public ProductInfoExt() {
         m_ID = null;
@@ -65,6 +67,7 @@ public class ProductInfoExt {
         m_dPriceSell = 0.0;
         m_Image = null;
         attributes = new Properties();
+        m_dPriceSellRecommended = 0.0;
     }
 
     public final String getID() {
@@ -138,6 +141,14 @@ public class ProductInfoExt {
         attributesetid = value;
     }
 
+    public boolean isManualPrice() {
+        return m_manualPrice;
+    }
+
+    public void setManualPrice(boolean m_manualPrice) {
+        this.m_manualPrice = m_manualPrice;
+    }
+    
     public final double getPriceBuy() {
         return m_dPriceBuy;
     }
@@ -166,6 +177,26 @@ public class ProductInfoExt {
         return Formats.CURRENCY.formatValue(new Double(getPriceSellTax(tax)));
     }
     
+    public final double getPriceSellRecommended() {
+        return m_dPriceSellRecommended;
+    }
+
+    public final void setPriceSellrecommended(double dPrice) {
+        m_dPriceSellRecommended = dPrice;
+    }
+
+    public final double getPriceSellRecommendedTax(TaxInfo tax) {
+        return m_dPriceSellRecommended * (1.0 + tax.getRate());
+    }
+
+    public String printPriceSellRecommended() {
+        return Formats.CURRENCY.formatValue(new Double(getPriceSellRecommended()));
+    }
+
+    public String printPriceSellrecommendedTax(TaxInfo tax) {
+        return Formats.CURRENCY.formatValue(new Double(getPriceSellRecommendedTax(tax)));
+    }
+
     public BufferedImage getImage() {
         return m_Image;
     }
@@ -202,6 +233,12 @@ public class ProductInfoExt {
             product.attributesetid = dr.getString(11);
             product.m_Image = ImageUtils.readImage(dr.getBytes(12));
             product.attributes = ImageUtils.readProperties(dr.getBytes(13));
+            // recommended price is optional, might be null
+            Double recommended = dr.getDouble(14);
+            if (recommended != null) {
+                product.m_dPriceSellRecommended = recommended.doubleValue();
+            }
+            product.m_manualPrice = dr.getBoolean(15).booleanValue();
             return product;
         }};
     }

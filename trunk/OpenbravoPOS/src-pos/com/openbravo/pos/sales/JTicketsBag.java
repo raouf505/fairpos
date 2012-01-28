@@ -52,8 +52,9 @@ public abstract class JTicketsBag extends JPanel {
             return new JTicketsBagShared(app, panelticket);
         } else if ("restaurant".equals(sName)) {
             return new JTicketsBagRestaurantMap(app, panelticket);
-        } else { // "simple"
+        } else { // simple
             return new JTicketsBagSimple(app, panelticket);
         }
+        
     }   
 }

@@ -65,6 +65,7 @@ public class JMessageDialog extends javax.swing.JDialog {
         
         myMsg.jlblIcon.setIcon(inf.getSignalWordIcon());
         myMsg.jlblErrorCode.setText(inf.getErrorCodeMsg());
+        myMsg.jlblErrorCode.setVisible(false);
         myMsg.jlblMessage.setText("<html>" + inf.getMessageMsg());
         
         // Capturamos el texto de la excepcion...
@@ -104,6 +105,13 @@ public class JMessageDialog extends javax.swing.JDialog {
                 sb.append(inf.getCause().toString());
             }
             myMsg.jtxtException.setText(sb.toString());  
+            
+            // if exception text is there, automatically expand
+            if (sb.length() > 0) {
+                myMsg.jscrException.setVisible(true);
+                myMsg.setSize(myMsg.getWidth(), 310);
+                myMsg.validateTree();
+            }
         }       
         myMsg.jtxtException.setCaretPosition(0);            
         
@@ -128,7 +136,6 @@ public class JMessageDialog extends javax.swing.JDialog {
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jcmdOK = new javax.swing.JButton();
-        jcmdMore = new javax.swing.JButton();
 
         setTitle(LocalRes.getIntString("title.message")); // NOI18N
         setResizable(false);
@@ -174,14 +181,6 @@ public class JMessageDialog extends javax.swing.JDialog {
         });
         jPanel2.add(jcmdOK);
 
-        jcmdMore.setText(LocalRes.getIntString("button.information")); // NOI18N
-        jcmdMore.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcmdMoreActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jcmdMore);
-
         jPanel3.add(jPanel2, java.awt.BorderLayout.LINE_END);
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.SOUTH);
@@ -189,16 +188,6 @@ public class JMessageDialog extends javax.swing.JDialog {
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         setBounds((screenSize.width-455)/2, (screenSize.height-171)/2, 455, 171);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jcmdMoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdMoreActionPerformed
-        
-        // Add your handling code here:
-        jcmdMore.setEnabled(false);
-        jscrException.setVisible(true);
-        setSize(getWidth(), 310);
-        validateTree();
-        
-    }//GEN-LAST:event_jcmdMoreActionPerformed
 
     private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdOKActionPerformed
         // Add your handling code here:
@@ -217,7 +206,6 @@ public class JMessageDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JButton jcmdMore;
     private javax.swing.JButton jcmdOK;
     private javax.swing.JLabel jlblErrorCode;
     private javax.swing.JLabel jlblIcon;

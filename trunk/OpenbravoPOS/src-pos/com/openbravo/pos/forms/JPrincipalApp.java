@@ -123,7 +123,8 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
             } catch (ScriptException es) {
                 logger.log(Level.SEVERE, "Cannot read default menu", es);
             }
-        }               
+        }              
+        setMenuVisible(false);
     }
 
     private Component getScriptMenu(String menutext) throws ScriptException {
@@ -194,7 +195,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
             addAction(new ChangePasswordAction("/com/openbravo/images/yast_security.png", "Menu.ChangePassword"));
         }       
         public void addExitAction() {            
-            addAction(new ExitAction("/com/openbravo/images/gohome.png", "Menu.Exit"));
+            addAction(new ExitAction("/com/openbravo/images/gohome.png", "Menu.Logout"));
         }
         
         private void addAction(Action act) {
@@ -247,7 +248,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
             menudef.addMenuItem(new ChangePasswordAction("/com/openbravo/images/yast_security.png", "Menu.ChangePassword"));
         }        
         public void addExitAction() {
-            menudef.addMenuItem(new ExitAction("/com/openbravo/images/gohome.png", "Menu.Exit"));
+            menudef.addMenuItem(new ExitAction("/com/openbravo/images/gohome.png", "Menu.Logout"));
         }
         public MenuDefinition getMenuDefinition() {
             return menudef;
@@ -444,6 +445,9 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
         jButton1.setFocusPainted(false);
         jButton1.setFocusable(false);
         jButton1.setMargin(new java.awt.Insets(14, 2, 14, 2));
+        jButton1.setMaximumSize(new java.awt.Dimension(12, 32));
+        jButton1.setMinimumSize(new java.awt.Dimension(12, 32));
+        jButton1.setPreferredSize(new java.awt.Dimension(12, 32));
         jButton1.setRequestFocusEnabled(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -461,7 +465,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 
         m_jPanelTitle.setLayout(new java.awt.BorderLayout());
 
-        m_jTitle.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        m_jTitle.setFont(new java.awt.Font("SansSerif", 1, 18));
         m_jTitle.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, java.awt.Color.darkGray), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10)));
         m_jPanelTitle.add(m_jTitle, java.awt.BorderLayout.NORTH);
 

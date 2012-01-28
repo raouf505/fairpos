@@ -113,6 +113,7 @@ public class AppUser {
         // Y lo que todos tienen permisos
         m_apermissions.add("com.openbravo.pos.forms.JPanelMenu");
         m_apermissions.add("Menu.Exit");        
+        m_apermissions.add("Menu.Logout");        
         
         String sRolePermisions = dlSystem.findRolePermissions(m_sRole);
        

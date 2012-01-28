@@ -142,13 +142,13 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                     
         // borramos el boton de bascula si no hay bascula conectada
         if (!m_App.getDeviceScale().existsScale()) {
-            m_jbtnScale.setVisible(false);
+            m_jbtnDiscount.setVisible(false);
         }
         
-        m_ticketsbag = getJTicketsBag();
-        m_jPanelBag.add(m_ticketsbag.getBagComponent(), BorderLayout.LINE_START);
-        add(m_ticketsbag.getNullComponent(), "null");
-
+        if ( (m_ticketsbag = getJTicketsBag()) != null) {
+            m_jPanelBag.add(m_ticketsbag.getBagComponent(), BorderLayout.LINE_START);
+            add(m_ticketsbag.getNullComponent(), "null");
+        }
         m_ticketlines = new JTicketLines(dlSystem.getResourceAsXML("Ticket.Line"));
         m_jPanelCentral.add(m_ticketlines, java.awt.BorderLayout.CENTER);
         
@@ -223,18 +223,37 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         }
         
         // Authorization for buttons
-        btnSplit.setEnabled(m_App.getAppUserView().getUser().hasPermission("sales.Total"));
+        jEditAttributes.setEnabled(false);
+        jEditAttributes.setVisible(false);
+        //btnSplit.setEnabled(m_App.getAppUserView().getUser().hasPermission("sales.Total"));
+        btnSplit.setEnabled(false);
+        btnSplit.setVisible(false);
         m_jDelete.setEnabled(m_App.getAppUserView().getUser().hasPermission("sales.EditLines"));
         m_jNumberKeys.setMinusEnabled(m_App.getAppUserView().getUser().hasPermission("sales.EditLines"));
         m_jNumberKeys.setEqualsEnabled(m_App.getAppUserView().getUser().hasPermission("sales.Total"));
         m_jbtnconfig.setPermissions(m_App.getAppUserView().getUser());  
                
-        m_ticketsbag.activate();        
+        if (m_ticketsbag != null)
+            m_ticketsbag.activate();        
+        
+        // Show taxes only to advanced user via permission
+        if (!m_App.getAppUserView().getUser().hasPermission("sales.ShowTaxes")) {
+            m_jSubtotalEuros.setVisible(false);
+            m_jTaxesEuros.setVisible(false);
+            m_jLblTotalEuros2.setVisible(false);
+            m_jLblTotalEuros3.setVisible(false);
+        }
+        
+        m_jDiscount.setVisible(false);
+        m_jbtnDiscount.setVisible(false);
     }
     
     public boolean deactivate() {
 
-        return m_ticketsbag.deactivate();
+        if (m_ticketsbag != null)
+            return m_ticketsbag.deactivate();
+        else
+            return true;
     }
     
     protected abstract JTicketsBag getJTicketsBag();
@@ -348,6 +367,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         }
    }
 
+    private void addTicketLine(ProductInfoExt oProduct, double dMul) {   
+        addTicketLine (oProduct, dMul, oProduct.getPriceSell());
+    }
+    
     private void addTicketLine(ProductInfoExt oProduct, double dMul, double dPrice) {   
         
         TaxInfo tax = taxeslogic.getTaxInfo(oProduct.getTaxCategoryID(),  m_oTicket.getDate(), m_oTicket.getCustomer());
@@ -472,7 +495,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_iNumberStatusPor = NUMBERZERO;
     }
     
-    private void incProductByCode(String sCode) {
+    private void incProductByCode(double dPor, String sCode) {
     // precondicion: sCode != null
         
         try {
@@ -482,8 +505,15 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.noproduct")).show(this);           
                 stateToZero();
             } else {
-                // Se anade directamente una unidad con el precio y todo
-                incProduct(oProduct);
+                // if no amount given, add 1 product with scale check
+                if ( dPor == Double.NaN)
+                    addTicketLineScaleCheck(oProduct, 1.0);
+                else {
+                    // if scale amount, calculate gramms in kg
+                    if (oProduct.isScale())
+                        dPor /= 1000;
+                    addTicketLine(oProduct, dPor);
+                }
             }
         } catch (BasicException eData) {
             stateToZero();           
@@ -505,9 +535,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 if (m_jaddtax.isSelected()) {
                     // debemos quitarle los impuestos ya que el precio es con iva incluido...
                     TaxInfo tax = taxeslogic.getTaxInfo(oProduct.getTaxCategoryID(),  m_oTicket.getDate(), m_oTicket.getCustomer());
-                    addTicketLine(oProduct, 1.0, dPriceSell / (1.0 + tax.getRate()));
+                    addTicketLine(oProduct, 1.0, dPriceSell / (1.0 + tax.getRate()) / 100);
                 } else {
-                    addTicketLine(oProduct, 1.0, dPriceSell);
+                    addTicketLine(oProduct, 1.0, dPriceSell / 100);
                 }                
             }
         } catch (BasicException eData) {
@@ -516,13 +546,16 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         }
     }
     
-    private void incProduct(ProductInfoExt prod) {
+    private void addTicketLineScaleCheck(ProductInfoExt prod, double dPor) {
+        addTicketLineScaleCheck(prod, dPor, prod.getPriceSell());
+    }
+    private void addTicketLineScaleCheck(ProductInfoExt prod, double dPor, double dPrice) {
         
         if (prod.isScale() && m_App.getDeviceScale().existsScale()) {
             try {
                 Double value = m_App.getDeviceScale().readWeight();
                 if (value != null) {
-                    incProduct(value.doubleValue(), prod);
+                    addTicketLine(prod, value, dPrice);
                 }
             } catch (ScaleException e) {
                 Toolkit.getDefaultToolkit().beep();                
@@ -530,23 +563,41 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 stateToZero(); 
             }
         } else {
-            // No es un producto que se pese o no hay balanza
-            incProduct(1.0, prod);
+            // no weight product or no scale present
+            addTicketLine(prod, dPor, dPrice);
         }
     }
     
-    private void incProduct(double dPor, ProductInfoExt prod) {
-        // precondicion: prod != null
-        addTicketLine(prod, dPor, prod.getPriceSell());       
-    }
-       
     protected void buttonTransition(ProductInfoExt prod) {
     // precondicion: prod != null
         
-         if (m_iNumberStatusInput == NUMBERZERO && m_iNumberStatusPor == NUMBERZERO) {
-            incProduct(prod);
+        // enter weight in gramms without comma
+        double inputValue = getInputValue();
+        if (prod.isScale()) {
+            inputValue /= 1000;
+        }
+        
+        // for articles with manual price
+        if (prod.isManualPrice()) {
+            TaxInfo tax = taxeslogic.getTaxInfo(prod.getTaxCategoryID(),  m_oTicket.getDate(), m_oTicket.getCustomer());
+            // number entered and amount entered -> second number (amount) is price
+            if (m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERVALID) {
+                addTicketLine(prod, inputValue, getPorValue() / (1.0 + tax.getRate()) / 100);
+            // onl number and no 'x' entered -> number is price, no amount
+            } else if (m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERZERO && !m_jPor.getText().startsWith("x")) {
+                addTicketLineScaleCheck(prod, 1.0, getInputValue() / (1.0 + tax.getRate()) / 100);
+            // manual price missing
+            } else {
+                Toolkit.getDefaultToolkit().beep();                   
+                new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.manualPrice")).show(this);           
+                stateToZero();
+            }
+        // no entries -> add one article, eventually with scale
+        } else if (m_iNumberStatusInput == NUMBERZERO && m_iNumberStatusPor == NUMBERZERO) {
+            addTicketLineScaleCheck(prod, 1.0);
+        // one number plus article entered -> only amount meant
         } else if (m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERZERO) {
-            incProduct(getInputValue(), prod);
+            addTicketLine(prod, inputValue);
         } else {
             Toolkit.getDefaultToolkit().beep();
         }       
@@ -555,9 +606,22 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     private void stateTransition(char cTrans) {
 
         if (cTrans == '\n') {
-            // Codigo de barras introducido
-            if (m_sBarcode.length() > 0) {            
-                String sCode = m_sBarcode.toString();
+            // Barcode entered
+            // if por was entered with barcode, this could be the barcode
+            String sCode = m_jPor.getText();
+            Double dPor = Double.NaN;
+            if (sCode.length()>1) {
+                // take amount field as barcode, without the trailing 'x'
+                sCode = sCode.substring(1); 
+                // the price input value is used as amount
+                dPor = getInputValue();
+            }
+            else {
+                // else price is barcode, amount is then 1
+                sCode = m_jPrice.getText(); 
+                dPor = 1.0;
+            } 
+            if (sCode.length() > 0) {            
                 if (sCode.startsWith("c")) {
                     // barcode of a customers card
                     try {
@@ -580,29 +644,32 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                     oProduct.setReference(null); // para que no se grabe
                     oProduct.setCode(sCode);
                     oProduct.setName("Ticket " + sCode.substring(3, 7));
-                    oProduct.setPriceSell(Double.parseDouble(sCode.substring(7, 12)) / 100);   
+                    oProduct.setPriceSell(Double.parseDouble(sCode.substring(7, 12)));   
                     oProduct.setTaxCategoryID(((TaxCategoryInfo) taxcategoriesmodel.getSelectedItem()).getID());
                     // Se anade directamente una unidad con el precio y todo
                     addTicketLine(oProduct, 1.0, includeTaxes(oProduct.getTaxCategoryID(), oProduct.getPriceSell()));
                 } else if (sCode.length() == 13 && sCode.startsWith("210")) {
                     // barcode of a weigth product
-                    incProductByCodePrice(sCode.substring(0, 7), Double.parseDouble(sCode.substring(7, 12)) / 100);
+                    incProductByCodePrice(sCode.substring(0, 7), Double.parseDouble(sCode.substring(7, 12)));
                 } else {
-                    incProductByCode(sCode);
+                    // normal barcode
+                    incProductByCode(dPor, sCode);
                 }
             } else {
                 Toolkit.getDefaultToolkit().beep();
             }
         } else {
             // otro caracter
+
             // Esto es para el codigo de barras...
-            m_sBarcode.append(cTrans);
+            //m_sBarcode.append(cTrans);
 
             // Esto es para el los productos normales...
             if (cTrans == '\u007f') { 
                 stateToZero();
 
-            } else if ((cTrans == '0') 
+            // 'h' = hundred, add two zeros
+            } else if ( (cTrans == '0' || cTrans == 'h')
                     && (m_iNumberStatus == NUMBER_INPUTZERO)) {
                 m_jPrice.setText("0");            
             } else if ((cTrans == '1' || cTrans == '2' || cTrans == '3' || cTrans == '4' || cTrans == '5' || cTrans == '6' || cTrans == '7' || cTrans == '8' || cTrans == '9')
@@ -611,10 +678,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 m_jPrice.setText(Character.toString(cTrans));
                 m_iNumberStatus = NUMBER_INPUTINT;    
                 m_iNumberStatusInput = NUMBERVALID;
-            } else if ((cTrans == '0' || cTrans == '1' || cTrans == '2' || cTrans == '3' || cTrans == '4' || cTrans == '5' || cTrans == '6' || cTrans == '7' || cTrans == '8' || cTrans == '9')
+            } else if ((cTrans == '0' || cTrans == 'h' || cTrans == '1' || cTrans == '2' || cTrans == '3' || cTrans == '4' || cTrans == '5' || cTrans == '6' || cTrans == '7' || cTrans == '8' || cTrans == '9')
                        && (m_iNumberStatus == NUMBER_INPUTINT)) { 
-                // Un numero entero
-                m_jPrice.setText(m_jPrice.getText() + cTrans);
+                if (cTrans == 'h')
+                    // 'h' = hundred, add two zeros
+                    m_jPrice.setText(m_jPrice.getText() + "00");
+                else
+                    // add the entered int digit
+                    m_jPrice.setText(m_jPrice.getText() + cTrans);
 
             } else if (cTrans == '.' && m_iNumberStatus == NUMBER_INPUTZERO) {
                 m_jPrice.setText("0.");
@@ -623,10 +694,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 m_jPrice.setText(m_jPrice.getText() + ".");
                 m_iNumberStatus = NUMBER_INPUTDEC;
 
-            } else if ((cTrans == '0')
+            } else if ( (cTrans == '0' || cTrans == 'h')
                        && (m_iNumberStatus == NUMBER_INPUTZERODEC || m_iNumberStatus == NUMBER_INPUTDEC)) { 
-                // Un numero decimal
-                m_jPrice.setText(m_jPrice.getText() + cTrans);
+                if (cTrans == 'h')
+                    // 'h' = hundred, add two zeros
+                    m_jPrice.setText(m_jPrice.getText() + "00");
+                else
+                    // add the entered int digit
+                    m_jPrice.setText(m_jPrice.getText() + cTrans);
             } else if ((cTrans == '1' || cTrans == '2' || cTrans == '3' || cTrans == '4' || cTrans == '5' || cTrans == '6' || cTrans == '7' || cTrans == '8' || cTrans == '9')
                        && (m_iNumberStatus == NUMBER_INPUTZERODEC || m_iNumberStatus == NUMBER_INPUTDEC)) { 
                 // Un numero decimal
@@ -644,7 +719,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 m_jPor.setText("x");
                 m_iNumberStatus = NUMBER_PORZERO;       
 
-            } else if ((cTrans == '0') 
+            // 'h' = hundred, add two zeros
+            } else if ( (cTrans == '0' || cTrans == 'h')
                     && (m_iNumberStatus == NUMBER_PORZERO)) {
                 m_jPor.setText("x0");            
             } else if ((cTrans == '1' || cTrans == '2' || cTrans == '3' || cTrans == '4' || cTrans == '5' || cTrans == '6' || cTrans == '7' || cTrans == '8' || cTrans == '9')
@@ -653,11 +729,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 m_jPor.setText("x" + Character.toString(cTrans));
                 m_iNumberStatus = NUMBER_PORINT;            
                 m_iNumberStatusPor = NUMBERVALID;
-            } else if ((cTrans == '0' || cTrans == '1' || cTrans == '2' || cTrans == '3' || cTrans == '4' || cTrans == '5' || cTrans == '6' || cTrans == '7' || cTrans == '8' || cTrans == '9')
+            } else if ((cTrans == '0' || cTrans == 'h' || cTrans == '1' || cTrans == '2' || cTrans == '3' || cTrans == '4' || cTrans == '5' || cTrans == '6' || cTrans == '7' || cTrans == '8' || cTrans == '9')
                        && (m_iNumberStatus == NUMBER_PORINT)) { 
-                // Un numero entero
-                m_jPor.setText(m_jPor.getText() + cTrans);
-
+                if (cTrans == 'h')
+                    // 'h' = hundred, add two zeros
+                    m_jPor.setText(m_jPor.getText() + "00");
+                else
+                    // add the entered int digit
+                    m_jPor.setText(m_jPor.getText() + cTrans);
             } else if (cTrans == '.' && m_iNumberStatus == NUMBER_PORZERO) {
                 m_jPor.setText("x0.");
                 m_iNumberStatus = NUMBER_PORZERODEC;            
@@ -665,10 +744,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 m_jPor.setText(m_jPor.getText() + ".");
                 m_iNumberStatus = NUMBER_PORDEC;
 
-            } else if ((cTrans == '0')
+            } else if ( (cTrans == '0' || cTrans == 'h')
                        && (m_iNumberStatus == NUMBER_PORZERODEC || m_iNumberStatus == NUMBER_PORDEC)) { 
-                // Un numero decimal
-                m_jPor.setText(m_jPor.getText() + cTrans);
+                if (cTrans == 'h')
+                    // 'h' = hundred, add two zeros
+                    m_jPor.setText(m_jPor.getText() + "00");
+                else
+                    // add the entered int digit
+                    m_jPor.setText(m_jPor.getText() + cTrans);
             } else if ((cTrans == '1' || cTrans == '2' || cTrans == '3' || cTrans == '4' || cTrans == '5' || cTrans == '6' || cTrans == '7' || cTrans == '8' || cTrans == '9')
                        && (m_iNumberStatus == NUMBER_PORZERODEC || m_iNumberStatus == NUMBER_PORDEC)) { 
                 // Un numero decimal
@@ -679,12 +762,13 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             } else if (cTrans == '\u00a7' 
                     && m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERZERO) {
                 // Scale button pressed and a number typed as a price
-                if (m_App.getDeviceScale().existsScale() && m_App.getAppUserView().getUser().hasPermission("sales.EditLines")) {
+                // ** DISABLED because we do not want anonymous products
+                if (false && m_App.getDeviceScale().existsScale() && m_App.getAppUserView().getUser().hasPermission("sales.EditLines")) {
                     try {
                         Double value = m_App.getDeviceScale().readWeight();
                         if (value != null) {
                             ProductInfoExt product = getInputProduct();
-                            addTicketLine(product, value.doubleValue(), product.getPriceSell());
+                            addTicketLine(product, value.doubleValue());
                         }
                     } catch (ScaleException e) {
                         Toolkit.getDefaultToolkit().beep();
@@ -692,7 +776,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                         stateToZero(); 
                     }
                 } else {
-                    // No existe la balanza;
+                    // No existe la balanza;v
                     Toolkit.getDefaultToolkit().beep();
                 }
             } else if (cTrans == '\u00a7' 
@@ -702,19 +786,23 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 if (i < 0){
                     Toolkit.getDefaultToolkit().beep();
                 } else if (m_App.getDeviceScale().existsScale()) {
-                    try {
-                        Double value = m_App.getDeviceScale().readWeight();
-                        if (value != null) {
-                            TicketLineInfo newline = new TicketLineInfo(m_oTicket.getLine(i));
-                            newline.setMultiply(value.doubleValue());
-                            newline.setPrice(Math.abs(newline.getPrice()));
-                            paintTicketLine(i, newline);
+                    TicketLineInfo line = m_oTicket.getLine(i);
+                    // makes sense only for scale products
+                    if (line.isProductScale()) {
+                        try {
+                            Double value = m_App.getDeviceScale().readWeight();
+                            if (value != null) {
+                                TicketLineInfo newline = new TicketLineInfo(line);
+                                newline.setMultiply(value.doubleValue());
+                                newline.setPrice(Math.abs(newline.getPrice()));
+                                paintTicketLine(i, newline);
+                            }
+                        } catch (ScaleException e) {
+                            // Error de pesada.
+                            Toolkit.getDefaultToolkit().beep();
+                            new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.noweight"), e).show(this);           
+                            stateToZero(); 
                         }
-                    } catch (ScaleException e) {
-                        // Error de pesada.
-                        Toolkit.getDefaultToolkit().beep();
-                        new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.noweight"), e).show(this);           
-                        stateToZero(); 
                     }
                 } else {
                     // No existe la balanza;
@@ -728,16 +816,20 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 if (i < 0){
                     Toolkit.getDefaultToolkit().beep();
                 } else {
-                    TicketLineInfo newline = new TicketLineInfo(m_oTicket.getLine(i));
-                    //If it's a refund + button means one unit less
-                    if (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUND){
-                        newline.setMultiply(newline.getMultiply() - 1.0);
-                        paintTicketLine(i, newline);                   
-                    }
-                    else {
-                        // add one unit to the selected line
-                        newline.setMultiply(newline.getMultiply() + 1.0);
-                        paintTicketLine(i, newline); 
+                    TicketLineInfo line = m_oTicket.getLine(i);
+                    // makes no sense for scale products
+                    if (!line.isProductScale()) {
+                        TicketLineInfo newline = new TicketLineInfo(line);
+                        //If it's a refund + button means one unit less
+                        if (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUND){
+                            newline.setMultiply(newline.getMultiply() - 1.0);
+                            paintTicketLine(i, newline);                   
+                        }
+                        else {
+                            // add one unit to the selected line
+                            newline.setMultiply(newline.getMultiply() + 1.0);
+                            paintTicketLine(i, newline); 
+                        }
                     }
                 }
 
@@ -750,22 +842,28 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 if (i < 0){
                     Toolkit.getDefaultToolkit().beep();
                 } else {
-                    TicketLineInfo newline = new TicketLineInfo(m_oTicket.getLine(i));
-                    //If it's a refund - button means one unit more
-                    if (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUND){
-                        newline.setMultiply(newline.getMultiply() + 1.0);
-                        if (newline.getMultiply() >= 0) {
-                            removeTicketLine(i);
+                    TicketLineInfo line = m_oTicket.getLine(i);
+                    // makes no sense for scale products
+                    if (!line.isProductScale()) {
+                        TicketLineInfo newline = new TicketLineInfo(line);
+                        //If it's a refund - button means one unit more
+                        if (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUND){
+                            newline.setMultiply(newline.getMultiply() + 1.0);
+                            if (newline.getMultiply() >= 0) {
+                                // do not remove, not intuitive, there's a dedicated button for remove
+                                //removeTicketLine(i);
+                            } else {
+                                paintTicketLine(i, newline);
+                            }
                         } else {
-                            paintTicketLine(i, newline);
-                        }
-                    } else {
-                        // substract one unit to the selected line
-                        newline.setMultiply(newline.getMultiply() - 1.0);
-                        if (newline.getMultiply() <= 0.0) {                   
-                            removeTicketLine(i); // elimino la linea
-                        } else {
-                            paintTicketLine(i, newline);                   
+                            // substract one unit to the selected line
+                            newline.setMultiply(newline.getMultiply() - 1.0);
+                            if (newline.getMultiply() <= 0.0) {                   
+                                // do not remove, not intuitive, there's a dedicated button for remove
+                                //removeTicketLine(i); // elimino la linea
+                            } else {
+                                paintTicketLine(i, newline);                   
+                            }
                         }
                     }
                 }
@@ -791,12 +889,13 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 }
 
             // Set n negative products to the selected line
-            } else if (cTrans == '-' 
+            // ** DISABLED, not intuitive
+            } else if (cTrans == '-'
                     && m_iNumberStatusInput == NUMBERZERO && m_iNumberStatusPor == NUMBERVALID
                     && m_App.getAppUserView().getUser().hasPermission("sales.EditLines")) {
-                
+
                 int i = m_ticketlines.getSelectedIndex();
-                if (i < 0){
+                if (i < 0) {
                     Toolkit.getDefaultToolkit().beep();
                 } else {
                     double dPor = getPorValue();
@@ -805,32 +904,36 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                         newline.setMultiply(dPor);
                         newline.setPrice(-Math.abs(newline.getPrice()));
                         paintTicketLine(i, newline);
-                    }           
+                    }
                 }
 
             // Anadimos 1 producto
-            } else if (cTrans == '+' 
+            // ** DISABLED because we do not want anonymous products
+            } else if (false && cTrans == '+' 
                     && m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERZERO
                     && m_App.getAppUserView().getUser().hasPermission("sales.EditLines")) {
                 ProductInfoExt product = getInputProduct();
-                addTicketLine(product, 1.0, product.getPriceSell());
+                addTicketLine(product, 1.0);
                 
             // Anadimos 1 producto con precio negativo
-            } else if (cTrans == '-' 
+            // ** DISABLED because we do not want anonymous products
+            } else if (false && cTrans == '-' 
                     && m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERZERO
                     && m_App.getAppUserView().getUser().hasPermission("sales.EditLines")) {
                 ProductInfoExt product = getInputProduct();
                 addTicketLine(product, 1.0, -product.getPriceSell());
 
             // Anadimos n productos
-            } else if (cTrans == '+' 
+                // ** DISABLED because we do not want anonymous products
+            } else if (false && cTrans == '+' 
                     && m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERVALID
                     && m_App.getAppUserView().getUser().hasPermission("sales.EditLines")) {
                 ProductInfoExt product = getInputProduct();
-                addTicketLine(product, getPorValue(), product.getPriceSell());
+                addTicketLine(product, getPorValue());
 
             // Anadimos n productos con precio negativo ?
-            } else if (cTrans == '-' 
+            // ** DISABLED because we do not want anonymous products
+            } else if (false && cTrans == '-' 
                     && m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERVALID
                     && m_App.getAppUserView().getUser().hasPermission("sales.EditLines")) {
                 ProductInfoExt product = getInputProduct();
@@ -1167,6 +1270,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        jPanel3 = new javax.swing.JPanel();
         m_jPanContainer = new javax.swing.JPanel();
         m_jOptions = new javax.swing.JPanel();
         m_jButtons = new javax.swing.JPanel();
@@ -1176,7 +1280,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jPanelScripts = new javax.swing.JPanel();
         m_jButtonsExt = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        m_jbtnScale = new javax.swing.JButton();
+        m_jbtnScale1 = new javax.swing.JButton();
         m_jPanelBag = new javax.swing.JPanel();
         m_jPanTicket = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -1187,6 +1291,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jList = new javax.swing.JButton();
         m_jEditLine = new javax.swing.JButton();
         jEditAttributes = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
         m_jPanelCentral = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         m_jPanTotals = new javax.swing.JPanel();
@@ -1196,6 +1301,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jTaxesEuros = new javax.swing.JLabel();
         m_jLblTotalEuros2 = new javax.swing.JLabel();
         m_jLblTotalEuros3 = new javax.swing.JLabel();
+        catcontainer = new javax.swing.JPanel();
         m_jContEntries = new javax.swing.JPanel();
         m_jPanEntries = new javax.swing.JPanel();
         m_jNumberKeys = new com.openbravo.beans.JNumberKeys();
@@ -1203,10 +1309,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jPrice = new javax.swing.JLabel();
         m_jPor = new javax.swing.JLabel();
         m_jEnter = new javax.swing.JButton();
+        m_jKeyFactory = new javax.swing.JTextField();
+        jPanel7 = new javax.swing.JPanel();
         m_jTax = new javax.swing.JComboBox();
         m_jaddtax = new javax.swing.JToggleButton();
-        m_jKeyFactory = new javax.swing.JTextField();
-        catcontainer = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        m_jbtnDiscount = new javax.swing.JButton();
+        m_jDiscount = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 204, 153));
         setLayout(new java.awt.CardLayout());
@@ -1253,18 +1363,21 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
         m_jButtonsExt.setLayout(new javax.swing.BoxLayout(m_jButtonsExt, javax.swing.BoxLayout.LINE_AXIS));
 
-        m_jbtnScale.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/ark216.png"))); // NOI18N
-        m_jbtnScale.setText(AppLocal.getIntString("button.scale")); // NOI18N
-        m_jbtnScale.setFocusPainted(false);
-        m_jbtnScale.setFocusable(false);
-        m_jbtnScale.setMargin(new java.awt.Insets(8, 14, 8, 14));
-        m_jbtnScale.setRequestFocusEnabled(false);
-        m_jbtnScale.addActionListener(new java.awt.event.ActionListener() {
+        m_jbtnScale1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/ark216.png"))); // NOI18N
+        m_jbtnScale1.setText(AppLocal.getIntString("button.scale")); // NOI18N
+        m_jbtnScale1.setFocusPainted(false);
+        m_jbtnScale1.setFocusable(false);
+        m_jbtnScale1.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        m_jbtnScale1.setMaximumSize(new java.awt.Dimension(83, 42));
+        m_jbtnScale1.setMinimumSize(new java.awt.Dimension(83, 42));
+        m_jbtnScale1.setPreferredSize(new java.awt.Dimension(100, 42));
+        m_jbtnScale1.setRequestFocusEnabled(false);
+        m_jbtnScale1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                m_jbtnScaleActionPerformed(evt);
+                m_jbtnScale1ActionPerformed(evt);
             }
         });
-        jPanel1.add(m_jbtnScale);
+        jPanel1.add(m_jbtnScale1);
 
         m_jButtonsExt.add(jPanel1);
 
@@ -1309,7 +1422,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         });
         jPanel2.add(m_jDown);
 
-        m_jDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png"))); // NOI18N
+        m_jDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_cancel.png"))); // NOI18N
         m_jDelete.setFocusPainted(false);
         m_jDelete.setFocusable(false);
         m_jDelete.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -1358,6 +1471,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         jPanel2.add(jEditAttributes);
 
         jPanel5.add(jPanel2, java.awt.BorderLayout.NORTH);
+        jPanel5.add(jPanel6, java.awt.BorderLayout.PAGE_END);
 
         m_jPanTicket.add(jPanel5, java.awt.BorderLayout.LINE_END);
 
@@ -1443,6 +1557,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
         m_jPanTicket.add(m_jPanelCentral, java.awt.BorderLayout.CENTER);
 
+        catcontainer.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        catcontainer.setLayout(new java.awt.BorderLayout());
+        m_jPanTicket.add(catcontainer, java.awt.BorderLayout.PAGE_END);
+
         m_jPanContainer.add(m_jPanTicket, java.awt.BorderLayout.CENTER);
 
         m_jContEntries.setLayout(new java.awt.BorderLayout());
@@ -1460,33 +1578,23 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         jPanel9.setLayout(new java.awt.GridBagLayout());
 
         m_jPrice.setBackground(java.awt.Color.white);
+        m_jPrice.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         m_jPrice.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         m_jPrice.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
         m_jPrice.setOpaque(true);
-        m_jPrice.setPreferredSize(new java.awt.Dimension(100, 22));
+        m_jPrice.setPreferredSize(new java.awt.Dimension(97, 30));
         m_jPrice.setRequestFocusEnabled(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        jPanel9.add(m_jPrice, gridBagConstraints);
+        jPanel9.add(m_jPrice, new java.awt.GridBagConstraints());
 
         m_jPor.setBackground(java.awt.Color.white);
+        m_jPor.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         m_jPor.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         m_jPor.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
         m_jPor.setOpaque(true);
-        m_jPor.setPreferredSize(new java.awt.Dimension(22, 22));
+        m_jPor.setPreferredSize(new java.awt.Dimension(75, 30));
         m_jPor.setRequestFocusEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 8, 0, 0);
         jPanel9.add(m_jPor, gridBagConstraints);
 
         m_jEnter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/barcode.png"))); // NOI18N
@@ -1508,31 +1616,6 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         jPanel9.add(m_jEnter, gridBagConstraints);
 
-        m_jTax.setFocusable(false);
-        m_jTax.setRequestFocusEnabled(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
-        jPanel9.add(m_jTax, gridBagConstraints);
-
-        m_jaddtax.setText("+");
-        m_jaddtax.setFocusPainted(false);
-        m_jaddtax.setFocusable(false);
-        m_jaddtax.setRequestFocusEnabled(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
-        jPanel9.add(m_jaddtax, gridBagConstraints);
-
         m_jPanEntries.add(jPanel9);
 
         m_jKeyFactory.setBackground(javax.swing.UIManager.getDefaults().getColor("Panel.background"));
@@ -1549,20 +1632,68 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
         m_jContEntries.add(m_jPanEntries, java.awt.BorderLayout.NORTH);
 
-        m_jPanContainer.add(m_jContEntries, java.awt.BorderLayout.LINE_END);
+        m_jTax.setFocusable(false);
+        m_jTax.setMaximumSize(new java.awt.Dimension(32767, 22));
+        m_jTax.setMinimumSize(new java.awt.Dimension(100, 20));
+        m_jTax.setPreferredSize(new java.awt.Dimension(100, 22));
+        m_jTax.setRequestFocusEnabled(false);
+        m_jTax.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_jTaxActionPerformed(evt);
+            }
+        });
+        jPanel7.add(m_jTax);
 
-        catcontainer.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        catcontainer.setLayout(new java.awt.BorderLayout());
-        m_jPanContainer.add(catcontainer, java.awt.BorderLayout.SOUTH);
+        m_jaddtax.setText("+");
+        m_jaddtax.setFocusPainted(false);
+        m_jaddtax.setFocusable(false);
+        m_jaddtax.setRequestFocusEnabled(false);
+        jPanel7.add(m_jaddtax);
+
+        m_jContEntries.add(jPanel7, java.awt.BorderLayout.PAGE_END);
+
+        jPanel8.setMinimumSize(new java.awt.Dimension(80, 10));
+        jPanel8.setPreferredSize(new java.awt.Dimension(70, 100));
+
+        m_jbtnDiscount.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/btnDiscount.png"))); // NOI18N
+        m_jbtnDiscount.setText(AppLocal.getIntString("button.discount")); // NOI18N
+        m_jbtnDiscount.setActionCommand(AppLocal.getIntString("Button.Discount")); // NOI18N
+        m_jbtnDiscount.setFocusPainted(false);
+        m_jbtnDiscount.setFocusable(false);
+        m_jbtnDiscount.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        m_jbtnDiscount.setPreferredSize(new java.awt.Dimension(100, 42));
+        m_jbtnDiscount.setRequestFocusEnabled(false);
+        m_jbtnDiscount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_jbtnDiscountActionPerformed(evt);
+            }
+        });
+        jPanel8.add(m_jbtnDiscount);
+
+        m_jDiscount.setBackground(java.awt.Color.white);
+        m_jDiscount.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        m_jDiscount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        m_jDiscount.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
+        m_jDiscount.setOpaque(true);
+        m_jDiscount.setPreferredSize(new java.awt.Dimension(75, 30));
+        m_jDiscount.setRequestFocusEnabled(false);
+        jPanel8.add(m_jDiscount);
+
+        jPanel10.setPreferredSize(new java.awt.Dimension(68, 100));
+        jPanel8.add(jPanel10);
+
+        m_jContEntries.add(jPanel8, java.awt.BorderLayout.CENTER);
+
+        m_jPanContainer.add(m_jContEntries, java.awt.BorderLayout.LINE_END);
 
         add(m_jPanContainer, "ticket");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void m_jbtnScaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jbtnScaleActionPerformed
+    private void m_jbtnDiscountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jbtnDiscountActionPerformed
 
         stateTransition('\u00a7');
         
-    }//GEN-LAST:event_m_jbtnScaleActionPerformed
+    }//GEN-LAST:event_m_jbtnDiscountActionPerformed
 
     private void m_jEditLineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jEditLineActionPerformed
         
@@ -1696,6 +1827,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         
 }//GEN-LAST:event_jEditAttributesActionPerformed
 
+    private void m_jbtnScale1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jbtnScale1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_m_jbtnScale1ActionPerformed
+
+    private void m_jTaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jTaxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_m_jTaxActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCustomer;
@@ -1703,14 +1842,20 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     private javax.swing.JPanel catcontainer;
     private javax.swing.JButton jEditAttributes;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel m_jButtons;
     private javax.swing.JPanel m_jButtonsExt;
     private javax.swing.JPanel m_jContEntries;
     private javax.swing.JButton m_jDelete;
+    private javax.swing.JLabel m_jDiscount;
     private javax.swing.JButton m_jDown;
     private javax.swing.JButton m_jEditLine;
     private javax.swing.JButton m_jEnter;
@@ -1737,7 +1882,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     private javax.swing.JLabel m_jTotalEuros;
     private javax.swing.JButton m_jUp;
     private javax.swing.JToggleButton m_jaddtax;
-    private javax.swing.JButton m_jbtnScale;
+    private javax.swing.JButton m_jbtnDiscount;
+    private javax.swing.JButton m_jbtnScale1;
     // End of variables declaration//GEN-END:variables
 
 }

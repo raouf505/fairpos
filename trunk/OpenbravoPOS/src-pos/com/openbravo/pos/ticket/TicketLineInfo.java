@@ -84,6 +84,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
             pid = product.getID();
             attributes.setProperty("product.name", product.getName());
             attributes.setProperty("product.com", product.isCom() ? "true" : "false");
+            attributes.setProperty("product.scale", product.isScale() ? "true" : "false");
             if (product.getAttributeSetID() != null) {
                 attributes.setProperty("product.attsetid", product.getAttributeSetID());
             }
@@ -211,6 +212,10 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 
     public boolean isProductCom() {
         return "true".equals(attributes.getProperty("product.com"));
+    }
+
+    public boolean isProductScale() {
+        return "true".equals(attributes.getProperty("product.scale"));
     }
 
     public String getProductTaxCategoryID() {
