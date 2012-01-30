@@ -105,6 +105,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
             m_jtxtTaxID.activate();    
             
             cleanSearch();
+            executeSearch();
         } else {
             
             m_jtxtTaxID.setText(customer.getTaxid());
