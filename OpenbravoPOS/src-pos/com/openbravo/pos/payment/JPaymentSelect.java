@@ -76,10 +76,24 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
         this.app = app;
         dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
         printselected = true;
+        
+        m_jButtonPrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_jButtonPrintActionPerformed(evt, m_jButtonPrint);
+            }
+        });
     }
     
+    public void m_jButtonPrintActionPerformed(java.awt.event.ActionEvent evt, javax.swing.JToggleButton button)
+    {        
+        if (button.isSelected())            
+            m_jButtonPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/fileprint.png"))); // NOI18N
+        else
+            m_jButtonPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/fileprintDeselect.png"))); // NOI18N        
+    }
+            
     public void setPrintSelected(boolean value) {
-        printselected = value;
+        printselected = value;                
     }
     
     public boolean isPrintSelected() {
@@ -99,7 +113,8 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
         
         this.customerext = customerext;        
 
-        m_jButtonPrint.setSelected(printselected);
+        m_jButtonPrint.setSelected(printselected);     
+        
         m_jTotalEuros.setText(Formats.CURRENCY.formatValue(new Double(m_dTotal)));
         
         addTabs();
