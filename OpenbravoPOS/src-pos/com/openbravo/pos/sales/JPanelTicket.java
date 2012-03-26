@@ -40,6 +40,7 @@ import com.openbravo.data.loader.SentenceList;
 import com.openbravo.pos.customers.CustomerInfoExt;
 import com.openbravo.pos.customers.DataLogicCustomers;
 import com.openbravo.pos.customers.JCustomerFinder;
+import com.openbravo.pos.discount.DiscountManager;
 import com.openbravo.pos.scripting.ScriptEngine;
 import com.openbravo.pos.scripting.ScriptException;
 import com.openbravo.pos.scripting.ScriptFactory;
@@ -77,6 +78,8 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
  */
 public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFactoryApp, TicketsEditor {
    
+    private DiscountManager dm = new DiscountManager();
+    
     // Variable numerica
     private final static int NUMBERZERO = 0;
     private final static int NUMBERVALID = 1;
@@ -244,8 +247,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             m_jLblTotalEuros3.setVisible(false);
         }
         
-        m_jDiscount.setVisible(false);
-        m_jbtnDiscount.setVisible(false);
+        m_jDiscount.setVisible(true);
+        m_jbtnDiscount.setVisible(true);
     }
     
     public boolean deactivate() {
@@ -316,10 +319,17 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
             // Limpiamos todas las filas y anadimos las del ticket actual
             m_ticketlines.clearTicketLines();
-
+            
+            
+            dm.discountRowsClear(m_oTicket);
+            
             for (int i = 0; i < m_oTicket.getLinesCount(); i++) {
                 m_ticketlines.addTicketLine(m_oTicket.getLine(i));
             }
+            
+            dm.discountRowsUpdate(m_oTicket);
+            m_jDiscount.setText(dm.getDiscountValueText());
+                    
             printPartialTotals();
             stateToZero();
             
@@ -344,6 +354,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             m_jTaxesEuros.setText(null);
             m_jTotalEuros.setText(null);
         } else {
+            dm.discountRowsUpdate(m_oTicket);
             m_jSubtotalEuros.setText(m_oTicket.printSubTotal());
             m_jTaxesEuros.setText(m_oTicket.printTax());
             m_jTotalEuros.setText(m_oTicket.printTotal());
@@ -1689,9 +1700,15 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         add(m_jPanContainer, "ticket");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void m_jbtnDiscountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jbtnDiscountActionPerformed
+    private void m_jbtnDiscountActionPerformed(java.awt.event.ActionEvent evt) {
+        //click sets discount value
 
-        stateTransition('\u00a7');
+        //stateTransition('\u00a7');
+        
+        dm.setDiscountValue(Float.valueOf(m_jPrice.getText().equals("") ? "0.0" : m_jPrice.getText())/100.0f);
+        m_jDiscount.setText(dm.getDiscountValueText());
+        m_jPrice.setText("");
+        refreshTicket();
         
     }//GEN-LAST:event_m_jbtnDiscountActionPerformed
 
