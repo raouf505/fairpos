@@ -4,8 +4,8 @@
 Here you will find a list of development tools we are using.
 
 = Development Process =
-  # The ETL process is developed in Talend (project: FAIRTRADE)
-  # The code is then taken and copied into (project: FairPosGo)
+  # The ETL process is developed in Talend (project: [https://fairpos.googlecode.com/svn/trunk/FAIRTRADE/ FAIRTRADE])
+  # The code is then taken and copied into (project: [https://fairpos.googlecode.com/svn/trunk/FairPosGo/ FairPosGo])
   # FairPosGo is exported into a runnable jar which can be used for the transformation
 
 = Runtime Process =
@@ -31,4 +31,3 @@ Add your content here.  Format your content with:
     * user and pass
   * [http://www.postgresql.org/download/windows PostgreSQL 9.0] - using pgAdmin III for administration
   * Talend Open Studio (4.1.1.r50363) - for Extract Transform Load of data
-
