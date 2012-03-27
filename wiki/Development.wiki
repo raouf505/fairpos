@@ -3,6 +3,23 @@
 
 Here you will find a list of development tools we are using.
 
+= Development Process =
+  # The ETL process is developed in Talend (project: FAIRTRADE)
+  # The code is then taken and copied into (project: FairPosGo)
+  # FairPosGo is exported into a runnable jar which can be used for the transformation
+
+= Runtime Process =
+  # Jenkins runs nightly for each supplier a Job
+  # This job downloads the supplier file (csv) with a user and pass over HTTP or FTP
+  # This file is compared with the latest version of this supplier
+  # If the downloaded file is newer than an optional synchronization of the images is started
+  # After that the ETL job is startet with the parameters
+    # input file, image dir, db url, db user and db pass
+
+= ETL-Synchronization = 
+  # Once the database needs to be set up with ETL job
+  # every day ETL job downloads the newest article data
+  # after that each supplier ETL job is executed
 
 = Details =
 
@@ -15,8 +32,3 @@ Add your content here.  Format your content with:
   * [http://www.postgresql.org/download/windows PostgreSQL 9.0] - using pgAdmin III for administration
   * Talend Open Studio (4.1.1.r50363) - for Extract Transform Load of data
 
-
-= ETL-Synchronization = 
-  # Once the database needs to be set up with ETL job
-  # every day ETL job downloads the newest article data
-  # after that each supplier ETL job is executed
