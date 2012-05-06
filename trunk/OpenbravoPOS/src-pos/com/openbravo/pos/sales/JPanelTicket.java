@@ -321,13 +321,15 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             m_ticketlines.clearTicketLines();
             
             
-            dm.discountRowsClear(m_oTicket);
+            dm.discountRowsClear(m_oTicket);                   
+            dm.discountRowsUpdate(m_oTicket); //FIXME: removeme to hide discount rows
             
             for (int i = 0; i < m_oTicket.getLinesCount(); i++) {
                 m_ticketlines.addTicketLine(m_oTicket.getLine(i));
             }
             
-            dm.discountRowsUpdate(m_oTicket);
+            dm.discountRowsUpdate(m_oTicket); 
+            
             m_jDiscount.setText(dm.getDiscountValueText());
                     
             printPartialTotals();
@@ -375,6 +377,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
             // event receipt
             executeEventAndRefresh("ticket.change");
+            
+            refreshTicket();
         }
    }
 
@@ -386,7 +390,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         
         TaxInfo tax = taxeslogic.getTaxInfo(oProduct.getTaxCategoryID(),  m_oTicket.getDate(), m_oTicket.getCustomer());
         
-        addTicketLine(new TicketLineInfo(oProduct, dMul, dPrice, tax, (java.util.Properties) (oProduct.getProperties().clone())));
+        addTicketLine(new TicketLineInfo(oProduct, dMul, dPrice, tax, (java.util.Properties) (oProduct.getProperties().clone())));        
     }
     
     protected void addTicketLine(TicketLineInfo oLine) {   
@@ -418,6 +422,23 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 m_oTicket.addLine(oLine);            
                 m_ticketlines.addTicketLine(oLine); // Pintamos la linea en la vista... 
             }
+            
+            
+            try {
+                //get attached non-auxiliary items & put them directly into ticket
+                java.util.List<ProductInfoExt> productsAttachedNonauxiliary = dlSales.getAttachedNonauxiliary(oLine.getProductID());
+                /*
+                 * FIXME: add all 
+                 * productsAttachecNonauxiliary items to 
+                 */
+                for (ProductInfoExt prodA: productsAttachedNonauxiliary) {
+                    //addTicketLineScaleCheck(prod, 1.0);                    
+                    addTicketLine(prodA, oLine.getMultiply());
+                    prodA=prodA;
+                }
+            } catch (BasicException eb) {
+                //
+            }
 
             visorTicketLine(oLine);
             printPartialTotals();   
@@ -425,6 +446,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
             // event receipt
             executeEventAndRefresh("ticket.change");
+            
+            refreshTicket();
         }
     }    
     
@@ -453,6 +476,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
             // event receipt
             executeEventAndRefresh("ticket.change");
+            
+            refreshTicket();
         }
     }
     
@@ -611,7 +636,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             addTicketLine(prod, inputValue);
         } else {
             Toolkit.getDefaultToolkit().beep();
-        }       
+        }   
     }
     
     private void stateTransition(char cTrans) {
@@ -1710,7 +1735,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jPrice.setText("");
         refreshTicket();
         
-    }//GEN-LAST:event_m_jbtnDiscountActionPerformed
+    }                                              
 
     private void m_jEditLineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jEditLineActionPerformed
         
