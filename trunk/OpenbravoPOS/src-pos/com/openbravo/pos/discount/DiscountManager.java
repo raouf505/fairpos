@@ -35,7 +35,6 @@ public class DiscountManager {
     
     public void discountRowsClear(TicketInfo ticket)
     {
-        
         List<TicketLineInfo> lineList = ticket.getLines();        
         Iterator<TicketLineInfo> it = lineList.iterator();
         
@@ -48,13 +47,15 @@ public class DiscountManager {
             
             String test;
             test = line.getProductName();
-            if (test.startsWith("Discount "))
+            if (test.startsWith("## Discount "))
                 //ticket.removeLine(j);
                 toDelete.add(j);
         }
         
-        for (Integer index: toDelete) {
-            ticket.removeLine(index);
+        int shift = 0;
+        for (Integer index: toDelete) {            
+            ticket.removeLine(index-shift);
+            shift++;
         }        
     }
     
@@ -80,7 +81,7 @@ public class DiscountManager {
             
             ticket.insertLine(ticket.getLinesCount(),
                 new TicketLineInfo(
-                    "Discount " + discountVal + " of " + taxline.printSubTotal(),   
+                    "## Discount " + discountVal + " of (1+tax * " + taxline.printSubTotal() + ") "  + Double.toString(taxline.getTax() + taxline.getSubTotal()),   
                     taxline.getTaxInfo().getTaxCategoryID(),          
                     1.0, 
                     -taxline.getSubTotal() * discountVal,
