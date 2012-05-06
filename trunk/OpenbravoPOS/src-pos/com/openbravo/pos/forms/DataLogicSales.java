@@ -152,6 +152,21 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             , SerializerWriteString.INSTANCE
             , ProductInfoExt.getSerializerRead()).list(id);
     }
+    
+    public List<ProductInfoExt> getAttachedNonauxiliary(String id) throws BasicException {
+        return new PreparedSentence(s
+            , "SELECT P.ID, P.REFERENCE, P.CODE, P.NAME, P.ISCOM, P.ISSCALE, P.PRICEBUY, P.PRICESELL, P.TAXCAT, P.CATEGORY, P.ATTRIBUTESET_ID, P.IMAGE, P.ATTRIBUTES, P.PRICESELL_RECOMMENDED, P.MANUAL_PRICE " +
+              "FROM PRODUCTS P, PRODUCTS_CAT O, PRODUCTS_COM M WHERE P.ID = O.PRODUCT AND P.ID = M.PRODUCT2 AND M.PRODUCT = ? " +
+              "AND P.ISCOM = " + 
+                //s.DB.TRUE() 
+                s.DB.FALSE() 
+                + " " +
+              "ORDER BY O.CATORDER, P.NAME"
+            , SerializerWriteString.INSTANCE
+            , ProductInfoExt.getSerializerRead()).list(id);
+    }
+    
+    
   
     // Products list
     public final SentenceList getProductList() {

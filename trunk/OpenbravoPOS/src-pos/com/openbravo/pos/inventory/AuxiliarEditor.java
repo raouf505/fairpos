@@ -323,7 +323,8 @@ public class AuxiliarEditor extends javax.swing.JPanel implements EditorRecord {
 
     private void m_jSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jSearchActionPerformed
         
-        assignProduct(JProductFinder.showMessage(this, m_dlSales, JProductFinder.PRODUCT_AUXILIAR));
+        //assignProduct(JProductFinder.showMessage(this, m_dlSales, JProductFinder.PRODUCT_AUXILIAR));
+        assignProduct(JProductFinder.showMessage(this, m_dlSales, JProductFinder.PRODUCT_ALL));
         
 }//GEN-LAST:event_m_jSearchActionPerformed
 
