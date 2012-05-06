@@ -81,7 +81,7 @@ public class DiscountManager {
             
             ticket.insertLine(ticket.getLinesCount(),
                 new TicketLineInfo(
-                    "## Discount " + discountVal + " of (1+tax * " + taxline.printSubTotal() + ") "  + Double.toString(taxline.getTax() + taxline.getSubTotal()),   
+                    "## Discount " + 100*discountVal + "% of "  + Double.toString(taxline.getTax() + taxline.getSubTotal()) , //+ " " + taxline.printTax() + " 1+tax * " + taxline.printSubTotal() + ") ,   
                     taxline.getTaxInfo().getTaxCategoryID(),          
                     1.0, 
                     -taxline.getSubTotal() * discountVal,
