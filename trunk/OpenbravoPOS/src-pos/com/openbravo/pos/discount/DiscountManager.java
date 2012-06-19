@@ -86,8 +86,7 @@ public class DiscountManager {
             
             this.discountTotal += - (taxline.getTax() + taxline.getSubTotal()) * discountVal;
         } 
-                
-        //sales.setSelectedIndex(ticket.getLinesCount() - 1);
+
     }    
     
     
