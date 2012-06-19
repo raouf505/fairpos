@@ -322,7 +322,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             
             
             dm.discountRowsClear(m_oTicket);                   
-//            dm.discountRowsUpdate(m_oTicket); //FIXME: removeme to hide discount rows
+            //dm.discountRowsUpdate(m_oTicket); //enableme to show discount rows; now, discount rows on display are updated only with refreshTicket() (press eg. "Discount" for it) - only display is wrong, calculation of discount is ok
             
             for (int i = 0; i < m_oTicket.getLinesCount(); i++) {
                 m_ticketlines.addTicketLine(m_oTicket.getLine(i));
@@ -381,7 +381,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             // event receipt
             executeEventAndRefresh("ticket.change");
             
-            refreshTicket();
+
         }
    }
 
@@ -450,7 +450,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             // event receipt
             executeEventAndRefresh("ticket.change");
             
-            refreshTicket();
+
         }
     }    
     
@@ -480,7 +480,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             // event receipt
             executeEventAndRefresh("ticket.change");
             
-            refreshTicket();
+
         }
     }
     
