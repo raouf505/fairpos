@@ -6,7 +6,6 @@ package com.openbravo.pos.discount;
 
 
 import com.openbravo.format.Formats;
-import com.openbravo.pos.ticket.TaxInfo;
 import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
 //import com.openbravo.pos.ticket.JPanelTicket;
@@ -15,8 +14,6 @@ import com.openbravo.pos.ticket.TicketTaxInfo;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
-
 
 /**
  *
@@ -34,8 +31,7 @@ public class DiscountManager {
         return (""+ discountVal*100.0f + " %").replaceAll("\\.\\d*", "");
     }
     
-    public void discountRowsClear(TicketInfo ticket)
-    {
+    public void discountRowsClear(TicketInfo ticket) {
         List<TicketLineInfo> lineList = ticket.getLines();        
         Iterator<TicketLineInfo> it = lineList.iterator();
         
@@ -71,9 +67,7 @@ public class DiscountManager {
     public void discountRowsUpdate(TicketInfo ticket) {
  
         discountRowsClear(ticket);
-        
-        
-        
+
         TicketTaxInfo[] taxes = ticket.getTaxLines();  
         
         
@@ -92,12 +86,8 @@ public class DiscountManager {
             
             this.discountTotal += - (taxline.getTax() + taxline.getSubTotal()) * discountVal;
         } 
-        
-         
                 
         //sales.setSelectedIndex(ticket.getLinesCount() - 1);
-        
-    
     }    
     
     
