@@ -354,12 +354,15 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         if (m_oTicket.getLinesCount() == 0) {
             m_jSubtotalEuros.setText(null);
             m_jTaxesEuros.setText(null);
-            m_jTotalEuros.setText(null);
+            m_jTotalEuros.setText(null);            
+            m_jDiscountEuros.setText(null);
+            
         } else {
             dm.discountRowsUpdate(m_oTicket);
             m_jSubtotalEuros.setText(m_oTicket.printSubTotal());
             m_jTaxesEuros.setText(m_oTicket.printTax());
-            m_jTotalEuros.setText(m_oTicket.printTotal());
+            m_jTotalEuros.setText(m_oTicket.printTotal());            
+            m_jDiscountEuros.setText(dm.printDiscountTotal());
         }
     }
     

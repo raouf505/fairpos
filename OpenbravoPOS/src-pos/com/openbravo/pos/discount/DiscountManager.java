@@ -24,6 +24,7 @@ import java.util.Properties;
  */
 public class DiscountManager {
     private float discountVal = 0.00f;
+    private float discountTotal = 0.00f;
     
     public void setDiscountValue(float val) {
         this.discountVal=val;
@@ -76,6 +77,8 @@ public class DiscountManager {
         TicketTaxInfo[] taxes = ticket.getTaxLines();  
         
         
+        this.discountTotal = 0;
+        
         for (int i = 0; i < taxes.length; i++) {  
             TicketTaxInfo taxline = taxes[i];  
             
@@ -86,13 +89,27 @@ public class DiscountManager {
                     1.0, 
                     -taxline.getSubTotal() * discountVal,
                     taxline.getTaxInfo()));  
+            
+            this.discountTotal += - (taxline.getTax() + taxline.getSubTotal()) * discountVal;
         } 
         
-        
+         
+                
         //sales.setSelectedIndex(ticket.getLinesCount() - 1);
         
     
     }    
+    
+    
+         
+        
+    public float getDiscountTotal() {         
+        return this.discountTotal;
+    }
+    
+    public String printDiscountTotal() {                         
+        return Formats.CURRENCY.formatValue(new Double(getDiscountTotal()));
+    }
     
     
 }
