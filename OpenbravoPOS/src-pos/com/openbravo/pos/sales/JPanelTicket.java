@@ -430,12 +430,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             try {
                 //get attached non-auxiliary items & put them directly into ticket
                 java.util.List<ProductInfoExt> productsAttachedNonauxiliary = dlSales.getAttachedNonauxiliary(oLine.getProductID());
-                /*
-                 * FIXME: add all 
-                 * productsAttachecNonauxiliary items to 
-                 */
+
                 for (ProductInfoExt prodA: productsAttachedNonauxiliary) {
-                    //addTicketLineScaleCheck(prod, 1.0);                    
+                    //addTicketLineScaleCheck(prod, 1.0);   
+                    prodA.setCom(true);
                     addTicketLine(prodA, oLine.getMultiply());
                     prodA=prodA;
                 }
