@@ -112,6 +112,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         defaultValues();
 
         selectedTicket = null;
+        executeSearch();
     }
     
     public void executeSearch() {
@@ -165,8 +166,12 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
                 
         jtxtMoney.reset();
         
-        jTxtStartDate.setText(null);
-        jTxtEndDate.setText(null);
+        Date dateNow = new Date();
+        Date dateStart = new Date(); 
+        dateStart.setTime(dateNow.getTime()-1000*60*60*24*7); //substract 7 days
+        
+        jTxtStartDate.setText(Formats.TIMESTAMP.formatValue(dateStart));
+        jTxtEndDate.setText  (Formats.TIMESTAMP.formatValue(dateNow));
         
         jtxtCustomer.setText(null);
         
