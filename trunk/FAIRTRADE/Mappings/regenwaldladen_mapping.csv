@@ -1,10 +1,10 @@
-Extern,Intern;Text
-Medien,SC407;CD/DVD
-Accessoires,SC306;Accessoires
-Produkte aus Naturlatex,SC205;Lederwaren
-Schmuck,SC204;Schmuck
-Spirituosen,SC110;Getränke (alkoholisch)
-Lebensmittel,SC199;sonst. Lebensmittel
-Kerzen,SC203;Kerzen
-Lebensmittel,SC199;sonst. Lebensmittel
-Körperpflege,SC213;Kosmetik/Seife
+Extern;Intern;Text
+Medien;SC407;CD/DVD
+Accessoires;SC306;Accessoires
+Produkte aus Naturlatex;SC205;Lederwaren
+Schmuck;SC204;Schmuck
+Spirituosen;SC110;Getränke (alkoholisch)
+Lebensmittel;SC199;sonst. Lebensmittel
+Kerzen;SC203;Kerzen
+Lebensmittel;SC199;sonst. Lebensmittel
+Körperpflege;SC213;Kosmetik/Seife

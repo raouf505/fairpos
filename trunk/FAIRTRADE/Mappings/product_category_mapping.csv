@@ -1,46 +1,46 @@
-Intern,Parent,InternDesc,InternImg
-MC000,,Katalog,
-MC001,MC000,Katalog Lebensmittel,
-MC002,MC000,Katalog Handwerk,
-MC003,MC000,Katalog Bekleidung,
-MC004,MC000,Katalog Schreibwaren,
-SC101,MC001,Süßwaren,
-SC102,MC001,Tee,
-SC103,MC001,Kaffee,
-SC104,MC001,Knabberprodukte,
-SC105,MC001,Getreide/Nudeln/Rohware,
-SC106,MC001,Honig/Marmelade,
-SC107,MC001,Soßen/Chutneys,
-SC108,MC001,Gewürze/Kräuter,
-SC109,MC001,Getränke (nichtalkoholisch),
-SC110,MC001,Getränke (alkoholisch),
-SC111,MC001,Bewirtung,
-SC199,MC001,sonst. Lebensmittel,
-SC201,MC002,Körbe,
-SC202,MC002,Musikinstrumente,
-SC203,MC002,Kerzen,
-SC204,MC002,Schmuck,
-SC205,MC002,Lederwaren,
-SC206,MC002,Keramik,
-SC207,MC002,Filzwaren,
-SC208,MC002,Spielwaren,
-SC209,MC002,Lampen,
-SC210,MC002,Möbel,
-SC212,MC002,Wohntextilien,
-SC213,MC002,Kosmetik/Seife,
-SC299,MC002,sonst. Handwerk,
-SC301,MC003,T-Shirts,
-SC302,MC003,Hosen,
-SC303,MC003,Pullover,
-SC304,MC003,Kleider/Röcke,
-SC305,MC003,Tücher/Schals,
-SC306,MC003,Accessoires,
-SC399,MC003,sonst. Bekleidung,
-SC401,MC004,Karten,
-SC402,MC004,Bücher,
-SC403,MC004,Kalender,
-SC404,MC004,Blöcke/Hefte/Briefpapier,
-SC405,MC004,Stifte,
-SC406,MC004,Fotoalben,
-SC407,MC004,CD/DVD,
-SC499,MC004,sonst. Schreibwaren,
+Intern;Parent;InternDesc;InternImg
+MC000;;Katalog;
+MC001;MC000;Katalog Lebensmittel;
+MC002;MC000;Katalog Handwerk;
+MC003;MC000;Katalog Bekleidung;
+MC004;MC000;Katalog Schreibwaren;
+SC101;MC001;Süßwaren;
+SC102;MC001;Tee;
+SC103;MC001;Kaffee;
+SC104;MC001;Knabberprodukte;
+SC105;MC001;Getreide/Nudeln/Rohware;
+SC106;MC001;Honig/Marmelade;
+SC107;MC001;Soßen/Chutneys;
+SC108;MC001;Gewürze/Kräuter;
+SC109;MC001;Getränke (nichtalkoholisch);
+SC110;MC001;Getränke (alkoholisch);
+SC111;MC001;Bewirtung;
+SC199;MC001;sonst. Lebensmittel;
+SC201;MC002;Körbe;
+SC202;MC002;Musikinstrumente;
+SC203;MC002;Kerzen;
+SC204;MC002;Schmuck;
+SC205;MC002;Lederwaren;
+SC206;MC002;Keramik;
+SC207;MC002;Filzwaren;
+SC208;MC002;Spielwaren;
+SC209;MC002;Lampen;
+SC210;MC002;Möbel;
+SC212;MC002;Wohntextilien;
+SC213;MC002;Kosmetik/Seife;
+SC299;MC002;sonst. Handwerk;
+SC301;MC003;T-Shirts;
+SC302;MC003;Hosen;
+SC303;MC003;Pullover;
+SC304;MC003;Kleider/Röcke;
+SC305;MC003;Tücher/Schals;
+SC306;MC003;Accessoires;
+SC399;MC003;sonst. Bekleidung;
+SC401;MC004;Karten;
+SC402;MC004;Bücher;
+SC403;MC004;Kalender;
+SC404;MC004;Blöcke/Hefte/Briefpapier;
+SC405;MC004;Stifte;
+SC406;MC004;Fotoalben;
+SC407;MC004;CD/DVD;
+SC499;MC004;sonst. Schreibwaren;

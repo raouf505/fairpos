@@ -1,46 +1,46 @@
-Extern,Intern;Text
-0,SC299;sonst. Handwerk
-0,SC299;sonst. Handwerk
-0,SC299;sonst. Handwerk
-0,SC499;sonst. Schreibwaren
-110,SC103;Kaffee
-120,SC102;Tee
-140,SC101;Süßwaren
-160,SC108;Gewürze/Kräuter
-170,SC199;sonst. Lebensmittel
-180,SC101;Süßwaren
-190,SC299;sonst. Handwerk
-190,SC199;sonst. Lebensmittel
-1000,SC204;Schmuck
-1000,SC206;Keramik
-1000,SC202;Musikinstrumente
-1000,SC401;Karten
-1000,SC499;sonst. Schreibwaren
-1000,SC205;Lederwaren
-1000,SC212;Wohntextilien
-1000,SC203;Kerzen
-2000,SC299;sonst. Handwerk
-2000,SC406;Fotoalben
-2000,SC499;sonst. Schreibwaren
-2000,SC299;sonst. Handwerk
-2000,SC299;sonst. Handwerk
-2000,SC204;Schmuck
-2000,SC303;Pullover
-2000,SC299;sonst. Handwerk
-2000,SC299;sonst. Handwerk
-3000,SC299;sonst. Handwerk
-3000,SC208;Spielwaren
-3000,SC299;sonst. Handwerk
-3000,SC204;Schmuck
-3000,SC305;Tücher/Schals
-3000,SC299;sonst. Handwerk
-3000,SC299;sonst. Handwerk
-3000,SC212;Wohntextilien
-4000,SC299;sonst. Handwerk
-4000,SC204;Schmuck
-4000,SC499;sonst. Schreibwaren
-4000,SC201;Körbe
-5000,SC213;Kosmetik/Seife
-5000,SC299;sonst. Handwerk
-5000,SC306;Accessoires
-6000,SC299;sonst. Handwerk
+Extern;Intern;Text
+0;SC299;sonst. Handwerk
+0;SC299;sonst. Handwerk
+0;SC299;sonst. Handwerk
+0;SC499;sonst. Schreibwaren
+110;SC103;Kaffee
+120;SC102;Tee
+140;SC101;Süßwaren
+160;SC108;Gewürze/Kräuter
+170;SC199;sonst. Lebensmittel
+180;SC101;Süßwaren
+190;SC299;sonst. Handwerk
+190;SC199;sonst. Lebensmittel
+1000;SC204;Schmuck
+1000;SC206;Keramik
+1000;SC202;Musikinstrumente
+1000;SC401;Karten
+1000;SC499;sonst. Schreibwaren
+1000;SC205;Lederwaren
+1000;SC212;Wohntextilien
+1000;SC203;Kerzen
+2000;SC299;sonst. Handwerk
+2000;SC406;Fotoalben
+2000;SC499;sonst. Schreibwaren
+2000;SC299;sonst. Handwerk
+2000;SC299;sonst. Handwerk
+2000;SC204;Schmuck
+2000;SC303;Pullover
+2000;SC299;sonst. Handwerk
+2000;SC299;sonst. Handwerk
+3000;SC299;sonst. Handwerk
+3000;SC208;Spielwaren
+3000;SC299;sonst. Handwerk
+3000;SC204;Schmuck
+3000;SC305;Tücher/Schals
+3000;SC299;sonst. Handwerk
+3000;SC299;sonst. Handwerk
+3000;SC212;Wohntextilien
+4000;SC299;sonst. Handwerk
+4000;SC204;Schmuck
+4000;SC499;sonst. Schreibwaren
+4000;SC201;Körbe
+5000;SC213;Kosmetik/Seife
+5000;SC299;sonst. Handwerk
+5000;SC306;Accessoires
+6000;SC299;sonst. Handwerk
