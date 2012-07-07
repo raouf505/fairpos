@@ -1,0 +1,87 @@
+Extern,Intern;Text
+101,SC103;Kaffee
+102,SC103;Kaffee
+103,SC103;Kaffee
+104,SC103;Kaffee
+106,SC103;Kaffee
+111,SC107;Soßen/Chutneys
+112,SC105;Getreide/Nudeln/Rohware
+115,SC109;Getränke (nichtalkoholisch)
+120,SC106;Honig/Marmelade
+122,SC106;Honig/Marmelade
+124,SC106;Honig/Marmelade
+130,SC104;Knabberprodukte
+131,SC101;Süßwaren
+140,SC102;Tee
+143,SC102;Tee
+144,SC102;Tee
+145,SC102;Tee
+148,SC102;Tee
+149,SC102;Tee
+150,SC105;Getreide/Nudeln
+153,SC105;Getreide/Nudeln
+154,SC105;Getreide/Nudeln
+160,SC105;Getreide/Nudeln/Rohware
+161,SC105;Getreide/Nudeln/Rohware
+165,SC101;Süßwaren
+170,SC109;Getränke (nichtalkoholisch)
+171,SC109;Getränke (nichtalkoholisch)
+180,SC110;Getränke (alkoholisch)
+181,SC110;Getränke (alkoholisch)
+182,SC110;Getränke (alkoholisch)
+190,SC101;Süßwaren
+191,SC101;Süßwaren
+192,SC101;Süßwaren
+193,SC101;Süßwaren
+194,SC101;Süßwaren
+195,SC104;Knabberprodukte
+197,SC199;sonst. Lebensmittel
+198,SC199;sonst. Lebensmittel
+201,SC299;sonst. Handwerk
+210,SC299;sonst. Handwerk
+233,SC213;Kosmetik/Seife
+234,SC203;Kerzen
+241,SC205;Lederwaren
+242,SC205;Lederwaren
+243,SC299;sonst. Handwerk
+244,SC299;sonst. Handwerk
+246,SC201;Körbe
+248,SC499;sonst. Schreibwaren
+249,SC499;sonst. Schreibwaren
+250,SC499;sonst. Schreibwaren
+258,SC299;sonst. Handwerk
+262,SC212;Wohntextilien
+263,SC399;sonst. Bekleidung
+265,SC399;sonst. Bekleidung
+268,SC299;sonst. Handwerk
+269,SC206;Keramik
+270,SC299;sonst. Handwerk
+271,SC204;Schmuck
+272,SC204;Schmuck
+274,SC299;sonst. Handwerk
+280,SC299;sonst. Handwerk
+281,SC299;sonst. Handwerk
+282,SC299;sonst. Handwerk
+292,SC202;Musikinstrumente
+295,SC299;sonst. Handwerk
+296,SC213;Kosmetik/Seife
+297,SC208;Spielwaren
+298,SC499;sonst. Schreibwaren
+311,SC402;Bücher
+312,SC402;Bücher
+313,SC402;Bücher
+314,SC499;sonst. Schreibwaren
+326,SC407;CD/DVD
+327,SC407;CD/DVD
+329,SC499;sonst. Schreibwaren
+330,SC499;sonst. Schreibwaren
+398,SC499;sonst. Schreibwaren
+410,SC109;Getränke (nichtalkoholisch)
+412,SC299;sonst. Handwerk
+413,SC299;sonst. Handwerk
+414,SC499;sonst. Schreibwaren
+416,SC299;sonst. Handwerk
+489,SC499;sonst. Schreibwaren
+501,SC299;sonst. Handwerk
+590,SC299;sonst. Handwerk
+900,SC299;sonst. Handwerk
