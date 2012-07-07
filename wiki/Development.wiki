@@ -1,33 +1,41 @@
-#development environment
 = Introduction =
 
-Here you will find a list of development tools we are using.
+Here you will find a quick start and a list of development tools we are using.
+
+= Quick start =
+
+  # install PostgreSQL V9.0
+  # create an empty DB "openbravopos" with default settings
+  # import a DB dump shared from a project member via dropbox
+  # remember Postgres user and password!
+  # install OpenBravoPOS 2.30.2
+  # patch this instalation with recent jar, postgresql-9.0-801.jdbc4.jar, reports and locales from your SVN/IDE or shared from a project member via dropbox
+  # modify OpenBravopos settings to connect to Postgres DB (see below)
+    * OR alternatively patch settings from a colleague
 
 = Development Process =
   # The ETL process is developed in Talend (project: [https://fairpos.googlecode.com/svn/trunk/FAIRTRADE/ FAIRTRADE])
-  # The code is then taken and copied into (project: [https://fairpos.googlecode.com/svn/trunk/FairPosGo/ FairPosGo])
-  # FairPosGo is exported into a runnable jar which can be used for the transformation
+  # the ETL process is based on a customer dependent initial DB (manually edited in OpenBravoPOS as needed for the customer)
+  # The Java code is developed based on OpenBravoPOS in NetBeans IDE (project: [https://fairpos.googlecode.com/svn/trunk/OpenBravoPOS/ OpenBravoPOS])
+  # OpenBravoPOS installation is patched with the modified parts and connected to a DB filled with the ETL process
 
-= Runtime Process =
-  # Jenkins runs nightly for each supplier a Job
-  # This job downloads the supplier file (csv) with a user and pass over HTTP or FTP
-  # This file is compared with the latest version of this supplier
-  # If the downloaded file is newer than an optional synchronization of the images is started
-  # After that the ETL job is startet with the parameters
-    # input file, image dir, db url, db user and db pass
-
-= ETL-Synchronization = 
-  # Once the database needs to be set up with ETL job
-  # every day ETL job downloads the newest article data
-  # after that each supplier ETL job is executed
+= ETL nightly Process =
+  # Jenkins runs a nightly job for each supplier
+  # This job compares and, if needed, downloads the supplier file (csv, later also images) with a user and pass over HTTP or FTP via e.g. BeyondCompare
+  # if the compare tool detected changes, the ETL job of the corresponding supplier is started with the parameters
+    * input file, image dir, db url, db user and db pass
 
 = Details =
 
-Add your content here.  Format your content with:
+Source based on
   * [http://www.openbravo.com/product/pos/ Openbravo POS] 2.30.2 - [http://sourceforge.net/projects/openbravopos/files/Openbravo%20POS/ download here]
+
+Database connection details
     * using posgresql-9.0-801.jdbc4.jar
     * org.postgresql.Driver
-    * jdbc:postgresql://localhost/dbwhatever
+    * jdbc:postgresql://localhost/yourdbname
     * user and pass
+
+Used Tool versions:
   * [http://www.postgresql.org/download/windows PostgreSQL 9.0] - using pgAdmin III for administration
   * Talend Open Studio (4.1.1.r50363) - for Extract Transform Load of data
