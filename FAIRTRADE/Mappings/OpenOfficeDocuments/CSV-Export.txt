@@ -1,0 +1,10 @@
+Exportieren der Lieferanten aus OpenOffice:
+- Löschen aller Spalten außer der ersten beiden
+- Speichern als->Text CSV
+- vorhandene Datei (ein Verzeichnis höher) überschreiben
+- "Aktuelles Format beibehalten" wählen
+- Dialog "Textexport" erscheint
+  - WICHTIG: Feldtrenner ";" wählen!
+  - WICHTIG: Texttrenner LÖSCHEN (leeres Feld)! 
+    - beides leider bei der derzeitigen Version jedes Mal neu anzuwählen!
+  - Rest Standard (Codierung Westeuropa, "Zellinhalt wie angezeigt" angekreuzt, "Text zwischen Hochkommas" und "feste Spaltenbreite" nicht angekreuzt)

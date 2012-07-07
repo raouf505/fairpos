@@ -1,69 +1,69 @@
-Extern,Intern;Text
-1,SC299;sonst. Handwerk
-19,SC299;sonst. Handwerk
-200,SC299;sonst. Handwerk
-205,SC299;sonst. Handwerk
-210,SC201;Körbe
-215,SC206;Keramik
-216,SC206;Keramik
-217,SC206;Keramik
-218,SC206;Keramik
-219,SC206;Keramik
-220,SC206;Keramik
-221,SC206;Keramik
-222,SC206;Keramik
-223,SC206;Keramik
-224,SC206;Keramik
-225,SC206;Keramik
-226,SC206;Keramik
-227,SC206;Keramik
-228,SC206;Keramik
-229,SC206;Keramik
-230,SC299;sonst. Handwerk
-231,SC206;Keramik
-232,SC206;Keramik
-233,SC206;Keramik
-234,SC206;Keramik
-235,SC299;sonst. Handwerk
-236,SC299;sonst. Handwerk
-237,SC299;sonst. Handwerk
-238,SC206;Keramik
-239,SC206;Keramik
-240,SC299;sonst. Handwerk
-241,SC206;Keramik
-242,SC206;Keramik
-243,SC206;Keramik
-244,SC206;Keramik
-245,SC212;Wohntextilien
-246,SC206;Keramik
-247,SC206;Keramik
-248,SC206;Keramik
-249,SC206;Keramik
-250,SC399;sonst. Bekleidung
-251,SC206;Keramik
-252,SC206;Keramik
-253,SC206;Keramik
-254,SC206;Keramik
-255,SC212;Wohntextilien
-256,SC206;Keramik
-257,SC206;Keramik
-258,SC206;Keramik
-259,SC206;Keramik
-260,SC299;sonst. Handwerk
-261,SC206;Keramik
-262,SC206;Keramik
-263,SC206;Keramik
-264,SC206;Keramik
-265,SC207;Filzwaren
-266,SC206;Keramik
-267,SC206;Keramik
-268,SC206;Keramik
-270,SC204;Schmuck
-275,SC202;Musikinstrumente
-280,SC205;Lederwaren
-285,SC205;Lederwaren
-290,SC299;sonst. Handwerk
-305,SC203;Kerzen
-310,SC208;Spielwaren
-315,SC299;sonst. Handwerk
-520,SC499;sonst. Schreibwaren
+Extern;Intern;Text
+1;SC299;sonst. Handwerk
+19;SC299;sonst. Handwerk
+200;SC299;sonst. Handwerk
+205;SC299;sonst. Handwerk
+210;SC201;Körbe
+215;SC206;Keramik
+216;SC206;Keramik
+217;SC206;Keramik
+218;SC206;Keramik
+219;SC206;Keramik
+220;SC206;Keramik
+221;SC206;Keramik
+222;SC206;Keramik
+223;SC206;Keramik
+224;SC206;Keramik
+225;SC206;Keramik
+226;SC206;Keramik
+227;SC206;Keramik
+228;SC206;Keramik
+229;SC206;Keramik
+230;SC299;sonst. Handwerk
+231;SC206;Keramik
+232;SC206;Keramik
+233;SC206;Keramik
+234;SC206;Keramik
+235;SC299;sonst. Handwerk
+236;SC299;sonst. Handwerk
+237;SC299;sonst. Handwerk
+238;SC206;Keramik
+239;SC206;Keramik
+240;SC299;sonst. Handwerk
+241;SC206;Keramik
+242;SC206;Keramik
+243;SC206;Keramik
+244;SC206;Keramik
+245;SC212;Wohntextilien
+246;SC206;Keramik
+247;SC206;Keramik
+248;SC206;Keramik
+249;SC206;Keramik
+250;SC399;sonst. Bekleidung
+251;SC206;Keramik
+252;SC206;Keramik
+253;SC206;Keramik
+254;SC206;Keramik
+255;SC212;Wohntextilien
+256;SC206;Keramik
+257;SC206;Keramik
+258;SC206;Keramik
+259;SC206;Keramik
+260;SC299;sonst. Handwerk
+261;SC206;Keramik
+262;SC206;Keramik
+263;SC206;Keramik
+264;SC206;Keramik
+265;SC207;Filzwaren
+266;SC206;Keramik
+267;SC206;Keramik
+268;SC206;Keramik
+270;SC204;Schmuck
+275;SC202;Musikinstrumente
+280;SC205;Lederwaren
+285;SC205;Lederwaren
+290;SC299;sonst. Handwerk
+305;SC203;Kerzen
+310;SC208;Spielwaren
+315;SC299;sonst. Handwerk
+520;SC499;sonst. Schreibwaren
