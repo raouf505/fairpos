@@ -11,8 +11,13 @@ Here you will find a quick start and a list of development tools we are using.
   # remember Postgres user and password!
   # install OpenBravoPOS 2.30.2
   # patch this instalation with recent jar, postgresql-9.0-801.jdbc4.jar, reports and locales from your SVN/IDE or shared from a project member via dropbox
-  # modify OpenBravopos settings to connect to Postgres DB (see below)
-    * OR alternatively patch settings from a colleague
+  # modify OpenBravopos settings to connect to Postgres DB like this (according to your created DB name and user):
+
+https://fairpos.googlecode.com/svn/wiki/images/db-settings.gif
+
+Deutsche Version:
+
+https://fairpos.googlecode.com/svn/wiki/images/db-settings_de.gif
 
 = Development Process =
   # The ETL process is developed in Talend (project: [https://fairpos.googlecode.com/svn/trunk/FAIRTRADE/ FAIRTRADE])
