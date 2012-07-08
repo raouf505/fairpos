@@ -48,6 +48,7 @@ public class CustomerInfoExt extends CustomerInfo {
     protected String city;
     protected String region;
     protected String country;
+    protected Double discount;
     
     /** Creates a new instance of UserInfoBasic */
     public CustomerInfoExt(String id) {
@@ -229,5 +230,13 @@ public class CustomerInfoExt extends CustomerInfo {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+    
+    public void setDiscount(Double discount) {
+        this.discount = discount;
     }
 }

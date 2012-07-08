@@ -286,7 +286,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         return (CustomerInfoExt) new PreparedSentence(s
                 , "SELECT ID, TAXID, SEARCHKEY, NAME, CARD, TAXCATEGORY, NOTES, MAXDEBT, VISIBLE, CURDATE, CURDEBT" +
                   ", FIRSTNAME, LASTNAME, EMAIL, PHONE, PHONE2, FAX" +
-                  ", ADDRESS, ADDRESS2, POSTAL, CITY, REGION, COUNTRY" +
+                  ", ADDRESS, ADDRESS2, POSTAL, CITY, REGION, COUNTRY, DISCOUNT" +
                   " FROM CUSTOMERS WHERE CARD = ? AND VISIBLE = " + s.DB.TRUE()
                 , SerializerWriteString.INSTANCE
                 , new CustomerExtRead()).find(card);
@@ -296,7 +296,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         return (CustomerInfoExt) new PreparedSentence(s
                 , "SELECT ID, TAXID, SEARCHKEY, NAME, CARD, TAXCATEGORY, NOTES, MAXDEBT, VISIBLE, CURDATE, CURDEBT" +
                   ", FIRSTNAME, LASTNAME, EMAIL, PHONE, PHONE2, FAX" +
-                  ", ADDRESS, ADDRESS2, POSTAL, CITY, REGION, COUNTRY" +
+                  ", ADDRESS, ADDRESS2, POSTAL, CITY, REGION, COUNTRY, DISCOUNT" +
                 " FROM CUSTOMERS WHERE ID = ?"
                 , SerializerWriteString.INSTANCE
                 , new CustomerExtRead()).find(id);
@@ -810,7 +810,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             c.setCity(dr.getString(21));
             c.setRegion(dr.getString(22));
             c.setCountry(dr.getString(23));
-
+            c.setDiscount(dr.getDouble(24));
+            
             return c;
         }
     }
