@@ -20,15 +20,17 @@ import java.util.List;
  * @author Vilem
  */
 public class DiscountManager {
-    private float discountVal = 0.00f;
-    private float discountTotal = 0.00f;
+    private double discountVal = 0.00f;
+    private double discountTotal = 0.00f;
     
-    public void setDiscountValue(float val) {
+    public void setDiscountValue(double val) {
+        if (val > 100)
+            val = 100;
         this.discountVal=val;
     }
     
     public String getDiscountValueText() {
-        return (""+ discountVal*100.0f + " %").replaceAll("\\.\\d*", "");
+        return (""+ discountVal*100.0f + " %").replaceAll("\\.0\\d*", "");
     }
     
     public void discountRowsClear(TicketInfo ticket) {
@@ -92,7 +94,7 @@ public class DiscountManager {
     
          
         
-    public float getDiscountTotal() {         
+    public double getDiscountTotal() {         
         return this.discountTotal;
     }
     
