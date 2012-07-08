@@ -24,6 +24,7 @@ public class DiscountManager {
     private double discountVal = 0.00f;
     private double discountTotal = 0.00f;
     
+    private static TicketInfo currentTicket=null;
     
     private static String getDiscountLinePrefix() {
         return "## " + AppLocal.getIntString("button.discount");
@@ -72,6 +73,10 @@ public class DiscountManager {
         }        
     }
     
+    private boolean ticketChanged(TicketInfo ticket) {
+        return (ticket != currentTicket);
+    }
+    
     /*
      * Update discount for ticket
      *  - adds row with discount
@@ -81,6 +86,13 @@ public class DiscountManager {
      */
     
     public void discountRowsUpdate(TicketInfo ticket) {
+        
+        //(re-)set correct discount value
+        if (ticketChanged(ticket)) {            
+            this.discountVal = 0.0;
+            //TODO: if customer selected, get discount from there
+            currentTicket = ticket;
+        }
  
         discountRowsClear(ticket);
 
