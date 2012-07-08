@@ -29,6 +29,7 @@ import com.openbravo.format.Formats;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.LocalRes;
 import com.openbravo.pos.customers.CustomerInfoExt;
+import com.openbravo.pos.discount.DiscountManager;
 import com.openbravo.pos.payment.PaymentInfoMagcard;
 import com.openbravo.pos.util.StringUtils;
 
@@ -307,7 +308,9 @@ public class TicketInfo implements SerializableRead, Externalizable {
 
         for (Iterator<TicketLineInfo> i = m_aLines.iterator(); i.hasNext();) {
             oLine = i.next();
-            dArticles += oLine.getMultiply();
+            if (!DiscountManager.isDiscountLine(oLine)) {
+                dArticles += oLine.getMultiply();
+            }
         }
 
         return dArticles;
