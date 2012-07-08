@@ -42,6 +42,7 @@ public class JPaymentCheque extends javax.swing.JPanel implements JPaymentInterf
         
         m_jTendered.addPropertyChangeListener("Edition", new RecalculateState());
         m_jTendered.addEditorKeys(m_jKeys);
+        m_jTendered.setVisible(false);
     }
     
     public void activate(CustomerInfoExt customerext, double dTotal, String transID) {
