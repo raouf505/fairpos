@@ -6,6 +6,7 @@ package com.openbravo.pos.discount;
 
 
 import com.openbravo.format.Formats;
+import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
 //import com.openbravo.pos.ticket.JPanelTicket;
@@ -22,6 +23,23 @@ import java.util.List;
 public class DiscountManager {
     private double discountVal = 0.00f;
     private double discountTotal = 0.00f;
+    
+    
+    private static String getDiscountLinePrefix() {
+        return "## " + AppLocal.getIntString("button.discount");
+    }
+    
+    public String getDiscountLineText() {
+        //TODO: Concat button.discount with tax type
+        return getDiscountLinePrefix() + " " + "";
+    }
+    
+    public static boolean isDiscountLine(TicketLineInfo line) {
+        //recognize discount line (so we do not count it as ticket item, delete it when needed, etc.)
+        String test = line.getProductName();
+        return test.startsWith(getDiscountLinePrefix());
+    }
+    
     
     public void setDiscountValue(double val) {
         if (val > 100)
@@ -44,11 +62,7 @@ public class DiscountManager {
             j++;
             TicketLineInfo line = it.next();
             
-            String test;
-            test = line.getProductName();
-            if (test.startsWith("## Discount "))
-                //ticket.removeLine(j);
-                toDelete.add(j);
+            if (isDiscountLine(line)) toDelete.add(j);
         }
         
         int shift = 0;
@@ -80,7 +94,7 @@ public class DiscountManager {
             
             ticket.insertLine(ticket.getLinesCount(),
                 new TicketLineInfo(
-                    "## Discount " + 100*discountVal + "% of "  + Double.toString(taxline.getTax() + taxline.getSubTotal()) , //+ " " + taxline.printTax() + " 1+tax * " + taxline.printSubTotal() + ") ,   
+                    getDiscountLinePrefix() + " " + taxline.getTaxInfo().getTaxCategoryID() + 100*discountVal + "% of "  + Double.toString(taxline.getTax() + taxline.getSubTotal()) , //+ " " + taxline.printTax() + " 1+tax * " + taxline.printSubTotal() + ") ,   
                     taxline.getTaxInfo().getTaxCategoryID(),          
                     1.0, 
                     -taxline.getSubTotal() * discountVal,
