@@ -38,6 +38,7 @@ import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.ListKeyed;
 import com.openbravo.data.loader.SentenceList;
 import com.openbravo.pos.customers.CustomerInfoExt;
+import com.openbravo.pos.customers.CustomerInfo;
 import com.openbravo.pos.customers.DataLogicCustomers;
 import com.openbravo.pos.customers.JCustomerFinder;
 import com.openbravo.pos.discount.DiscountManager;
@@ -669,6 +670,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                         } else {
                             m_oTicket.setCustomer(newcustomer);
                             m_jTicketId.setText(m_oTicket.getName(m_oTicketExt));
+                            setDiscount(newcustomer.getDiscount());
                         }
                     } catch (BasicException e) {
                         Toolkit.getDefaultToolkit().beep();                   
@@ -1279,6 +1281,19 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             JPanelTicket.this.printTicket(sresourcename, ticket, ticketext);   
         }              
         
+        public void printerStart() {
+            String sresource = dlSystem.getResourceAsXML("Printer.Start");
+            if (sresource == null) {
+                m_App.getDeviceTicket().getDeviceDisplay().writeVisor(AppLocal.APP_NAME, AppLocal.APP_VERSION);
+            } else {
+                try {
+                    m_TTP.printTicket(sresource);
+                } catch (TicketPrinterException eTP) {
+                    m_App.getDeviceTicket().getDeviceDisplay().writeVisor(AppLocal.APP_NAME, AppLocal.APP_VERSION);
+                }
+            }        
+        }
+
         public Object evalScript(String code, ScriptArg... args) throws ScriptException {
             
             ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.BEANSHELL);
@@ -1298,6 +1313,18 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         }            
     }
      
+    /**
+     * Set new value for discount and update discount manager and edit fields
+     * @param discount 
+     */
+    private void setDiscount (Double discount) {
+        dm.setDiscountValue(discount);
+        m_jDiscount.setText(dm.getDiscountValueText());
+        m_jPrice.setText("");
+        refreshTicket();
+        
+    }                                              
+    
 /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -1317,10 +1344,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jPanelScripts = new javax.swing.JPanel();
         m_jButtonsExt = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        m_jbtnDiscount = new javax.swing.JButton();
         m_jDiscount = new javax.swing.JLabel();
         m_jbtnScale1 = new javax.swing.JButton();
         m_jPanelBag = new javax.swing.JPanel();
+        m_jbtnDiscount = new javax.swing.JButton();
         m_jPanTicket = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -1398,30 +1425,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
         m_jButtonsExt.setLayout(new javax.swing.BoxLayout(m_jButtonsExt, javax.swing.BoxLayout.LINE_AXIS));
 
-        m_jbtnDiscount.setText(AppLocal.getIntString("button.discount")); // NOI18N
-        m_jbtnDiscount.setActionCommand(AppLocal.getIntString("Button.Discount")); // NOI18N
-        m_jbtnDiscount.setFocusPainted(false);
-        m_jbtnDiscount.setFocusable(false);
-        m_jbtnDiscount.setMargin(new java.awt.Insets(8, 14, 8, 14));
-        m_jbtnDiscount.setMaximumSize(new java.awt.Dimension(100, 36));
-        m_jbtnDiscount.setMinimumSize(new java.awt.Dimension(100, 36));
-        m_jbtnDiscount.setPreferredSize(new java.awt.Dimension(100, 36));
-        m_jbtnDiscount.setRequestFocusEnabled(false);
-        m_jbtnDiscount.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                m_jbtnDiscountActionPerformed(evt);
-            }
-        });
-        jPanel1.add(m_jbtnDiscount);
-
         m_jDiscount.setBackground(java.awt.Color.white);
         m_jDiscount.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         m_jDiscount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         m_jDiscount.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
-        m_jDiscount.setMaximumSize(new java.awt.Dimension(50, 30));
-        m_jDiscount.setMinimumSize(new java.awt.Dimension(50, 30));
+        m_jDiscount.setMaximumSize(new java.awt.Dimension(75, 30));
+        m_jDiscount.setMinimumSize(new java.awt.Dimension(75, 30));
         m_jDiscount.setOpaque(true);
-        m_jDiscount.setPreferredSize(new java.awt.Dimension(50, 30));
+        m_jDiscount.setPreferredSize(new java.awt.Dimension(75, 30));
         m_jDiscount.setRequestFocusEnabled(false);
         jPanel1.add(m_jDiscount);
 
@@ -1448,6 +1459,23 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jOptions.add(m_jPanelScripts, java.awt.BorderLayout.LINE_END);
 
         m_jPanelBag.setLayout(new java.awt.BorderLayout());
+
+        m_jbtnDiscount.setText(AppLocal.getIntString("button.discount")); // NOI18N
+        m_jbtnDiscount.setActionCommand(AppLocal.getIntString("button.discount")); // NOI18N
+        m_jbtnDiscount.setFocusPainted(false);
+        m_jbtnDiscount.setFocusable(false);
+        m_jbtnDiscount.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        m_jbtnDiscount.setMaximumSize(new java.awt.Dimension(100, 36));
+        m_jbtnDiscount.setMinimumSize(new java.awt.Dimension(100, 36));
+        m_jbtnDiscount.setPreferredSize(new java.awt.Dimension(100, 36));
+        m_jbtnDiscount.setRequestFocusEnabled(false);
+        m_jbtnDiscount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_jbtnDiscountActionPerformed(evt);
+            }
+        });
+        m_jPanelBag.add(m_jbtnDiscount, java.awt.BorderLayout.LINE_END);
+
         m_jOptions.add(m_jPanelBag, java.awt.BorderLayout.CENTER);
 
         m_jPanContainer.add(m_jOptions, java.awt.BorderLayout.NORTH);
@@ -1484,7 +1512,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         });
         jPanel2.add(m_jDown);
 
-        m_jDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_cancel.png"))); // NOI18N
+        m_jDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/delete_line.png"))); // NOI18N
         m_jDelete.setFocusPainted(false);
         m_jDelete.setFocusable(false);
         m_jDelete.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -1649,7 +1677,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         jPanel9.setLayout(new java.awt.GridBagLayout());
 
         m_jPrice.setBackground(java.awt.Color.white);
-        m_jPrice.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        m_jPrice.setFont(new java.awt.Font("Tahoma", 0, 16));
         m_jPrice.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         m_jPrice.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
         m_jPrice.setMaximumSize(new java.awt.Dimension(107, 30));
@@ -1665,7 +1693,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         jPanel9.add(m_jPrice, gridBagConstraints);
 
         m_jPor.setBackground(java.awt.Color.white);
-        m_jPor.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        m_jPor.setFont(new java.awt.Font("Tahoma", 0, 16));
         m_jPor.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         m_jPor.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
         m_jPor.setMaximumSize(new java.awt.Dimension(68, 30));
@@ -1767,15 +1795,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
     private void m_jbtnDiscountActionPerformed(java.awt.event.ActionEvent evt) {
         //click sets discount value
-
-        //stateTransition('\u00a7');
-        
-        dm.setDiscountValue(Float.valueOf(m_jPrice.getText().equals("") ? "0.0" : m_jPrice.getText())/100.0f);
-        m_jDiscount.setText(dm.getDiscountValueText());
-        m_jPrice.setText("");
-        refreshTicket();
-        
-    }                                              
+        setDiscount(Double.valueOf(m_jPrice.getText().equals("") ? "0.0" : m_jPrice.getText())/100.0f);
+    }   
 
     private void m_jEditLineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jEditLineActionPerformed
         
@@ -1846,11 +1867,17 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         JCustomerFinder finder = JCustomerFinder.getCustomerFinder(this, dlCustomers);
         finder.search(m_oTicket.getCustomer());
         finder.setVisible(true);
-        
+        CustomerInfo customer = finder.getSelectedCustomer();
         try {
-            m_oTicket.setCustomer(finder.getSelectedCustomer() == null
-                    ? null
-                    : dlSales.loadCustomerExt(finder.getSelectedCustomer().getId()));
+            if (customer != null) {
+                CustomerInfoExt customerExt = dlSales.loadCustomerExt(customer.getId());
+                m_oTicket.setCustomer(customerExt);
+                setDiscount(customerExt.getDiscount());
+            }
+            else {
+                m_oTicket.setCustomer(null);
+                setDiscount(new Double(0));
+            }
         } catch (BasicException e) {
             MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotfindcustomer"), e);
             msg.show(this);            

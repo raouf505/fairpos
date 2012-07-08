@@ -386,7 +386,7 @@ public class JRootApp extends JPanel implements AppView {
     }
 
     
-    private void printerStart() {
+    public void printerStart() {
         
         String sresource = m_dlSystem.getResourceAsXML("Printer.Start");
         if (sresource == null) {
