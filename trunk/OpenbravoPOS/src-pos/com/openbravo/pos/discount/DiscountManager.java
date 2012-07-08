@@ -43,8 +43,8 @@ public class DiscountManager {
     
     
     public void setDiscountValue(double val) {
-        if (val > 100)
-            val = 100;
+        if (val > 1.00)
+            val = 1.00;
         this.discountVal=val;
     }
     
