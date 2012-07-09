@@ -79,7 +79,7 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
  */
 public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFactoryApp, TicketsEditor {
    
-    private DiscountManager dm = new DiscountManager();
+    protected DiscountManager dm = new DiscountManager();
     
     // Variable numerica
     private final static int NUMBERZERO = 0;
