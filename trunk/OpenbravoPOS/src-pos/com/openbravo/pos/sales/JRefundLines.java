@@ -19,6 +19,7 @@
 
 package com.openbravo.pos.sales;
 
+import com.openbravo.pos.discount.DiscountManager;
 import java.awt.BorderLayout;
 import java.util.List;
 import com.openbravo.pos.forms.AppLocal;
@@ -126,35 +127,50 @@ public JRefundLines(DataLogicSystem dlSystem, JPanelTicketEdits jTicketEdit) {
 
     private void m_jbtnAddAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jbtnAddAllActionPerformed
 
+        m_jTicketEdit.dm.setDiscountValueParseFromLines(m_aLines);
+        
         for (int i = 0; i < m_aLines.size(); i++) {
             TicketLineInfo oLine = (TicketLineInfo) m_aLines.get(i);
-            TicketLineInfo oNewLine = new TicketLineInfo(oLine);            
-            oNewLine.setMultiply(-oLine.getMultiply());
-            m_jTicketEdit.addTicketLine(oNewLine);
+            if (!DiscountManager.isDiscountLine(oLine)) {
+                TicketLineInfo oNewLine = new TicketLineInfo(oLine);            
+                oNewLine.setMultiply(-oLine.getMultiply());
+                m_jTicketEdit.addTicketLine(oNewLine);
+                m_jTicketEdit.dm.discountRowsUpdate(m_jTicketEdit.getActiveTicket());
+            }
         }
         
     }//GEN-LAST:event_m_jbtnAddAllActionPerformed
 
     private void m_jbtnAddOneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jbtnAddOneActionPerformed
 
+        m_jTicketEdit.dm.setDiscountValueParseFromLines(m_aLines);
+        
         int index = ticketlines.getSelectedIndex();
         if (index >= 0) {
             TicketLineInfo oLine = (TicketLineInfo) m_aLines.get(index);
-            TicketLineInfo oNewLine = new TicketLineInfo(oLine);
-            oNewLine.setMultiply(-1.0);
-            m_jTicketEdit.addTicketLine(oNewLine);
+            if (!DiscountManager.isDiscountLine(oLine)) {
+                TicketLineInfo oNewLine = new TicketLineInfo(oLine);
+                oNewLine.setMultiply(-1.0);
+                m_jTicketEdit.addTicketLine(oNewLine);                
+                m_jTicketEdit.dm.discountRowsUpdate(m_jTicketEdit.getActiveTicket());
+            }
         }   
         
     }//GEN-LAST:event_m_jbtnAddOneActionPerformed
 
     private void m_jbtnAddLineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jbtnAddLineActionPerformed
 
+        m_jTicketEdit.dm.setDiscountValueParseFromLines(m_aLines);
+        
         int index = ticketlines.getSelectedIndex();
         if (index >= 0) {
             TicketLineInfo oLine = (TicketLineInfo) m_aLines.get(index);
-            TicketLineInfo oNewLine = new TicketLineInfo(oLine);            
-            oNewLine.setMultiply(-oLine.getMultiply());
-            m_jTicketEdit.addTicketLine(oNewLine);
+            if (!DiscountManager.isDiscountLine(oLine)) {
+                TicketLineInfo oNewLine = new TicketLineInfo(oLine);            
+                oNewLine.setMultiply(-oLine.getMultiply());
+                m_jTicketEdit.addTicketLine(oNewLine);
+                m_jTicketEdit.dm.discountRowsUpdate(m_jTicketEdit.getActiveTicket());
+            }
         }        
     }//GEN-LAST:event_m_jbtnAddLineActionPerformed
     

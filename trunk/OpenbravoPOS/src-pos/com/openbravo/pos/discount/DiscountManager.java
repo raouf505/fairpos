@@ -30,9 +30,8 @@ public class DiscountManager {
         return "## " + AppLocal.getIntString("button.discount");
     }
     
-    public String getDiscountLineText() {
-        //TODO: Concat button.discount with tax type
-        return getDiscountLinePrefix() + " " + "";
+    public String getDiscountLineText(TicketTaxInfo taxline) {
+        return getDiscountLinePrefix() + " " + taxline.getTaxInfo().getTaxCategoryID() + " " + 100*discountVal + "% of "  + Double.toString(taxline.getTax() + taxline.getSubTotal()); //XXX:CAUTION: "NN.NN%" used to parse discount amount in setDiscountValueParseFromLines()
     }
     
     public static boolean isDiscountLine(TicketLineInfo line) {
@@ -109,7 +108,7 @@ public class DiscountManager {
             
             ticket.insertLine(ticket.getLinesCount(),
                 new TicketLineInfo(
-                    getDiscountLinePrefix() + " " + taxline.getTaxInfo().getTaxCategoryID() + 100*discountVal + "% of "  + Double.toString(taxline.getTax() + taxline.getSubTotal()) , //+ " " + taxline.printTax() + " 1+tax * " + taxline.printSubTotal() + ") ,   
+                    getDiscountLineText(taxline),
                     taxline.getTaxInfo().getTaxCategoryID(),          
                     1.0, 
                     -taxline.getSubTotal() * discountVal,
@@ -131,6 +130,20 @@ public class DiscountManager {
         return Formats.CURRENCY.formatValue(new Double(getDiscountTotal()));
     }
     
+    
+    public void setDiscountValueParseFromLines(List<TicketLineInfo> lines) {
+        discountVal = 0.0;
+        for (int i = 0; i < lines.size(); i++) {
+            TicketLineInfo line = lines.get(i);
+            if (isDiscountLine(line)) {                
+                ///XXX: parses discount value from line string - there must be "%" with number before it
+                String text = line.getProductName().replaceAll ("%.*",""); 
+                text = text.replaceAll("^[^\\d]*", "");                
+                discountVal = Double.parseDouble(text) / 100.0;
+            }
+        }
+                
+    }
     
 }
 
