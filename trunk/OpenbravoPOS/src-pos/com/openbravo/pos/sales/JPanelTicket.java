@@ -250,6 +250,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         
         m_jDiscount.setVisible(true);
         m_jbtnDiscount.setVisible(true);
+        m_jbtnDiscount.setEnabled(m_App.getAppUserView().getUser().hasPermission("button.discount"));
     }
     
     public boolean deactivate() {
@@ -1344,10 +1345,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jPanelScripts = new javax.swing.JPanel();
         m_jButtonsExt = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
+        m_jbtnDiscount = new javax.swing.JButton();
         m_jDiscount = new javax.swing.JLabel();
         m_jbtnScale1 = new javax.swing.JButton();
         m_jPanelBag = new javax.swing.JPanel();
-        m_jbtnDiscount = new javax.swing.JButton();
         m_jPanTicket = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -1425,8 +1426,24 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
         m_jButtonsExt.setLayout(new javax.swing.BoxLayout(m_jButtonsExt, javax.swing.BoxLayout.LINE_AXIS));
 
+        m_jbtnDiscount.setText(AppLocal.getIntString("button.discount")); // NOI18N
+        m_jbtnDiscount.setActionCommand(AppLocal.getIntString("button.discount")); // NOI18N
+        m_jbtnDiscount.setFocusPainted(false);
+        m_jbtnDiscount.setFocusable(false);
+        m_jbtnDiscount.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        m_jbtnDiscount.setMaximumSize(new java.awt.Dimension(100, 36));
+        m_jbtnDiscount.setMinimumSize(new java.awt.Dimension(100, 36));
+        m_jbtnDiscount.setPreferredSize(new java.awt.Dimension(100, 36));
+        m_jbtnDiscount.setRequestFocusEnabled(false);
+        m_jbtnDiscount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_jbtnDiscountActionPerformed(evt);
+            }
+        });
+        jPanel1.add(m_jbtnDiscount);
+
         m_jDiscount.setBackground(java.awt.Color.white);
-        m_jDiscount.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        m_jDiscount.setFont(new java.awt.Font("Tahoma", 0, 16));
         m_jDiscount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         m_jDiscount.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
         m_jDiscount.setMaximumSize(new java.awt.Dimension(75, 30));
@@ -1459,23 +1476,6 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jOptions.add(m_jPanelScripts, java.awt.BorderLayout.LINE_END);
 
         m_jPanelBag.setLayout(new java.awt.BorderLayout());
-
-        m_jbtnDiscount.setText(AppLocal.getIntString("button.discount")); // NOI18N
-        m_jbtnDiscount.setActionCommand(AppLocal.getIntString("button.discount")); // NOI18N
-        m_jbtnDiscount.setFocusPainted(false);
-        m_jbtnDiscount.setFocusable(false);
-        m_jbtnDiscount.setMargin(new java.awt.Insets(8, 14, 8, 14));
-        m_jbtnDiscount.setMaximumSize(new java.awt.Dimension(100, 36));
-        m_jbtnDiscount.setMinimumSize(new java.awt.Dimension(100, 36));
-        m_jbtnDiscount.setPreferredSize(new java.awt.Dimension(100, 36));
-        m_jbtnDiscount.setRequestFocusEnabled(false);
-        m_jbtnDiscount.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                m_jbtnDiscountActionPerformed(evt);
-            }
-        });
-        m_jPanelBag.add(m_jbtnDiscount, java.awt.BorderLayout.LINE_END);
-
         m_jOptions.add(m_jPanelBag, java.awt.BorderLayout.CENTER);
 
         m_jPanContainer.add(m_jOptions, java.awt.BorderLayout.NORTH);
