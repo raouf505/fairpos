@@ -98,9 +98,11 @@ public class DiscountManager {
 
         TicketTaxInfo[] taxes = ticket.getTaxLines();  
         
+        this.discountTotal = 0;
+        
         if (this.discountVal < 0.001) return; //prevent displaying 0.00 discount lines
         
-        this.discountTotal = 0;
+        
         
         for (int i = 0; i < taxes.length; i++) {  
             TicketTaxInfo taxline = taxes[i];  
