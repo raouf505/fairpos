@@ -25,11 +25,11 @@
         <image>Printer.Ticket.Logo</image>
         <line></line>
         <line size="1">
-            <text align ="center" length="42" bold="true">Close cash report</text>            
+            <text align ="center" length="42" bold="true">Kassenabschluss-Bericht</text>            
         </line>
         <line></line>
         <line>
-            <text bold="true">Payments report</text>
+            <text bold="true">Kassensturz</text>
         </line>
         <line>
             <text align ="right" length="42">Total</text>
@@ -47,20 +47,20 @@
             <text>------------------------------------------</text>
         </line> 
         <line>
-            <text align ="left" length="32">Payments:</text>
+            <text align ="left" length="32">Bezahlungen:</text>
             <text align ="right" length="10">${payments.printPayments()}</text>
         </line>
         <line></line>
         <line size="1">
-            <text align ="left" length="32" bold="true">Total</text>
+            <text align ="left" length="32" bold="true">Summe</text>
             <text align ="right" length="10" bold="true">${payments.printPaymentsTotal()}</text>
         </line>
         <line></line>
         <line>
-            <text bold="true">Taxes report</text>
+            <text bold="true">Steuerbericht</text>
         </line>
         <line>
-            <text align ="right" length="42">Total</text>
+            <text align ="right" length="42">Summe</text>
         </line>
         <line>
             <text>------------------------------------------</text>
@@ -75,34 +75,34 @@
             <text>------------------------------------------</text>
         </line>
         <line>
-            <text align ="left" length="32">Receipts:</text>
+            <text align ="left" length="32">Kassenbons:</text>
             <text align ="right" length="10">${payments.printSales()}</text>
         </line>
         <line></line>
         <line size="1">
-            <text align ="left" length="32" bold="true">Subtotal</text>
+            <text align ="left" length="32" bold="true">Zwischensumme</text>
             <text align ="right" length="10" bold="true">${payments.printSalesBase()}</text>
         </line>
         <line size="1">
-            <text align ="left" length="22" bold="true">Total</text>
+            <text align ="left" length="22" bold="true">Summe</text>
             <text align ="right" length="10" bold="true">${payments.printSalesTaxes()}</text>
             <text align ="right" length="10" bold="true">${payments.printSalesTotal()}</text>
         </line>
         <line></line>
         <line>
-            <text length="18">Machine:</text>
+            <text length="18">Computer:</text>
             <text>${payments.printHost()}</text>
         </line>    
         <line>
-            <text length="18">Sequence:</text>
+            <text length="18">Sequenz:</text>
             <text length="24" align="right">${payments.printSequence()}</text>
         </line> 
         <line>
-            <text length="18">Start date:</text>
+            <text length="18">Startdatum:</text>
             <text length="24" align="right">${payments.printDateStart()}</text>
         </line>  
         <line>
-            <text length="18">End date:</text>
+            <text length="18">Enddatum:</text>
             <text length="24" align="right">${payments.printDateEnd()}</text>
         </line>  
     </ticket>

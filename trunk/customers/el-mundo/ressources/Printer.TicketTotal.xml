@@ -20,13 +20,13 @@
     along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <output>   
-    <display>
+    <display animation="scroll">
         <line>
-            <text align="left" length="10">Total.</text>
-            <text align="right" length="10">${ticket.printTotal()}</text>
+            <text align="left" length="10">Summe</text>
+            <text align="left" length="30">${ticket.printTotal()}</text>
         </line>
         <line>
-           <text align="center" length="20">Thank you.</text>
+           <text align="left" length="41">Vielen Dank fair Ihren Einkauf!</text>
         </line>
     </display>
 </output>

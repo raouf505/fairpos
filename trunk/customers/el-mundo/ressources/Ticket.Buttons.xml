@@ -20,7 +20,7 @@
     along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <configuration>
-    <button key="button.print" titlekey="button.print" template="Printer.TicketPreview"/>
+    <!-- <button key="button.print" titlekey="button.print" template="Printer.TicketPreview"/> -->
     <button key="button.opendrawer" titlekey="button.opendrawer" template="Printer.OpenDrawer"/>
     <!-- <event key="ticket.change" code="event.change"/> -->
     <!-- <event key="ticket.addline" code="event.addline"/> -->
@@ -28,11 +28,11 @@
     <!-- <event key="ticket.setline" code="event.setline"/> -->
     <!-- <event key="ticket.show" code="event.show"/> -->
     <!-- <event key="ticket.total" code="event.total"/> -->
-    <!-- <event key="ticket.close" code="event.close"/> -->   
-    <img-width value="64"/>
-    <img-height value="54"/>
+    <event key="ticket.close" code="event.close"/>
+    <img-width value="145"/>
+    <img-height value="58"/>
     <cat-height value="300" />
-    <taxesincluded value="false"/>   
+    <taxesincluded value="true"/>   
     <!-- <printselected value="true"/> -->    
     <!-- <taxcategoryid value="001"/> -->
     <!-- <pricevisible value="true" /> -->
