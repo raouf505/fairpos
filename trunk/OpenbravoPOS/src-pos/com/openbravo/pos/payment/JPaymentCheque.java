@@ -29,6 +29,7 @@ import com.openbravo.pos.util.RoundUtils;
 public class JPaymentCheque extends javax.swing.JPanel implements JPaymentInterface {
     
     private JPaymentNotifier m_notifier;
+    private CustomerInfoExt customerext;
 
     private double m_dPaid;
     private double m_dTotal;
@@ -46,12 +47,16 @@ public class JPaymentCheque extends javax.swing.JPanel implements JPaymentInterf
     }
     
     public void activate(CustomerInfoExt customerext, double dTotal, String transID) {
-        
-        m_dTotal = dTotal;
-        
+        this.customerext = customerext;
         
         m_jTendered.reset();
-        m_jTendered.activate();
+        
+        if (customerext == null) {            
+            m_jTendered.setEnabled(false);
+        } else {
+            m_dTotal = dTotal;            
+            m_jTendered.activate();
+        }
         
         printState();
         
@@ -64,20 +69,26 @@ public class JPaymentCheque extends javax.swing.JPanel implements JPaymentInterf
     }
 
     private void printState() {
-        
-        Double value = m_jTendered.getDoubleValue();
-        if (value == null) {
-            m_dPaid = m_dTotal;
+        if (customerext == null) {
+            m_jMoneyEuros.setText(null);
+            jlblMessage.setText(AppLocal.getIntString("message.nocustomernoinvoice"));
+            m_notifier.setStatus(false, false);
         } else {
-            m_dPaid = value / 100;
-        } 
 
-        m_jMoneyEuros.setText(Formats.CURRENCY.formatValue(new Double(m_dPaid)));
-        
-        int iCompare = RoundUtils.compare(m_dPaid, m_dTotal);
-        
-        // if iCompare > 0 then the payment is not valid
-        m_notifier.setStatus(m_dPaid > 0.0 && iCompare <= 0, iCompare == 0);
+            Double value = m_jTendered.getDoubleValue();
+            if (value == null) {
+                m_dPaid = m_dTotal;
+            } else {
+                m_dPaid = value / 100;
+            } 
+
+            m_jMoneyEuros.setText(Formats.CURRENCY.formatValue(new Double(m_dPaid)));
+
+            int iCompare = RoundUtils.compare(m_dPaid, m_dTotal);
+
+            // if iCompare > 0 then the payment is not valid
+            m_notifier.setStatus(m_dPaid > 0.0 && iCompare <= 0, iCompare == 0);
+        }
     }
     
     private class RecalculateState implements PropertyChangeListener {
@@ -102,6 +113,7 @@ public class JPaymentCheque extends javax.swing.JPanel implements JPaymentInterf
         jPanel4 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         m_jMoneyEuros = new javax.swing.JLabel();
+        jlblMessage = new javax.swing.JTextArea();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -134,6 +146,16 @@ public class JPaymentCheque extends javax.swing.JPanel implements JPaymentInterf
         jPanel4.add(m_jMoneyEuros);
         m_jMoneyEuros.setBounds(120, 20, 150, 25);
 
+        jlblMessage.setBackground(javax.swing.UIManager.getDefaults().getColor("Label.background"));
+        jlblMessage.setEditable(false);
+        jlblMessage.setLineWrap(true);
+        jlblMessage.setWrapStyleWord(true);
+        jlblMessage.setFocusable(false);
+        jlblMessage.setPreferredSize(new java.awt.Dimension(300, 72));
+        jlblMessage.setRequestFocusEnabled(false);
+        jPanel4.add(jlblMessage);
+        jlblMessage.setBounds(10, 200, 300, 72);
+
         add(jPanel4, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
     
@@ -144,6 +166,7 @@ public class JPaymentCheque extends javax.swing.JPanel implements JPaymentInterf
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JTextArea jlblMessage;
     private com.openbravo.editor.JEditorKeys m_jKeys;
     private javax.swing.JLabel m_jMoneyEuros;
     private com.openbravo.editor.JEditorCurrencyPositive m_jTendered;
