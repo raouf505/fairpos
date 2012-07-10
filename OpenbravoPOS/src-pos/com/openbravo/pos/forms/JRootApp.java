@@ -139,6 +139,7 @@ public class JRootApp extends JPanel implements AppView {
                         bsentence.putParameter("APP_NAME", Matcher.quoteReplacement(AppLocal.APP_NAME));
                         bsentence.putParameter("APP_VERSION", Matcher.quoteReplacement(AppLocal.APP_VERSION));
 
+                        // method list() is executing the SQL query
                         java.util.List l = bsentence.list();
                         if (l.size() > 0) {
                             JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("Database.ScriptWarning"), l.toArray(new Throwable[l.size()])));
