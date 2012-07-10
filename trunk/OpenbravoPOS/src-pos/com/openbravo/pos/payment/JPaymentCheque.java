@@ -74,6 +74,7 @@ public class JPaymentCheque extends javax.swing.JPanel implements JPaymentInterf
             jlblMessage.setText(AppLocal.getIntString("message.nocustomernoinvoice"));
             m_notifier.setStatus(false, false);
         } else {
+            jlblMessage.setText(null);
 
             Double value = m_jTendered.getDoubleValue();
             if (value == null) {
