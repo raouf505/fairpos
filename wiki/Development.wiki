@@ -6,8 +6,8 @@ Here you will find a quick start and a list of development tools we are using.
 = Quick start =
 
   # install PostgreSQL V9.0
-  # create an empty DB "openbravopos" with default settings
-  # import a DB dump shared from a project member via dropbox
+  # create an empty DB "openbravopos" with default settings (must be a fresh, empty DB; if DB exists, e.g. delete and create a new one)
+  # restore a DB dump shared from a project member via dropbox
   # remember Postgres user and password!
   # install OpenBravoPOS 2.30.2
   # patch this instalation with recent jar, postgresql-9.0-801.jdbc4.jar, reports and locales from your SVN/IDE or shared from a project member via dropbox
