@@ -6,6 +6,7 @@ package com.openbravo.pos.discount;
 
 
 import com.openbravo.format.Formats;
+import com.openbravo.pos.customers.CustomerInfoExt;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
@@ -88,8 +89,14 @@ public class DiscountManager {
         
         //(re-)set correct discount value
         if (ticketChanged(ticket)) {            
-            this.discountVal = 0.0;
-            //TODO: if customer selected, get discount from there
+            
+            CustomerInfoExt customer = ticket.getCustomer();
+            if (customer != null) {
+                this.discountVal = customer.getDiscount(); 
+            } else {
+                this.discountVal = 0.0;
+            }
+            
             currentTicket = ticket;
         }
  
