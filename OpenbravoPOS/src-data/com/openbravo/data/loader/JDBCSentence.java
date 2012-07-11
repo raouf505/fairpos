@@ -21,11 +21,8 @@ package com.openbravo.data.loader;
 
 import java.sql.*;
 import com.openbravo.basic.BasicException;
-import java.util.Arrays;
-import java.util.logging.Logger;
 
 public abstract class JDBCSentence extends BaseSentence {
-    private static Logger logger = Logger.getLogger("JDBCSentence");
     
     // Conexion
     // protected Connection m_c;
@@ -86,26 +83,10 @@ public abstract class JDBCSentence extends BaseSentence {
             } catch (SQLException eSQL) {
                 throw new BasicException(eSQL);
             }
-        }     
-        private byte[] removeUtf8Header (byte[] bytes) {//XXX
-            if (bytes == null) return null;
-            
-            byte[] arr0 = new byte[] {(byte) 0xEF, (byte) 0xBB, (byte) 0xBF};                   
-            byte[] arr1 = new byte[] {bytes[0],bytes[1], bytes[2]};
-
-            if (Arrays.equals(arr0, arr1)) {                           
-               bytes = Arrays.copyOfRange(bytes, 3, bytes.length);
-               
-               //debug print
-               String printThis = new String(Arrays.copyOfRange(bytes, 0, bytes.length > 100 ? 100 : bytes.length));
-               logger.info("removed utf-8 header from:\n----\n" + printThis + "\n...\n----\n");
-            }
-
-            return bytes;
         }
         public byte[] getBytes(int columnIndex) throws BasicException {
             try {
-                return removeUtf8Header(m_rs.getBytes(columnIndex));
+                return m_rs.getBytes(columnIndex);
             } catch (SQLException eSQL) {
                 throw new BasicException(eSQL);
             }

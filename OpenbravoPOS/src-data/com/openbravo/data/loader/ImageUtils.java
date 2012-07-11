@@ -25,10 +25,13 @@ import java.awt.image.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Arrays;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 public class ImageUtils {
     
+    private static Logger logger = Logger.getLogger("JDBCSentence");
     private static char[] HEXCHARS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
     
     /** Creates a new instance of ImageUtils */
@@ -49,6 +52,23 @@ public class ImageUtils {
         return resource;       
     }
     
+    private static byte[] removeUtf8Header (byte[] bytes) {//XXX
+        if (bytes == null) return null;
+
+        byte[] arr0 = new byte[] {(byte) 0xEF, (byte) 0xBB, (byte) 0xBF};                   
+        byte[] arr1 = new byte[] {bytes[0],bytes[1], bytes[2]};
+
+        if (Arrays.equals(arr0, arr1)) {                           
+           bytes = Arrays.copyOfRange(bytes, 3, bytes.length);
+
+           //debug print
+           String printThis = new String(Arrays.copyOfRange(bytes, 0, bytes.length > 100 ? 100 : bytes.length));
+           logger.info("removed utf-8 header from:\n----\n" + printThis + "\n...\n----\n");
+        }
+
+        return bytes;
+    }
+
     public static byte[] getBytesFromResource(String file) {
         
         InputStream in = ImageUtils.class.getResourceAsStream(file);
@@ -57,7 +77,7 @@ public class ImageUtils {
             return null;
         } else {        
             try {
-                return ImageUtils.readStream(in);
+                return removeUtf8Header(ImageUtils.readStream(in));
             } catch (IOException e) {
                 return new byte[0];
             } finally {
