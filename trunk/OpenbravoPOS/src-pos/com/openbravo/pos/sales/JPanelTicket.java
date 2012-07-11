@@ -19,6 +19,8 @@
 
 package com.openbravo.pos.sales;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -36,6 +38,7 @@ import com.openbravo.pos.scale.ScaleException;
 import com.openbravo.pos.payment.JPaymentSelect;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.ListKeyed;
+import com.openbravo.data.loader.DataParams;
 import com.openbravo.data.loader.SentenceList;
 import com.openbravo.pos.customers.CustomerInfoExt;
 import com.openbravo.pos.customers.CustomerInfo;
@@ -50,6 +53,7 @@ import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.forms.BeanFactoryApp;
 import com.openbravo.pos.forms.BeanFactoryException;
 import com.openbravo.pos.inventory.TaxCategoryInfo;
+import com.openbravo.pos.payment.JPaymentSelectCustomer;
 import com.openbravo.pos.payment.JPaymentSelectReceipt;
 import com.openbravo.pos.payment.JPaymentSelectRefund;
 import com.openbravo.pos.ticket.ProductInfoExt;
@@ -130,6 +134,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     
     private JPaymentSelect paymentdialogreceipt;
     private JPaymentSelect paymentdialogrefund;
+    private JPaymentSelect paymentdialogcommission;
 
     /** Creates new form JTicketView */
     public JPanelTicket() {
@@ -193,6 +198,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         paymentdialogreceipt.init(m_App);
         paymentdialogrefund = JPaymentSelectRefund.getDialog(this); 
         paymentdialogrefund.init(m_App);
+        paymentdialogcommission = JPaymentSelectCustomer.getDialog(this); 
+        paymentdialogcommission.init(m_App);
         
         // impuestos incluidos seleccionado ?
         m_jaddtax.setSelected("true".equals(m_jbtnconfig.getProperty("taxesincluded")));
@@ -305,7 +312,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             resetSouthComponent();
 
         } else {
-            if (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUND) {
+            if ((m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUND) || (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUNDCOMMISSION)) {
                 //Make disable Search and Edit Buttons
                 m_jEditLine.setVisible(false);
                 m_jList.setVisible(false);
@@ -861,7 +868,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                     if (!line.isProductScale()) {
                         TicketLineInfo newline = new TicketLineInfo(line);
                         //If it's a refund + button means one unit less
-                        if (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUND){
+                        if ((m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUND) || (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUNDCOMMISSION)) {
                             newline.setMultiply(newline.getMultiply() - 1.0);
                             paintTicketLine(i, newline);                   
                         }
@@ -887,7 +894,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                     if (!line.isProductScale()) {
                         TicketLineInfo newline = new TicketLineInfo(line);
                         //If it's a refund - button means one unit more
-                        if (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUND){
+                        if ((m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUND) || (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUNDCOMMISSION)) {
                             newline.setMultiply(newline.getMultiply() + 1.0);
                             if (newline.getMultiply() >= 0) {
                                 // do not remove, not intuitive, there's a dedicated button for remove
@@ -917,7 +924,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 } else {
                     double dPor = getPorValue();
                     TicketLineInfo newline = new TicketLineInfo(m_oTicket.getLine(i)); 
-                    if (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUND) {
+                    if ((m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUND) || (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUNDCOMMISSION))
+                            {
                         newline.setMultiply(-dPor);
                         newline.setPrice(Math.abs(newline.getPrice()));
                         paintTicketLine(i, newline);                
@@ -1015,16 +1023,25 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                     // Muestro el total
                     printTicket("Printer.TicketTotal", ticket, ticketext);
                     
+                    //if (ticket.getTicketType() != TicketInfo.RECEIPT_NORMAL)                        ticket = ticket;
                     
                     // Select the Payments information
-                    JPaymentSelect paymentdialog = ticket.getTicketType() == TicketInfo.RECEIPT_NORMAL
-                            ? paymentdialogreceipt
-                            : paymentdialogrefund;
-                    paymentdialog.setPrintSelected("true".equals(m_jbtnconfig.getProperty("printselected", "true")));
+                    JPaymentSelect paymentdialog = paymentdialogreceipt;
+                    if (ticket.getTicketType() == TicketInfo.RECEIPT_REFUND) paymentdialog = paymentdialogrefund;
+                    
+                    Double addedValue=0.0;
+                    
+                    if (ticket.getTicketType() == TicketInfo.RECEIPT_REFUNDCOMMISSION) { 
+                        paymentdialog = paymentdialogcommission;
+                        addedValue = ticket.getCustomer().getCurdebt();
+                    }
 
+                    
+                    
+                    paymentdialog.setPrintSelected("true".equals(m_jbtnconfig.getProperty("printselected", "true")));
                     paymentdialog.setTransactionID(ticket.getTransactionID());
 
-                    if (paymentdialog.showDialog(ticket.getTotal(), ticket.getCustomer())) {
+                    if (paymentdialog.showDialog(addedValue + ticket.getTotal(), ticket.getCustomer())) {
 
                         // assign the payments selected and calculate taxes.         
                         ticket.setPayments(paymentdialog.getSelectedPayments());

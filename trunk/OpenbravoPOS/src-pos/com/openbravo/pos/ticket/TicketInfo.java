@@ -44,6 +44,8 @@ public class TicketInfo implements SerializableRead, Externalizable {
     public static final int RECEIPT_NORMAL = 0;
     public static final int RECEIPT_REFUND = 1;
     public static final int RECEIPT_PAYMENT = 2;
+    public static final int RECEIPT_COMMISSION = 3; //like _NORMAL, but price will be nullified
+    public static final int RECEIPT_REFUNDCOMMISSION = 3; //things returned from _COMMISSION ticket - customer then pays the rest (items not returned)
 
     private static DateFormat m_dateformat = new SimpleDateFormat("hh:mm");
 

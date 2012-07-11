@@ -97,6 +97,7 @@ public class JTicketsBagTicket extends JTicketsBag {
         
         m_jEdit.setVisible(m_App.getAppUserView().getUser().hasPermission("sales.EditTicket"));
         m_jRefund.setVisible(m_App.getAppUserView().getUser().hasPermission("sales.RefundTicket"));
+        m_jCommission.setVisible(m_App.getAppUserView().getUser().hasPermission("sales.RefundTicket"));
         m_jPrint.setVisible(m_App.getAppUserView().getUser().hasPermission("sales.PrintTicket"));
              
         // postcondicion es que tenemos ticket activado aqui y ticket en el panel
@@ -181,12 +182,13 @@ public class JTicketsBagTicket extends JTicketsBag {
         try {
             m_jEdit.setEnabled(
                     m_ticket != null
-                    && (m_ticket.getTicketType() == TicketInfo.RECEIPT_NORMAL || m_ticket.getTicketType() == TicketInfo.RECEIPT_REFUND)
+                    && (m_ticket.getTicketType() == TicketInfo.RECEIPT_NORMAL || m_ticket.getTicketType() == TicketInfo.RECEIPT_REFUND || m_ticket.getTicketType() == TicketInfo.RECEIPT_REFUNDCOMMISSION)
                     && m_dlSales.isCashActive(m_ticket.getActiveCash()));
         } catch (BasicException e) {
             m_jEdit.setEnabled(false);
         }
         m_jRefund.setEnabled(m_ticket != null && m_ticket.getTicketType() == TicketInfo.RECEIPT_NORMAL);
+        m_jCommission.setEnabled(m_ticket != null && m_ticket.getTicketType() == TicketInfo.RECEIPT_NORMAL);
         m_jPrint.setEnabled(m_ticket != null);
         
         // Este deviceticket solo tiene una impresora, la de pantalla
@@ -227,6 +229,7 @@ public class JTicketsBagTicket extends JTicketsBag {
         jButton2 = new javax.swing.JButton();
         m_jEdit = new javax.swing.JButton();
         m_jRefund = new javax.swing.JButton();
+        m_jCommission = new javax.swing.JButton();
         m_jPrint = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         m_jPanelTicket = new javax.swing.JPanel();
@@ -292,6 +295,19 @@ public class JTicketsBagTicket extends JTicketsBag {
             }
         });
         m_jButtons.add(m_jRefund);
+
+        m_jCommission.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/inbox.png"))); // NOI18N
+        m_jCommission.setText(AppLocal.getIntString("button.commission")); // NOI18N
+        m_jCommission.setFocusPainted(false);
+        m_jCommission.setFocusable(false);
+        m_jCommission.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        m_jCommission.setRequestFocusEnabled(false);
+        m_jCommission.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_jCommissionActionPerformed(evt);
+            }
+        });
+        m_jButtons.add(m_jCommission);
 
         m_jPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/yast_printer.png"))); // NOI18N
         m_jPrint.setText(AppLocal.getIntString("button.print")); // NOI18N
@@ -446,6 +462,26 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             readTicket(selectedTicket.getTicketId(), selectedTicket.getTicketType());
         }
 }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void m_jCommissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jCommissionActionPerformed
+                
+        java.util.List aRefundLines = new ArrayList();
+        
+        for(int i = 0; i < m_ticket.getLinesCount(); i++) {
+            TicketLineInfo newline = new TicketLineInfo(m_ticket.getLine(i));
+            aRefundLines.add(newline);
+        } 
+        
+        m_ticketCopy = null;
+        m_TicketsBagTicketBag.showRefund();
+        m_panelticketedit.showRefundLines(aRefundLines);
+        
+        TicketInfo refundticket = new TicketInfo();
+        refundticket.setTicketType(TicketInfo.RECEIPT_REFUNDCOMMISSION);
+        refundticket.setCustomer(m_ticket.getCustomer());
+        refundticket.setPayments(m_ticket.getPayments());
+        m_panelticketedit.setActiveTicket(refundticket, null);      
+    }//GEN-LAST:event_m_jCommissionActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -459,6 +495,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JRadioButton jrbRefunds;
     private javax.swing.JRadioButton jrbSales;
     private javax.swing.JPanel m_jButtons;
+    private javax.swing.JButton m_jCommission;
     private javax.swing.JButton m_jEdit;
     private com.openbravo.editor.JEditorKeys m_jKeys;
     private javax.swing.JPanel m_jOptions;

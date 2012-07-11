@@ -340,6 +340,14 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         return ticket;
     }
 
+    private void updateCustomerDepthToZero(final CustomerInfoExt customer) throws BasicException {
+        getDebtUpdate().exec(new DataParams() { public void writeValues() throws BasicException {
+                            setDouble(1, customer.getCurdebt());
+                            setTimestamp(2, customer.getCurdate());
+                            setString(3, customer.getId());
+                        }});
+    }
+    
     public final void saveTicket(final TicketInfo ticket, final String location) throws BasicException {
 
         Transaction t = new Transaction(s) {
@@ -351,7 +359,11 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         case TicketInfo.RECEIPT_NORMAL:
                             ticket.setTicketId(getNextTicketIndex().intValue());
                             break;
-                        case TicketInfo.RECEIPT_REFUND:
+                        case TicketInfo.RECEIPT_REFUNDCOMMISSION:
+                            updateCustomerDepthToZero(ticket.getCustomer()); //after giving back items from commision, customer pays the rest from the commision ticket (ie. sum which was stored in customer's debt)
+                            ticket.setTicketId(getNextTicketRefundIndex().intValue());
+                            break;
+                        case TicketInfo.RECEIPT_REFUND:                        
                             ticket.setTicketId(getNextTicketRefundIndex().intValue());
                             break;
                         case TicketInfo.RECEIPT_PAYMENT:
