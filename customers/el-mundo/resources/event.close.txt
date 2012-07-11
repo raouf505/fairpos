@@ -12,7 +12,7 @@ for (i=0; i<ticket.payments.size(); i++) {
     }
 }
 if(isCash) {
-    JOptionPane.showMessageDialog(null, "Bitte Rückgeld " + change + " geben.", "Wechselgeld", JOptionPane.PLAIN_MESSAGE);
+    JOptionPane.showMessageDialog(null, "Bitte RÃ¼ckgeld " + change + " geben.", "Wechselgeld", JOptionPane.PLAIN_MESSAGE);
 }
 
 sales.printerStart();
