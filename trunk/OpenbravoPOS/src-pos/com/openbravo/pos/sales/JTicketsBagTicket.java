@@ -188,7 +188,11 @@ public class JTicketsBagTicket extends JTicketsBag {
             m_jEdit.setEnabled(false);
         }
         m_jRefund.setEnabled(m_ticket != null && m_ticket.getTicketType() == TicketInfo.RECEIPT_NORMAL);
-        m_jCommission.setEnabled(m_ticket != null && m_ticket.getTicketType() == TicketInfo.RECEIPT_NORMAL);
+        m_jCommission.setEnabled(false);
+        if (m_ticket != null && (m_ticket.getPayments().size()==1) && (((m_ticket.getPayments()).get(0)).getName().equals("debt")) && m_ticket.getTicketType() == TicketInfo.RECEIPT_NORMAL) {
+            m_jRefund.setEnabled(false);
+            m_jCommission.setEnabled(true);
+        }
         m_jPrint.setEnabled(m_ticket != null);
         
         // Este deviceticket solo tiene una impresora, la de pantalla
