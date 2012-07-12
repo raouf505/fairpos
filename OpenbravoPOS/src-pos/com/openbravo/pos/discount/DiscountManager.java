@@ -143,9 +143,8 @@ public class DiscountManager {
         for (int i = 0; i < lines.size(); i++) {
             TicketLineInfo line = lines.get(i);
             if (isDiscountLine(line)) {                
-                ///XXX: parses discount value from line string - there must be "%" with number before it
-                String text = line.getProductName().replaceAll ("%.*",""); 
-                text = text.replaceAll("^[^\\d]*", "");                
+                ///XXX: parses discount value from line string - there must be "%" with number before it, CAUTION: there may be 2 '%' signs in the line because of tax (eg. Discount MWSt. 19% 12.5%)
+                String text = line.getProductName().replaceAll (".* (\\d*\\.+\\d*)%$","$1");              
                 discountVal = Double.parseDouble(text) / 100.0;
             }
         }
