@@ -28,11 +28,11 @@ public class DiscountManager {
     private static TicketInfo currentTicket=null;
     
     private static String getDiscountLinePrefix() {
-        return "" + AppLocal.getIntString("button.discount");
+        return "" + AppLocal.getIntString("label.discount");
     }
     
     public String getDiscountLineText(TicketTaxInfo taxline) {
-        return getDiscountLinePrefix() + " " + taxline.getTaxInfo().getTaxCategoryID() + " " + 100*discountVal + "% of "  + Double.toString(taxline.getTax() + taxline.getSubTotal()); //XXX:CAUTION: "NN.NN%" used to parse discount amount in setDiscountValueParseFromLines()
+        return getDiscountLinePrefix() + " " + taxline.getTaxInfo().getName() + " " + 100*discountVal + "%"; //XXX:CAUTION: "NN.NN%" used to parse discount amount in setDiscountValueParseFromLines()
     }
     
     public static boolean isDiscountLine(TicketLineInfo line) {
