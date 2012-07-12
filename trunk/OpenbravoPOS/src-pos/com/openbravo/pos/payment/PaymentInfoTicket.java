@@ -32,6 +32,9 @@ public class PaymentInfoTicket extends PaymentInfo implements SerializableRead  
     private String m_transactionID;
     
     private double totalVoucherValueBeforeCap;
+    public double getChange() {
+        return totalVoucherValueBeforeCap - m_dTicket;
+    }    
     public String printChange() {
         return Formats.CURRENCY.formatValue(new Double(totalVoucherValueBeforeCap - m_dTicket));
     }    
