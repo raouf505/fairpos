@@ -306,8 +306,17 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
         return Formats.CURRENCY.formatValue(getPriceTax());
     }
 
+    public String printPriceTaxShort() {
+        String s = Formats.CURRENCY.formatValue(getPriceTax());
+        return s.substring(0, s.length()-2);
+    }
+
     public String printTax() {
         return Formats.CURRENCY.formatValue(getTax());
+    }
+
+    public String printTaxOrder() {
+        return tax == null ? "" : tax.getOrder() == null ? "" : Formats.INT.formatValue(tax.getOrder());
     }
 
     public String printTaxRate() {
@@ -320,5 +329,10 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 
     public String printValue() {
         return Formats.CURRENCY.formatValue(getValue());
+    }
+
+    public String printValueShort() {
+        String s = Formats.CURRENCY.formatValue(getValue());
+        return s.substring(0, s.length()-2);
     }
 }

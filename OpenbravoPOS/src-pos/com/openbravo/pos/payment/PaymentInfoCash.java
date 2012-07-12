@@ -45,6 +45,9 @@ public class PaymentInfoCash extends PaymentInfo {
     public double getPaid() {
         return m_dPaid;
     }
+    public double getChange() {
+        return m_dPaid - m_dTotal;
+    }    
     public String getTransactionID(){
         return "no ID";
     }

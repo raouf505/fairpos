@@ -79,10 +79,10 @@
         #end
         <line></line>    
         <line>
-            <text align ="left" length="17">Artikel</text>
-            <text align ="right" length="9">Preis</text>
-            <text align ="right" length="5"></text>
-            <text align ="right" length="9">Summe</text>
+            <text align ="left" length="20">Artikel</text>
+            <text align ="right" length="7">Preis €</text>
+            <text align ="right" length="4"></text>
+            <text align ="right" length="7">Summe €</text>
         </line>      
         <line>
              <text>------------------------------------------</text>
@@ -90,13 +90,14 @@
         #foreach ($ticketline in $ticket.getLines())
         <line>
             #if ($ticketline.isProductCom()) 
-                <text align ="left" length="17">-${ticketline.printName()}</text>
+                <text align ="left" length="20">-${ticketline.printName()}</text>
             #else
-                <text align ="left" length="17">${ticketline.printName()}</text>
+                <text align ="left" length="20">${ticketline.printName()}</text>
             #end
-            <text align ="right" length="9">${ticketline.printPriceTax()}</text>
-            <text align ="right" length="5">x${ticketline.printMultiply()}</text>
-            <text align ="right" length="9">${ticketline.printValue()}</text>
+            <text align ="right" length="7">${ticketline.printPriceTaxShort()}</text>
+            <text align ="right" length="4">x${ticketline.printMultiply()}</text>
+            <text align ="right" length="7">${ticketline.printValueShort()}</text>
+			<text align ="right" length="2">${ticketline.printTaxOrder()}</text>
         </line> 
         #if ($ticketline.productAttSetInstId)
         <line>
@@ -107,19 +108,30 @@
         <line>
              <text>------------------------------------------</text>
         </line>   
-        <line>
-            <text>Anzahl Artikel: </text>
-            <text align ="right" length="10">${ticket.printArticlesCount()}</text>
-        </line> 
-        <line>Reduzierte Artikel sind vom Umtausch ausgeschlossen.</line> 
+        #if ($ticket.hasStarredItems())
+		<line>
+			<text>* Reduzierte Artikel sind vom Umtausch</text>
+		</line> 
+		<line>
+			<text>  ausgeschlossen.</text>
+		</line> 
+		#end
         <line></line> 
+		<line>  
+		<text align ="left" length="17">MWSt.-Satz</text>  
+		<text align ="right" length="9">Warenwert</text> 
+		<text align ="right" length="14">MWSt.</text> 
+		</line>  
 	#foreach ($taxinfo in $taxes)  
 	#set( $taxline = $ticket.getTaxLine($taxinfo))
-	<line>  
-	<text align ="left" length="17">${taxline.getTaxInfo()}</text>  
-	<text align ="right" length="9">${taxline.printSubTotal()}</text> 
-	<text align ="right" length="14">${taxline.printTax()}</text> 
-	</line>  
+		#if ($taxline.getTax()>0)
+		<line>  
+		<text align ="left" length="2">${taxline.printTaxOrder()}</text>  
+		<text align ="left" length="15">${taxline.getTaxInfo()}</text>  
+		<text align ="right" length="9">${taxline.printSubTotal()}</text> 
+		<text align ="right" length="14">${taxline.printTax()}</text> 
+		</line>  
+		#end
 	#end 
 	<line> </line> 
         <line>
@@ -135,9 +147,12 @@
             <text align ="left" length="13" bold="true">Summe </text>
             <text align ="right" length="7" bold="true">${ticket.printTotal()}</text>
         </line>    
+        <line></line>     
+        <line>
+            <text bold="true">Ihre Zahlung:</text>
+        </line>  
         #foreach ($paymentline in $ticket.payments)      
          #if ($paymentline.name == "cash")
-        <line></line>     
         <line>
             <text bold="true">Bar</text>
         </line>  
@@ -145,15 +160,17 @@
              <text align="left" length="26">Gegeben:</text>
              <text align ="right" length="14">${paymentline.printPaid()}</text>
          </line>  
-        <line>
-            <text align="left" length="26">Rückgeld:</text>
-            <text align ="right" length="14">${paymentline.printChange()}</text>
-        </line>   
+			#if ($paymentline.getChange() > 0)
+			<line>
+				<text align="left" length="26">Rückgeld:</text>
+				<text align ="right" length="14">${paymentline.printChange()}</text>
+			</line>   
+			#end
          #end
          #if ($paymentline.name == "cashrefund")
         <line></line>     
         <line>
-            <text align ="left" length="26" bold="true">Rückzahlung</text>
+            <text align ="left" length="26" bold="true">Rückzahlung Bar</text>
             <text align ="right" length="14">${paymentline.printTotal()}</text>
          </line>
          #end
@@ -191,7 +208,7 @@
          #if ($paymentline.name == "cheque")
         <line></line>     
         <line>
-            <text bold="true">Scheck</text>
+            <text bold="true">Rechnung</text>
         </line>    
         <line>
             <text align ="right" length="40">${paymentline.printTotal()}</text>
@@ -200,7 +217,7 @@
          #if ($paymentline.name == "chequerefund")
         <line></line>     
         <line>
-            <text bold="true">Scheck Rückzahlung</text>
+            <text bold="true">Rechnung Erstattung</text>
         </line>    
         <line>
             <text align ="right" length="40">${paymentline.printTotal()}</text>
@@ -223,14 +240,14 @@
          #if ($paymentline.name == "free")
         <line></line>     
         <line>
-            <text align ="left" length="26" bold="true">Gratiseinkauf!!!</text>
+            <text align ="left" length="26" bold="true">Mitarbeiter-Gutschein</text>
             <text align ="right" length="14">${paymentline.printTotal()}</text>
         </line>    
          #end
          #if ($paymentline.name == "debt")
         <line></line>     
         <line>
-            <text bold="true">Kredit</text>
+            <text bold="true">Kommission</text>
         </line>    
         <line>
             <text align ="right" length="40">${paymentline.printTotal()}</text>
