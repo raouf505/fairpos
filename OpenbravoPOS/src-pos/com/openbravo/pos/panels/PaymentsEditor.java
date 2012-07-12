@@ -24,6 +24,8 @@ import java.awt.event.ActionEvent;
 import java.util.UUID;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.ComboBoxValModel;
+import com.openbravo.data.gui.JMessageDialog;
+import com.openbravo.data.gui.MessageInf;
 import com.openbravo.data.loader.IKeyed;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.data.user.EditorRecord;
@@ -31,7 +33,6 @@ import com.openbravo.editor.JEditorKeys;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSystem;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
@@ -63,13 +64,15 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
         initComponents();
        
         m_ReasonModel = new ComboBoxValModel();
-        m_ReasonModel.add(new PaymentReasonPositive("cashin", AppLocal.getIntString("transpayment.cashin")));
         m_ReasonModel.add(new PaymentReasonNegative("cashout", AppLocal.getIntString("transpayment.cashout")));              
+        m_ReasonModel.add(new PaymentReasonPositive("cashin", AppLocal.getIntString("transpayment.cashin")));
         m_jreason.setModel(m_ReasonModel);
         
         jTotal.addEditorKeys(m_jKeys);
 
         m_jreason.addActionListener(dirty);
+        m_jreason.setFocusable(false);
+        
         jTotal.addPropertyChangeListener("Text", dirty);
         
         // disable "-" button, makes no sense here
@@ -105,7 +108,13 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
         }
         
         jPanelTemplates.setVisible(true);
+        
+        jNotes.setFocusable(false);
+        deleteLineButton.setFocusable(false);
+        deleteNotesButton.setFocusable(false);
+        
         writeValueEOF();
+
     }
     
     public void writeValueEOF() {
@@ -121,7 +130,7 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
         m_sId = null;
         m_sPaymentId = null;
         datenew = null;
-        setReasonTotal("cashin", null);
+        setReasonTotal("cashout", null);
         jTotal.activate();
         m_sNotes = null;
         jNotes.setText(m_sNotes);
@@ -160,6 +169,12 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
         }
         deleteLineButton.setEnabled(enable);
         deleteNotesButton.setEnabled(enable);
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                jTotal.requestFocus();
+            }
+        });
     }
     
     public Object createValue() throws BasicException {
@@ -173,7 +188,13 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
         Double dtotal = jTotal.getDoubleValue();
         payment[5] = reason == null ? dtotal : reason.addSignum(dtotal);
         m_sNotes = jNotes.getText();
-        payment[6] = m_sNotes == null ? "" : m_sNotes.substring(0, m_sNotes.length()-2);
+        if (m_sNotes == null || m_sNotes.length()<1) {
+            JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.PaymentReasonNeeded")));
+            return null;
+        }
+        else {
+            payment[6] = m_sNotes.substring(0, m_sNotes.length()-1);
+        }
         return payment;
     }
     
