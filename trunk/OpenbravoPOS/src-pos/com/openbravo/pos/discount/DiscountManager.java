@@ -28,7 +28,7 @@ public class DiscountManager {
     private static TicketInfo currentTicket=null;
     
     private static String getDiscountLinePrefix() {
-        return "## " + AppLocal.getIntString("button.discount");
+        return "" + AppLocal.getIntString("button.discount");
     }
     
     public String getDiscountLineText(TicketTaxInfo taxline) {
