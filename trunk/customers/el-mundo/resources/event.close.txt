@@ -1,18 +1,37 @@
 import com.openbravo.pos.payment.PaymentInfo;
 import javax.swing.JOptionPane;
+import java.util.logging.Logger;
+
+private static Logger logger = Logger.getLogger("java.util.logging.Logger");
+
+
 
 boolean isCash = false;
+boolean isVoucher = false;
 String change = "";
 for (i=0; i<ticket.payments.size(); i++) {
     PaymentInfo p = ticket.payments.get(i);
 
-    if ("cash".equals(p.getName())) {
+    if ("paperin".equals(p.getName())) isVoucher = true;
+
+    if (
+      ("cash".equals(p.getName())) 
+      || ("paperin".equals(p.getName()))    
+    ) {
         isCash = true;
         change = p.printChange();
     }
+        
+    //logger.info(p.getName());
+    
 }
 if(isCash) {
-    JOptionPane.showMessageDialog(null, "Bitte Rückgeld " + change + " geben.", "Wechselgeld", JOptionPane.PLAIN_MESSAGE);
+    if (!isVoucher) {
+      JOptionPane.showMessageDialog(null, "Bitte Rückgeld " + change + " geben.", "Wechselgeld", JOptionPane.PLAIN_MESSAGE);
+    } else {
+      JOptionPane.showMessageDialog(null, "Bitte Gutschein " + change + " geben.", "Neue Gutschein", JOptionPane.PLAIN_MESSAGE);
+    }
+      
 }
 
 sales.printerStart();

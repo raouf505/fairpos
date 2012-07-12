@@ -67,8 +67,14 @@ public class JPaymentPaper extends javax.swing.JPanel implements JPaymentInterfa
     }
     
     public PaymentInfo executePayment() {
-
-        return new PaymentInfoTicket(m_dTicket, m_sPaper);
+        
+        if (m_dTicket - m_dTotal >= 0.0) {
+            // pago completo
+            return new PaymentInfoTicket(m_dTotal, m_sPaper, m_dTicket);
+        } else {
+            // pago parcial
+            return new PaymentInfoTicket(m_dTicket, m_sPaper,m_dTicket);
+        } 
     }    
     
     private void printState() {

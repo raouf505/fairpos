@@ -31,10 +31,22 @@ public class PaymentInfoTicket extends PaymentInfo implements SerializableRead  
     private String m_sName;
     private String m_transactionID;
     
+    private double totalVoucherValueBeforeCap;
+    public String printChange() {
+        return Formats.CURRENCY.formatValue(new Double(totalVoucherValueBeforeCap - m_dTicket));
+    }    
+    
+            
     /** Creates a new instance of PaymentInfoCash */
-    public PaymentInfoTicket(double dTicket, String sName) {
+    public PaymentInfoTicket(double dTicket, String sName) {   
         m_sName = sName;
         m_dTicket = dTicket;
+    }
+    
+    public PaymentInfoTicket(double dTicket, String sName, double totalVoucherValueBeforeCap) {
+        this.totalVoucherValueBeforeCap = totalVoucherValueBeforeCap;
+        this.m_sName = sName;
+        this.m_dTicket = dTicket;
     }
     
     public PaymentInfoTicket(double dTicket, String sName, String transactionID) {
@@ -75,5 +87,6 @@ public class PaymentInfoTicket extends PaymentInfo implements SerializableRead  
     public String printPaperTotal() {
         // En una devolucion hay que cambiar el signo al total
         return Formats.CURRENCY.formatValue(new Double(-m_dTicket));
-    }          
+    }
+    
 }
