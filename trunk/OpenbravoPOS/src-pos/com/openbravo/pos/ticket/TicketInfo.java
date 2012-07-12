@@ -465,4 +465,12 @@ public class TicketInfo implements SerializableRead, Externalizable {
     public String printTotalPaid() {
         return Formats.CURRENCY.formatValue(new Double(getTotalPaid()));
     }
+    
+    public boolean hasStarredItems () {
+        for (TicketLineInfo line : m_aLines) {
+            if (line.getProductName().contains("*"))
+                return true;
+        }
+        return false;
+    }
 }

@@ -67,4 +67,7 @@ public class TicketTaxInfo {
     public String printTotal() {
         return Formats.CURRENCY.formatValue(new Double(getTotal()));
     }    
+    public String printTaxOrder() {
+        return tax == null ? "" : tax.getOrder() == null ? "" : Formats.INT.formatValue(tax.getOrder());
+    }
 }
