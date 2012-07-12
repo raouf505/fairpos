@@ -171,6 +171,18 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
         }
     }  
     
+    /**
+     * Enables auto-insert on save, i.e. when pressing save, immediately a new 
+     * record is created.
+     * @param autoInsert true-enable auto-insert on save
+     */
+    public void setAutoInsert(boolean autoInsert) {
+        for (Component c:toolbar.getComponents()) {
+            if (c instanceof JSaver)
+                ((JSaver)c).setAutoInsert(autoInsert);
+        }
+    }
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is

@@ -19,17 +19,18 @@
 
 package com.openbravo.data.gui;
 
-import java.util.*;
 import javax.swing.*;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.LocalRes;
 import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.StateListener;
+import com.openbravo.pos.forms.AppLocal;
 
 public class JSaver extends JPanel implements StateListener {
     
     protected BrowsableEditableData m_bd;
-        
+    private boolean autoInsert = false;
+
     /** Creates new form JSaver */
     public JSaver(BrowsableEditableData bd) {
 
@@ -65,7 +66,16 @@ public class JSaver extends JPanel implements StateListener {
             break;
         }
    }   
-    
+
+    /**
+     * Enables auto-insert on save, i.e. when pressing save, immediately a new 
+     * record is created.
+     * @param autoInsert true-enable auto-insert on save
+     */
+    public void setAutoInsert(boolean autoInsert) {
+        this.autoInsert = autoInsert;
+    }
+        
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -127,6 +137,8 @@ public class JSaver extends JPanel implements StateListener {
         // Add your handling code here:
         try {
             m_bd.saveData();
+            if (autoInsert) 
+                m_bd.actionInsert();
         } catch (BasicException eD) {
             MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nosave"), eD);
             msg.show(this);
@@ -135,6 +147,12 @@ public class JSaver extends JPanel implements StateListener {
 
     private void jbtnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDeleteActionPerformed
         // Add your handling code here:
+        if (JOptionPane.showConfirmDialog(this
+                    , AppLocal.getIntString("message.DeleteConfirm") // Really delete?
+                    , AppLocal.getIntString("message.title")
+                    , JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) != JOptionPane.YES_OPTION)
+            return;
+        
         try {
             m_bd.actionDelete();
         } catch (BasicException eD) {

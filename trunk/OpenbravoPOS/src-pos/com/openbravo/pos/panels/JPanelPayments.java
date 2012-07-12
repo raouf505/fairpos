@@ -19,6 +19,9 @@
 
 package com.openbravo.pos.panels;
 
+import com.openbravo.basic.BasicException;
+import com.openbravo.data.gui.MessageInf;
+import com.openbravo.data.loader.LocalRes;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.ListProvider;
 import com.openbravo.data.user.ListProviderCreator;
@@ -42,6 +45,21 @@ public class JPanelPayments extends JPanelTable {
     protected void init() {
         m_dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");         
         jeditor = new PaymentsEditor(app, dirty);    
+    }
+    
+    @Override
+    protected void startNavigation () {
+        super.startNavigation();
+        // create new record when saving in this panel
+        setAutoInsert(true);
+        // create new record on entry
+        try {
+            bd.actionInsert();
+        } catch (BasicException eD) {
+            MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nonew"), eD);
+            msg.show(this);
+        }
+       
     }
     
     public ListProvider getListProvider() {

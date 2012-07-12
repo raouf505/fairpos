@@ -315,6 +315,8 @@ public class BrowsableEditableData {
                 m_Dirty.setDirty(true);
                 fireStateUpdate(); // ?
             }
+            // persist deletion
+            saveData();
         }
     }   
     
