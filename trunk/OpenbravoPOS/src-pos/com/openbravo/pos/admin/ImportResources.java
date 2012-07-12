@@ -32,7 +32,8 @@ import com.openbravo.pos.forms.JRootApp;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
+import javax.swing.text.JTextComponent;
 
 /**
  * Import resources from disk to DB, overwrite all.<br>
@@ -41,13 +42,14 @@ import javax.swing.JTextField;
  */
 public class ImportResources extends JPanel implements JPanelView {
 
+    private static final String NO_IMPORT = "---";
     private AppView m_App;
-    private String m_lastStatus;
-    private JTextField m_jText;
+    private String m_lastStatus = NO_IMPORT;
+    private JTextComponent m_jText;
 
     public ImportResources (AppView oApp) {
         m_App = oApp;
-        m_jText = new JTextField(m_lastStatus);
+        m_jText = new JTextArea(m_lastStatus);
         add (m_jText);
     }
     
@@ -59,7 +61,7 @@ public class ImportResources extends JPanel implements JPanelView {
     private boolean runImport (AppView app) {
 
         DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
-        m_lastStatus = "Running...";
+        m_lastStatus = "";
         
         String sScript = dlSystem.getInitScript() + "-importResources.sql";
 
@@ -87,11 +89,14 @@ public class ImportResources extends JPanel implements JPanelView {
                     return false;
                 }     
             } else {
+                m_lastStatus = NO_IMPORT;
+                m_jText.setText(m_lastStatus);
                 return false;
             }
         }   
 
         m_lastStatus += AppLocal.getIntString("message.ImportResourcesDone");
+        m_jText.setText(m_lastStatus);
         return true;
 
     }
@@ -113,7 +118,7 @@ public class ImportResources extends JPanel implements JPanelView {
 
     @Override
     public JComponent getComponent() {
-        return m_jText;
+        return this;
     }
     
 }
