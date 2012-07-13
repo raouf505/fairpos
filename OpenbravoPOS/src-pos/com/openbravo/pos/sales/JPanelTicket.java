@@ -395,6 +395,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
    }
 
     private void addTicketLine(ProductInfoExt oProduct, double dMul) {   
+        dm.discountRowsClear(m_oTicket);
         addTicketLine (oProduct, dMul, oProduct.getPriceSell());
     }
     
