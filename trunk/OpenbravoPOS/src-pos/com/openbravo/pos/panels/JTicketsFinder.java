@@ -204,7 +204,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         }
         
         // Receipt money
-        afilter[5] = jtxtMoney.getDoubleValue();
+        afilter[5] = jtxtMoney.getDoubleValue() == null ? null : jtxtMoney.getDoubleValue() / 100.0;
         afilter[4] = afilter[5] == null ? QBFCompareEnum.COMP_NONE : jcboMoney.getSelectedItem();
         
         // Date range
