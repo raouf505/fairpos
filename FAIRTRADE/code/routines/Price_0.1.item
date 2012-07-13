@@ -1,0 +1,113 @@
+package routines;
+
+import java.math.BigDecimal;
+
+
+public class Price {
+
+
+	public static double calcGepaPrice(String price, String mehrwertsteuer, String name, String beschreibung, String anzahl) {
+
+		  double p = price == null || price.isEmpty() ? 0f 
+		  : (new Float(price.replace(',', '.')) / (new Float(mehrwertsteuer)/100+1)  )  ;
+
+
+		  if ("KG".equals(anzahl)) {
+		    int res = i(name);
+		    if (res != -1) {
+		      return p*res/1000;
+		    }
+		    res = i(beschreibung);
+		    if (res != -1) {
+		      return p*res/1000;
+		    }   
+		  }
+		 
+		return p;
+
+	}
+
+		private static int i (String i) {
+			  if (i != null && ! i.isEmpty()) {
+			    java.util.regex.Matcher m = java.util.regex.Pattern.compile(".*(\\d{3})g.*").matcher(i);
+				if (m.find()) {
+				  String res = m.group(1);
+				  try {
+				    int gram = Integer.parseInt(res);
+					return gram;
+				  } catch (NumberFormatException nfe) {
+					System.out.println("What happened...?");
+				  }
+				} 
+			  }
+			  return -1;
+			}
+
+		
+		/**
+		 * Validate this.!
+		 * 
+		 * @param result
+		 * @param priceSell
+		 * @param pricesell_recommended
+		 * @return
+		 */
+		public static BigDecimal compareWithExistingPrice(BigDecimal priceSellSupplier, Double priceSell, Double pricesell_recommended) {
+			if (priceSell != null && pricesell_recommended != null // something in the DB
+				    && priceSell != pricesell_recommended // Exception
+					&& priceSellSupplier != null 
+					&& priceSell != priceSellSupplier.doubleValue()
+					) { 
+					// email report: artikelnummer, VK, pricesell, pricesell_recommended
+				priceSellSupplier = new BigDecimal(priceSell); // should stay the same
+			}
+			return priceSellSupplier;
+		}
+	
+		public static BigDecimal calcPriceIncludingCompare(String priceRecommended, String priceEK, Double priceSell, Double pricesell_recommended, String artnr) {
+			BigDecimal result = new BigDecimal(0);
+			try {
+			if (priceRecommended.isEmpty()) {
+				if (!priceEK.isEmpty()) {
+					result = new BigDecimal(priceEK.replace(',', '.'));
+				}
+			} else {
+				priceRecommended = priceRecommended.replace(".", ""); // in case of 1.040,00
+				result = new BigDecimal(priceRecommended.replace(',', '.'));
+			}
+			} catch (NumberFormatException nfe) {
+				System.out.println("Problem ("+artnr+")with wholesaleRecommendedPrice: "+priceRecommended + " , or purchasePrice:"+ priceEK);
+			}
+			if (priceSell != null && pricesell_recommended != null // something in the DB
+			    && priceSell != pricesell_recommended // Exception
+				&& priceSell != result.doubleValue()
+				) { 
+				// email report: artikelnummer, VK, pricesell, pricesell_recommended
+				result = new BigDecimal(priceSell); // should stay the same
+			}
+			
+			return result; 
+		}
+        
+		public static Double priceRecommended(String priceRecommended, String priceEK, String artnr) {
+			Double result = 0.0;
+			try {
+			priceRecommended = priceRecommended.replace(".", ""); // in case of 1.040,00
+			result = priceRecommended.isEmpty() ? 
+					( priceEK.isEmpty() ? 0.0 : new Double(priceEK.replace(',', '.')) ) : new Double(priceRecommended.replace(',', '.'));
+			} catch (NumberFormatException nfe) {
+				System.out.println("Problem in priceRecommended("+artnr+"): priceEK:"+priceEK+", priceRecommended:"+priceRecommended);
+			}
+			return result;
+		}
+		
+		public static Double priceEK(String ek) {
+			 Double result = 0.00;
+			 try {
+			 result =  ek.isEmpty() ? 0.0 : new Double(ek.replace(',', '.'))   ;
+			 } catch (NumberFormatException nfe) {
+				 System.out.println("Problem in priceEK(): " + ek);
+			 }
+			 return result;
+		 }
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:TalendMetadata="http://www.talend.org/metadata/connection/2010" xmlns:orgomg.cwm.resource.record="http:///orgomg/cwm/resource/record.ecore">
+  <TalendMetadata:DelimitedFileConnection xmi:id="_-_qiUcyxEeG198mGAf6-oA" name="repository.metadataFileDelimited" dataPackage="_-_qiUsyxEeG198mGAf6-oA" Server="Localhost 127.0.0.1" FilePath="C:/#Me/masterdata@fairpos/ar090519.rwl" Encoding="windows-1252" FieldSeparatorValue="&quot;;&quot;" RowSeparatorValue="&quot;\n&quot;" UseHeader="true" HeaderValue="1" FirstLineCaption="true"/>
+  <orgomg.cwm.resource.record:RecordFile xmi:id="_-_qiUsyxEeG198mGAf6-oA" name="repository.metadataFileDelimited" dataManager="_-_qiUcyxEeG198mGAf6-oA">
+    <ownedElement xsi:type="TalendMetadata:MetadataTable" xmi:id="_-_qiU8yxEeG198mGAf6-oA" id="_0s5SAMyxEeG198mGAf6-oA" label="metadata">
+      <feature xsi:type="TalendMetadata:MetadataColumn" xmi:id="_-_qiVMyxEeG198mGAf6-oA" label="ArtNr" length="4" talendType="id_String" pattern="&quot;dd-MM-yyyy&quot;"/>
+      <feature xsi:type="TalendMetadata:MetadataColumn" xmi:id="_-_qiVcyxEeG198mGAf6-oA" label="altern__Artnr" talendType="id_String" pattern="&quot;dd-MM-yyyy&quot;"/>
+      <feature xsi:type="TalendMetadata:MetadataColumn" xmi:id="_-_qiVsyxEeG198mGAf6-oA" label="EAN_Nummer" talendType="id_String" pattern="&quot;dd-MM-yyyy&quot;"/>
+      <feature xsi:type="TalendMetadata:MetadataColumn" xmi:id="_-_qiV8yxEeG198mGAf6-oA" label="EAN_Nummer_Vorl_" talendType="id_String" pattern="&quot;dd-MM-yyyy&quot;"/>
+      <feature xsi:type="TalendMetadata:MetadataColumn" xmi:id="_-_qiWMyxEeG198mGAf6-oA" label="Artikelbez__1_" length="53" talendType="id_String" pattern="&quot;dd-MM-yyyy&quot;"/>
+      <feature xsi:type="TalendMetadata:MetadataColumn" xmi:id="_-_qiWcyxEeG198mGAf6-oA" label="Artikelbez__2_" talendType="id_String" pattern="&quot;dd-MM-yyyy&quot;"/>
+      <feature xsi:type="TalendMetadata:MetadataColumn" xmi:id="_-_qiWsyxEeG198mGAf6-oA" label="ME" length="4" talendType="id_String" pattern="&quot;dd-MM-yyyy&quot;"/>
+      <feature xsi:type="TalendMetadata:MetadataColumn" xmi:id="_-_qiW8yxEeG198mGAf6-oA" label="WL_EK_Preis__excl_" length="5" talendType="id_String" pattern="&quot;dd-MM-yyyy&quot;"/>
+      <feature xsi:type="TalendMetadata:MetadataColumn" xmi:id="_-_qiXMyxEeG198mGAf6-oA" label="Verp_EH" length="4" talendType="id_String" pattern="&quot;dd-MM-yyyy&quot;"/>
+      <feature xsi:type="TalendMetadata:MetadataColumn" xmi:id="_-_qiXcyxEeG198mGAf6-oA" label="empf__VK_Pr___inkl_" length="5" talendType="id_String" pattern="&quot;dd-MM-yyyy&quot;"/>
+      <feature xsi:type="TalendMetadata:MetadataColumn" xmi:id="_-_qiXsyxEeG198mGAf6-oA" label="Preis_EH" length="4" talendType="id_String" pattern="&quot;dd-MM-yyyy&quot;"/>
+      <feature xsi:type="TalendMetadata:MetadataColumn" xmi:id="_-_qiX8yxEeG198mGAf6-oA" label="__Mwst" length="5" talendType="id_String" pattern="&quot;dd-MM-yyyy&quot;"/>
+      <feature xsi:type="TalendMetadata:MetadataColumn" xmi:id="_-_qiYMyxEeG198mGAf6-oA" label="WaGru" talendType="id_String" pattern="&quot;dd-MM-yyyy&quot;"/>
+      <feature xsi:type="TalendMetadata:MetadataColumn" xmi:id="_-_qiYcyxEeG198mGAf6-oA" label="WaGru_Bez_" length="23" talendType="id_String" pattern="&quot;dd-MM-yyyy&quot;"/>
+      <feature xsi:type="TalendMetadata:MetadataColumn" xmi:id="_-_qiYsyxEeG198mGAf6-oA" label="ArGru" talendType="id_String" pattern="&quot;dd-MM-yyyy&quot;"/>
+      <feature xsi:type="TalendMetadata:MetadataColumn" xmi:id="_-_qiY8yxEeG198mGAf6-oA" label="ArGr_Bez_" length="13" talendType="id_String" pattern="&quot;dd-MM-yyyy&quot;"/>
+      <feature xsi:type="TalendMetadata:MetadataColumn" xmi:id="_-_qiZMyxEeG198mGAf6-oA" label="Name_Projekt_Dok_" talendType="id_String" pattern="&quot;dd-MM-yyyy&quot;"/>
+      <feature xsi:type="TalendMetadata:MetadataColumn" xmi:id="_-_qiZcyxEeG198mGAf6-oA" label="Name_Produkt_Dok_" talendType="id_String" pattern="&quot;dd-MM-yyyy&quot;"/>
+    </ownedElement>
+  </orgomg.cwm.resource.record:RecordFile>
+</xmi:XMI>
