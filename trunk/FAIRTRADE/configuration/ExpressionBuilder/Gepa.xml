@@ -1,6 +1,6 @@
 <?xml version="1.1" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:expression="http:///expression.ecore">
-  <expression:EMFExpression id="null=>products=>name" expression="routines.Encoding.fixIt(row1.name )">
+  <expression:EMFExpression id="null=>products=>pricebuy" expression="routines.Price.calcGepaPrice(row1.price, row1.mehrwertsteuer, row1.name, row1.beschreibung, row1.anzahl)      ">
     <variables name="row1.artikelnr" value="null" talendType="id_String" nullable="true"/>
     <variables name="row1.Column1" value="null" talendType="id_String" nullable="true"/>
     <variables name="row1.ean" value="null" talendType="id_String" nullable="true"/>
@@ -23,8 +23,38 @@
     <variables name="row1.Column19" value="null" talendType="id_String" nullable="true"/>
     <variables name="row2.Extern" value="null" talendType="id_String" nullable="true"/>
     <variables name="row2.Intern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row3.id" value="null" talendType="id_String"/>
+    <variables name="row3.pricesell" value="0" talendType="id_Double"/>
+    <variables name="row3.pricesell_recommended" value="null" talendType="id_Double" nullable="true"/>
   </expression:EMFExpression>
-  <expression:EMFExpression id="null=>products=>pricesell" expression="new Object() { double a(String fromFile, Double fromDb, String tax) {&#xD;&#xA;&#xA;&#xA;//System.out.println(fromDb);&#xD;&#xA;double result = fromFile == null || fromFile.isEmpty() ? 0f : &#xD;&#xD;&#xA;(new Float(fromFile.replace(',', '.')) / (new Float(tax)/100+1)  )  ;&#xD;&#xA;&#xD;&#xA;return result;&#xD;&#xA;&#xD;&#xA;}}.a(row1.price, null, row1.mehrwertsteuer);       ">
+  <expression:EMFExpression id="null=>products=>pricesell_recommended" expression="routines.Price.calcGepaPrice(row1.price, row1.mehrwertsteuer, row1.name, row1.beschreibung, row1.anzahl)             ">
+    <variables name="row1.artikelnr" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column1" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.ean" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column3" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.beschreibung" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.anzahl" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column7" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column8" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.price" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column10" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.mehrwertsteuer" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column12" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column13" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.gruppennr" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.gruppenbeschr" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column16" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column17" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column18" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column19" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.Extern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.Intern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row3.id" value="null" talendType="id_String"/>
+    <variables name="row3.pricesell" value="0" talendType="id_Double"/>
+    <variables name="row3.pricesell_recommended" value="null" talendType="id_Double" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>products=>pricesell" expression="new Object(){ double a(String price, String mehrwertsteuer, String name, String beschreibung, String anzahl, Double pricesell, Double pricesell_recommended) {&#xD;&#xA; double p = routines.Price.calcGepaPrice(price, mehrwertsteuer, name, beschreibung, anzahl);            &#xD;&#xD;&#xA;&#xD;&#xA; p = routines.Price.compareWithExistingPrice(new BigDecimal(p), pricesell, pricesell_recommended).doubleValue();&#xD;&#xA;&#xD;&#xA; return p;&#xD;&#xD;&#xA;}}.a(row1.price, row1.mehrwertsteuer, row1.name, row1.beschreibung, row1.anzahl, row3.pricesell, row3.pricesell_recommended ) ">
     <variables name="row1.artikelnr" value="null" talendType="id_String" nullable="true"/>
     <variables name="row1.Column1" value="null" talendType="id_String" nullable="true"/>
     <variables name="row1.ean" value="null" talendType="id_String" nullable="true"/>
@@ -51,5 +81,90 @@
     <variables name="row3.pricesell" value="0" talendType="id_Double"/>
     <variables name="row3.pricesell_recommended" value="null" talendType="id_Double" nullable="true"/>
     <variables name="row3.pricesell_recomended" value="null" talendType="id_Double" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>products=>attributes" expression="&quot;Supplier: Gepa&quot;.getBytes() ">
+    <variables name="row1.artikelnr" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column1" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.ean" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column3" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.beschreibung" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.anzahl" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column7" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column8" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.price" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column10" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.mehrwertsteuer" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column12" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column13" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.gruppennr" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.gruppenbeschr" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column16" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column17" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column18" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column19" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.Extern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.Intern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row3.id" value="null" talendType="id_String"/>
+    <variables name="row3.pricesell" value="0" talendType="id_Double"/>
+    <variables name="row3.pricesell_recommended" value="null" talendType="id_Double" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>products=>name" expression="routines.Utility.name2(row1.name, row1.beschreibung, row1.artikelnr, row4.id, &quot;GEP&quot;) ">
+    <variables name="row1.artikelnr" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column1" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.ean" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column3" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.beschreibung" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.anzahl" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column7" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column8" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.price" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column10" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.mehrwertsteuer" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column12" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column13" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.gruppennr" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.gruppenbeschr" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column16" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column17" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column18" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column19" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.Extern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.Intern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row3.id" value="null" talendType="id_String"/>
+    <variables name="row3.pricesell" value="0" talendType="id_Double"/>
+    <variables name="row3.pricesell_recommended" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row4.id" value="null" talendType="id_String"/>
+    <variables name="row4.name" value="null" talendType="id_String"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>products=>category" expression="routines.Utility.defaultCategory(row2.Intern )">
+    <variables name="row1.artikelnr" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column1" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.ean" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column3" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.beschreibung" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.anzahl" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column7" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column8" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.price" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column10" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.mehrwertsteuer" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column12" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column13" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.gruppennr" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.gruppenbeschr" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column16" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column17" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column18" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Column19" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.Extern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.Intern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row3.id" value="null" talendType="id_String"/>
+    <variables name="row3.pricesell" value="0" talendType="id_Double"/>
+    <variables name="row3.pricesell_recommended" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row4.id" value="null" talendType="id_String"/>
+    <variables name="row4.name" value="null" talendType="id_String"/>
   </expression:EMFExpression>
 </xmi:XMI>

@@ -1,0 +1,87 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:expression="http:///expression.ecore">
+  <expression:EMFExpression id="null=>product=>category" expression="routines.Utility.defaultCategory(null)">
+    <variables name="row1.Artikelnummer" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Beschreibung" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Barcode" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.VK" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.EK" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.Extern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.Intern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row3.id" value="null" talendType="id_String"/>
+    <variables name="row3.pricesell" value="0" talendType="id_Double"/>
+    <variables name="row3.pricesell_recommended" value="null" talendType="id_Double" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>product=>pricesell_recommended" expression="routines.Price.priceRecommended(row1.VK, row1.EK, row1.Artikelnummer)">
+    <variables name="row1.Artikelnummer" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Beschreibung" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Barcode" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.VK" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.EK" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.Extern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.Intern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row3.id" value="null" talendType="id_String"/>
+    <variables name="row3.pricesell" value="0" talendType="id_Double"/>
+    <variables name="row3.pricesell_recommended" value="null" talendType="id_Double" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>product=>name" expression="row1.Beschreibung">
+    <variables name="row1.Artikelnummer" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Beschreibung" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Barcode" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.VK" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.EK" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.Extern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.Intern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row3.id" value="null" talendType="id_String"/>
+    <variables name="row3.pricesell" value="0" talendType="id_Double"/>
+    <variables name="row3.pricesell_recommended" value="null" talendType="id_Double" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>product=>code" expression="row1.Barcode">
+    <variables name="row1.Artikelnummer" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Beschreibung" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Barcode" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.VK" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.EK" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.Extern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.Intern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row3.id" value="null" talendType="id_String"/>
+    <variables name="row3.pricesell" value="0" talendType="id_Double"/>
+    <variables name="row3.pricesell_recommended" value="null" talendType="id_Double" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>product=>attributes" expression="routines.Utility.properties(&quot;Generic/Manuell&quot;)">
+    <variables name="row1.Artikelnummer" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Beschreibung" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Barcode" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.VK" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.EK" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.Extern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.Intern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row3.id" value="null" talendType="id_String"/>
+    <variables name="row3.pricesell" value="0" talendType="id_Double"/>
+    <variables name="row3.pricesell_recommended" value="null" talendType="id_Double" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>product=>pricesell" expression="routines.Price.calcPriceIncludingCompare(row1.VK, row1.EK, row3.pricesell, row3.pricesell_recommended, row1.Artikelnummer) ">
+    <variables name="row1.Artikelnummer" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Beschreibung" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Barcode" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.VK" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.EK" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row3.id" value="null" talendType="id_String"/>
+    <variables name="row3.pricesell" value="0" talendType="id_Double"/>
+    <variables name="row3.pricesell_recommended" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row2.Extern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.Intern" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>product=>pricebuy" expression="routines.Price.priceEK(row1.EK) ">
+    <variables name="row1.Artikelnummer" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Beschreibung" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.Barcode" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.VK" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.EK" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row3.id" value="null" talendType="id_String"/>
+    <variables name="row3.pricesell" value="0" talendType="id_Double"/>
+    <variables name="row3.pricesell_recommended" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row2.Extern" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.Intern" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+</xmi:XMI>

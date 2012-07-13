@@ -1,0 +1,33 @@
+package routines;
+
+
+public class Utility {
+
+ public static String eanOrArticleNumber(String ean, String articleNumber, String supplier) {
+	 
+	 return ean == null || ean.isEmpty() ? ( supplier + articleNumber ) : ean;
+ }
+ 
+ public static String name(String articleName1, String articleName2) {
+	return articleName1 + (articleName2.trim().isEmpty() ? "" : " " + articleName2); 
+ }
+ 
+ public static String name2(String articleName1, String articleName2, String artikelNr, String idWithSameName, String supplier) {
+	 return idWithSameName == null || (supplier + artikelNr).equals(idWithSameName) 
+	 		? routines.Utility.name(articleName1, articleName2)  
+			 : (routines.Utility.name(articleName1, articleName2)   + "_" + artikelNr );
+ }
+ 
+ 
+ public static String tax(String tax) {
+	 return tax  != null && "7".equals(tax.trim()) ? "reduziert" : "standard" ;
+ }
+ 
+ public static byte[] properties(String name) {
+	 return ("Supplier: " + name + "\012").getBytes();
+ }
+ 
+ public static String defaultCategory(String standard) {
+	 return standard != null ? standard : "LF001"  ;
+ }
+}
