@@ -858,8 +858,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 }      
                 
             // Add one product more to the selected line
-            } else if (cTrans == '+' 
-                    && m_iNumberStatusInput == NUMBERZERO && m_iNumberStatusPor == NUMBERZERO) {
+            } else if (cTrans == '+') {
+                    //if (m_iNumberStatusInput == NUMBERZERO && m_iNumberStatusPor == NUMBERZERO) 
                 int i = m_ticketlines.getSelectedIndex();
                 if (i < 0){
                     Toolkit.getDefaultToolkit().beep();
@@ -870,12 +870,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                         TicketLineInfo newline = new TicketLineInfo(line);
                         //If it's a refund + button means one unit less
                         if ((m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUND) || (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUNDCOMMISSION)) {
-                            newline.setMultiply(newline.getMultiply() - 1.0);
+                            newline.setMultiply(newline.getMultiply() - getInputValue());
                             paintTicketLine(i, newline);                   
                         }
                         else {
                             // add one unit to the selected line
-                            newline.setMultiply(newline.getMultiply() + 1.0);
+                            newline.setMultiply(newline.getMultiply() + getInputValue());
                             paintTicketLine(i, newline); 
                         }
                     }
@@ -883,8 +883,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
             // Delete one product of the selected line
             } else if (cTrans == '-' 
-                    && m_iNumberStatusInput == NUMBERZERO && m_iNumberStatusPor == NUMBERZERO
-                    && m_App.getAppUserView().getUser().hasPermission("sales.EditLines")) {
+                    //&& m_iNumberStatusInput == NUMBERZERO && m_iNumberStatusPor == NUMBERZERO
+                    && m_App.getAppUserView().getUser().hasPermission("sales.EditLines")
+                    ) {
                 
                 int i = m_ticketlines.getSelectedIndex();
                 if (i < 0){
@@ -896,7 +897,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                         TicketLineInfo newline = new TicketLineInfo(line);
                         //If it's a refund - button means one unit more
                         if ((m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUND) || (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUNDCOMMISSION)) {
-                            newline.setMultiply(newline.getMultiply() + 1.0);
+                            newline.setMultiply(newline.getMultiply() + getInputValue());
                             if (newline.getMultiply() >= 0) {
                                 // do not remove, not intuitive, there's a dedicated button for remove
                                 //removeTicketLine(i);
@@ -905,7 +906,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                             }
                         } else {
                             // substract one unit to the selected line
-                            newline.setMultiply(newline.getMultiply() - 1.0);
+                            newline.setMultiply(newline.getMultiply() - getInputValue());
                             if (newline.getMultiply() <= 0.0) {                   
                                 // do not remove, not intuitive, there's a dedicated button for remove
                                 //removeTicketLine(i); // elimino la linea
