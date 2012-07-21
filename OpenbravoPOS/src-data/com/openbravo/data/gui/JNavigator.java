@@ -83,7 +83,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
         }
 
         jbtnRefresh = new javax.swing.JButton();
-        jbtnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1downarrow.png")));
+        jbtnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/undo.png")));
         jbtnRefresh.setMargin(new java.awt.Insets(2, 8, 2, 8));
         jbtnRefresh.setFocusPainted(false);
         jbtnRefresh.setFocusable(false);
