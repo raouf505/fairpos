@@ -870,12 +870,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                         TicketLineInfo newline = new TicketLineInfo(line);
                         //If it's a refund + button means one unit less
                         if ((m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUND) || (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUNDCOMMISSION)) {
-                            newline.setMultiply(newline.getMultiply() - getInputValue());
+                            newline.setMultiply(getInputValue()!=0 ? -getInputValue() : newline.getMultiply() - 1 );
                             paintTicketLine(i, newline);                   
                         }
                         else {
                             // add one unit to the selected line
-                            newline.setMultiply(newline.getMultiply() + getInputValue());
+                            newline.setMultiply(getInputValue()!=0 ? getInputValue() : newline.getMultiply() + 1 );
                             paintTicketLine(i, newline); 
                         }
                     }
@@ -883,7 +883,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
             // Delete one product of the selected line
             } else if (cTrans == '-' 
-                    //&& m_iNumberStatusInput == NUMBERZERO && m_iNumberStatusPor == NUMBERZERO
+                    && m_iNumberStatusInput == NUMBERZERO && m_iNumberStatusPor == NUMBERZERO
                     && m_App.getAppUserView().getUser().hasPermission("sales.EditLines")
                     ) {
                 
@@ -897,7 +897,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                         TicketLineInfo newline = new TicketLineInfo(line);
                         //If it's a refund - button means one unit more
                         if ((m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUND) || (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUNDCOMMISSION)) {
-                            newline.setMultiply(newline.getMultiply() + getInputValue());
+                            newline.setMultiply(newline.getMultiply() + 1.0);
                             if (newline.getMultiply() >= 0) {
                                 // do not remove, not intuitive, there's a dedicated button for remove
                                 //removeTicketLine(i);
@@ -906,7 +906,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                             }
                         } else {
                             // substract one unit to the selected line
-                            newline.setMultiply(newline.getMultiply() - getInputValue());
+                            newline.setMultiply(newline.getMultiply() - 1.0);
                             if (newline.getMultiply() <= 0.0) {                   
                                 // do not remove, not intuitive, there's a dedicated button for remove
                                 //removeTicketLine(i); // elimino la linea
@@ -1637,7 +1637,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         m_jPanTotals.add(m_jLblTotalEuros2, gridBagConstraints);
 
@@ -1645,7 +1645,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         m_jPanTotals.add(m_jLblTotalEuros3, gridBagConstraints);
 
@@ -1653,7 +1653,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         m_jPanTotals.add(m_jLblTotalEuros4, gridBagConstraints);
 
@@ -1677,6 +1677,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         m_jPanTotals.add(m_jLblTotalEuros5, gridBagConstraints);
 
