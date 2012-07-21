@@ -165,6 +165,15 @@ public class PaymentsModel {
     public double getTotal() {
         return m_dPaymentsTotal.doubleValue();
     }
+    public double getCashTotal() {
+        Double cash = 0.0;
+        for (PaymentsLine payment : getPaymentLines()) {
+            String type = payment.getType();
+            if (type.startsWith("cash"))
+                cash += payment.getValue();
+        }
+        return cash;
+    }
     public String getHost() {
         return m_sHost;
     }
@@ -200,6 +209,10 @@ public class PaymentsModel {
 
     public String printPaymentsTotal() {
         return Formats.CURRENCY.formatValue(m_dPaymentsTotal);
+    }     
+    
+    public String printCashTotal() {
+        return Formats.CURRENCY.formatValue(getCashTotal());
     }     
     
     public List<PaymentsLine> getPaymentLines() {
