@@ -53,12 +53,17 @@ public class JPanelPayments extends JPanelTable {
         // create new record when saving in this panel
         setAutoInsert(true);
         // create new record on entry
-        try {
-            bd.actionInsert();
-        } catch (BasicException eD) {
-            MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nonew"), eD);
-            msg.show(this);
-        }
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    bd.actionInsert();
+                } catch (BasicException eD) {
+                    MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nonew"), eD);
+                    msg.show(getParent());
+                }
+            }
+        });
        
     }
     
