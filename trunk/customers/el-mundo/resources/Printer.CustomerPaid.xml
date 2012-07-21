@@ -20,74 +20,79 @@
     along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <output>
-    <display>
+<output>
+    <display animation="scroll">
         <line>
-            <text align="left" length="10">Total paid.</text>
-            <text align="right" length="10">${ticket.printTotalPaid()}</text>
+            <text align="left" length="10">Bezahlt</text>
+            <text align="right" length="30">${ticket.printTotalPaid()}</text>
         </line>
         <line>
-            <text align="center" length="20">Thank you.</text>
+           <text align="left" length="40">Vielen Dank fair Ihren Einkauf!</text>
         </line>
     </display>
     <ticket>
         <image>Printer.Ticket.Logo</image>
         <line></line>
         <line>
-            <text align="center" length="42">Receipt sample.</text>
+            <text align="center" length="40">Gottlieb-Daimler-Straße 18</text>
         </line>
         <line>
-            <text align="center" length="42">You can change this template</text>
+            <text align="center" length="40">73614 Schorndorf</text>
         </line>
         <line>
-            <text align="center" length="42">in the resources panel</text>
+            <text align="center" length="40">Tel. 07181/258150-Fax 07181/605300</text>
+        </line>
+        <line>
+            <text align="center" length="40">www.elmundo.de - kontakt@elmundo.de</text>
         </line>
         <line></line>
         <line>
-            <text align="left" length="15">Receipt:</text>
+            <text align="left" length="15">Beleg:</text>
             <text>${ticket.printId()}</text>
         </line>    
         <line>
-            <text align="left" length="15">Date:</text>
+            <text align="left" length="15">Datum:</text>
             <text>${ticket.printDate()}</text>
         </line>  
          #if ($ticket.getCustomer())
         <line>
-            <text align="left" length="15">Customer:</text>
+            <text align="left" length="15">Kunde:</text>
             <text>${ticket.getCustomer().printName()}</text>
         </line>      
         <line>
-            <text align="left" length="15"></text>
-            <text>${ticket.getCustomer().printTaxid()}</text>
+            <text align="left" length="15">Rabatt:</text>
+            <text>${ticket.getCustomer().printDiscount()}</text>
+    
         </line>  
         #end       
         <line></line> 
         <line size="1">
-            <text align ="left" length="16" bold="true">Total paid.</text>
+            <text align ="left" length="16" bold="true">Bezahlt</text>
             <text align ="right" length="20" bold="true">${ticket.printTotalPaid()}</text>
         </line>    
         <line>
-            <text align ="left" length="16" bold="true">Pending.</text>
+            <text align ="left" length="16" bold="true">Offener Betrag</text>
             <text align ="right" length="20" bold="true">${customer.printCurDebt()}</text>
         </line>          
         #foreach ($paymentline in $ticket.payments)      
         #if ($paymentline.name == "cash")
-        <line></line>     
         <line>
-            <text bold="true">Cash</text>
-        </line>  
-        <line>
-            <text align="left" length="22">Tendered:</text>
-            <text align ="right" length="20">${paymentline.printPaid()}</text>
-        </line>  
-        <line>
-            <text align="left" length="22">Change:</text>
-            <text align ="right" length="20">${paymentline.printChange()}</text>
-        </line>   
-        #end
+             <text align="left" length="26">Bar gegeben:</text>
+             <text align ="right" length="14">${paymentline.printPaid()}</text>
+         </line>  
+			#if ($paymentline.getChange() > 0)
+			<line>
+				<text align="left" length="26">Rückgeld:</text>
+				<text align ="right" length="14">${paymentline.printChange()}</text>
+			</line>   
+			#end
+         #end
+
         #if ($paymentline.name == "magcard")
         <line></line>        
         <line>
-            <text bold="true">Mag card</text>
+            <text align ="left" length="26" bold="true">Kartenzahlung</text>
+            <text align ="right" length="14">${paymentline.printTotal()}</text>
         </line>   
         <line>
             <text align ="right" length="42">${paymentline.printTotal()}</text>
@@ -112,30 +117,49 @@
         #if ($paymentline.name == "cheque")
         <line></line>     
         <line>
-            <text bold="true">Cheque</text>
+            <text bold="true">Rechnung</text>
         </line>    
         <line>
-            <text align ="right" length="42">${paymentline.printTotal()}</text>
+            <text align ="right" length="40">${paymentline.printTotal()}</text>
+        </line>    
+        <line></line>     
+        <line>
+            <text>Bitte innerhalb 14 Tagen überweisen auf</text>
+        </line>    
+        <line>
+            <text>Konto Nr. 5367360 - BLZ 60250010</text>
+        </line>    
+        <line>
+            <text>bei der Kreissparkasse Waiblingen.</text>
         </line>    
         #end
          #if ($paymentline.name == "paperin")
         <line></line>     
         <line>
-            <text bold="true">Note</text>
+            <text align ="left" length="26" bold="true">Gutschein</text>
+            <text align ="right" length="14">${paymentline.printTotal()}</text>
         </line>    
-        <line>
-            <text align ="right" length="42">${paymentline.printTotal()}</text>
-        </line>    
+    
          #end
         #end 
         <line></line>            
         <line>
-            <text align="left" length="15">Cashier:</text>
+            <text align="left" length="18">Es bediente Sie: </text>
             <text>${ticket.printUser()}</text>
         </line>
         <line></line>            
         <line>
-            <text align="center" length="42">Thank you for your visit.</text>
+            <text align="center" length="40">Vielen Dank fair Ihren Einkauf!</text>
+        </line>   
+        <line></line>            
+        <line>
+            <text align="center" length="40">Unsere Öffnungszeiten:</text>
+        </line>   
+        <line>
+            <text align="center" length="40">Mo.-Fr. 9:00-18:30</text>
+        </line>   
+        <line>
+            <text align="center" length="40">Sa. 9:00-14:00</text>
         </line>    
     </ticket>
     #foreach ($paymentline in $ticket.payments)      
