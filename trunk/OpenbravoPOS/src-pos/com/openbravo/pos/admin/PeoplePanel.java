@@ -23,6 +23,7 @@ import javax.swing.ListCellRenderer;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.ListCellRendererBasic;
 import com.openbravo.data.loader.ComparatorCreator;
+import com.openbravo.data.loader.PreparedSentence;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.panels.*;
 import com.openbravo.data.loader.TableDefinition;
@@ -52,7 +53,10 @@ public class PeoplePanel extends JPanelTable {
     }
     
     public ListProvider getListProvider() {
-        return new ListProviderCreator(tpeople);
+        String sql = tpeople.getListSQL();
+        sql += " ORDER BY NAME";
+        return new ListProviderCreator(new PreparedSentence(app.getSession(), sql, null, tpeople.getSerializerReadBasic()), 
+                null);
     }
     
     public SaveProvider getSaveProvider() {
