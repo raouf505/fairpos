@@ -239,4 +239,9 @@ public class CustomerInfoExt extends CustomerInfo {
     public void setDiscount(Double discount) {
         this.discount = discount;
     }
+
+    public String printDiscount() {       
+        return Formats.PERCENT.formatValue(getDiscount());
+    }
+
 }
