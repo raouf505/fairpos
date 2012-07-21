@@ -48,7 +48,7 @@ public class DataLogicAdmin extends BeanFactoryDataSingle {
         this.s = s;
         
         m_tpeople = new TableDefinition(s,
-            "PEOPLE ORDER BY NAME"
+            "PEOPLE"
             , new String[] {"ID", "NAME", "APPPASSWORD", "ROLE", "VISIBLE", "CARD", "IMAGE"}
             , new String[] {"ID", AppLocal.getIntString("label.peoplename"), AppLocal.getIntString("Label.Password"), AppLocal.getIntString("label.role"), AppLocal.getIntString("label.peoplevisible"), AppLocal.getIntString("label.card"), AppLocal.getIntString("label.peopleimage")}
             , new Datas[] {Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.BOOLEAN, Datas.STRING, Datas.IMAGE}
