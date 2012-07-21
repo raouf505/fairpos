@@ -33,6 +33,7 @@ import com.openbravo.editor.JEditorKeys;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSystem;
+import com.openbravo.pos.printer.DevicePrinter;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
@@ -131,7 +132,6 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
         m_sPaymentId = null;
         datenew = null;
         setReasonTotal("cashout", null);
-        jTotal.activate();
         m_sNotes = null;
         jNotes.setText(m_sNotes);
         enableButtons(true);
@@ -154,7 +154,6 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
         datenew = (Date) payment[2];
         m_sPaymentId = (String) payment[3];
         setReasonTotal(payment[4], payment[5]);
-        jTotal.activate();
         m_sNotes = (String) payment[6];
         jNotes.setText(m_sNotes);
         enableButtons(false);
@@ -163,18 +162,13 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
     private void enableButtons (boolean enable) {
         m_jreason.setEnabled(enable);
         jTotal.setEnabled(enable);   
+        jTotal.activate();
         jNotes.setEnabled(enable);
         for (Component b : jPanelTemplates.getComponents()) {
             b.setEnabled(enable);
         }
         deleteLineButton.setEnabled(enable);
         deleteNotesButton.setEnabled(enable);
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                jTotal.requestFocus();
-            }
-        });
     }
     
     public Object createValue() throws BasicException {
@@ -186,6 +180,8 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
         payment[4] = m_ReasonModel.getSelectedKey();
         PaymentReason reason = (PaymentReason) m_ReasonModel.getSelectedItem();
         Double dtotal = jTotal.getDoubleValue();
+        if (dtotal!=null) 
+            dtotal /= 100;
         payment[5] = reason == null ? dtotal : reason.addSignum(dtotal);
         m_sNotes = jNotes.getText();
         if (m_sNotes == null || m_sNotes.length()<1) {
@@ -195,6 +191,8 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
         else {
             payment[6] = m_sNotes.substring(0, m_sNotes.length()-1);
         }
+        for (DevicePrinter printer : m_App.getDeviceTicket().getDevicePrinterAll())
+            printer.openDrawer();
         return payment;
     }
     
@@ -209,6 +207,8 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
         
         m_ReasonModel.setSelectedKey(reasonfield);
         Double value = (Double)totalfield;
+        if (value!=null) 
+            value *= 100;
              
         PaymentReason reason = (PaymentReason) m_ReasonModel.getSelectedItem();     
         
@@ -292,8 +292,8 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
         jLabel7 = new javax.swing.JLabel();
         jPanelTemplates = new javax.swing.JPanel();
         jPanelTemplates1 = new javax.swing.JPanel();
-        deleteNotesButton = new javax.swing.JButton();
         deleteLineButton = new javax.swing.JButton();
+        deleteNotesButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         m_jKeys = new com.openbravo.editor.JEditorKeys();
 
@@ -330,19 +330,20 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
         jPanelTemplates1.setFocusable(false);
         jPanelTemplates1.setRequestFocusEnabled(false);
 
-        deleteNotesButton.setText(AppLocal.getIntString("Button.paymentdeletenotes")); // NOI18N
+        deleteLineButton.setText(AppLocal.getIntString("button.paymentdeleteline")); // NOI18N
+        deleteLineButton.setFocusable(false);
+        deleteLineButton.setMargin(new java.awt.Insets(2, 0, 2, 0));
+        deleteLineButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteLineButtonActionPerformed(evt);
+            }
+        });
+
+        deleteNotesButton.setText(AppLocal.getIntString("button.paymentdeletenotes")); // NOI18N
         deleteNotesButton.setFocusable(false);
         deleteNotesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteNotesButtonActionPerformed(evt);
-            }
-        });
-
-        deleteLineButton.setText(AppLocal.getIntString("Button.paymentdeleteline")); // NOI18N
-        deleteLineButton.setFocusable(false);
-        deleteLineButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteLineButtonActionPerformed(evt);
             }
         });
 
@@ -351,11 +352,11 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
         jPanelTemplates1Layout.setHorizontalGroup(
             jPanelTemplates1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelTemplates1Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(deleteLineButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
+                .addComponent(deleteLineButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(deleteNotesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(407, Short.MAX_VALUE))
+                .addComponent(deleteNotesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(512, Short.MAX_VALUE))
         );
         jPanelTemplates1Layout.setVerticalGroup(
             jPanelTemplates1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -410,7 +411,7 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
                     .addComponent(jPanelTemplates, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelTemplates1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         add(jPanel3, java.awt.BorderLayout.CENTER);
