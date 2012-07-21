@@ -76,6 +76,13 @@ public class AuxiliarPanel extends JPanelTable2 {
     }
 
     @Override
+    protected void startNavigation () {
+        super.startNavigation();
+        // create new record when saving in this panel
+        setAutoInsert(true);
+    }
+    
+    @Override
     public void activate() throws BasicException {
         filter.activate();
         
