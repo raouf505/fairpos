@@ -22,11 +22,11 @@
 <output>
     <display animation="scroll">
         <line>
-            <text align="left" length="10">Summe.</text>
+            <text align="left" length="10">Summe</text>
             <text align="left" length="30">${ticket.printTotal()}</text>
         </line>
         <line>
-            <text align="left" length="41">Vielen Dank fair Ihren Einkauf!</text>
+           <text align="left" length="40">Vielen Dank fair Ihren Einkauf!</text>
         </line>
     </display>
     #foreach ($paymentline in $ticket.payments)      

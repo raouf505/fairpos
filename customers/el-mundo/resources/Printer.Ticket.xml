@@ -67,9 +67,9 @@
             <text>${ticket.getCustomer().printName()}</text>
         </line>      
         <line>
-            <text align="left" length="15"></text>
-            <text>${ticket.getCustomer().printTaxid()}</text>
-        </line>  
+            <text align="left" length="15">Rabatt:</text>
+            <text>${ticket.getCustomer().printDiscount()}</text>
+        </line>      
         #end
         #if ($place != "")
         <line>
@@ -87,7 +87,14 @@
         <line>
              <text>------------------------------------------</text>
         </line>   
+		#set ($discountSeparatorPrinted=false)
         #foreach ($ticketline in $ticket.getLines())
+			#if ($ticketline.printName().startswith("Rabatt") && $discountSeparatorPrinted==false)
+				#set ($discountSeparatorPrinted=true)
+				<line>
+					 <text>------------------------------------------</text>
+				</line>   
+			#end
         <line>
             #if ($ticketline.isProductCom()) 
                 <text align ="left" length="20">-${ticketline.printName()}</text>
@@ -116,15 +123,19 @@
 			<text>  ausgeschlossen.</text>
 		</line> 
 		#end
-        <line></line> 
-		<line>  
-		<text align ="left" length="17">MWSt.-Satz</text>  
-		<text align ="right" length="9">Warenwert</text> 
-		<text align ="right" length="14">MWSt.</text> 
-		</line>  
+	#set ($taxheaderprinted=false)
 	#foreach ($taxinfo in $taxes)  
 	#set( $taxline = $ticket.getTaxLine($taxinfo))
-		#if ($taxline.getTax()>0)
+		#if ($taxline.getTax()!=0)
+			#if ($taxheaderprinted==false)
+				#set ($taxheaderprinted=true)
+				<line></line> 
+				<line>  
+				<text align ="left" length="17">MWSt.-Satz</text>  
+				<text align ="right" length="9">Warenwert</text> 
+				<text align ="right" length="14">MWSt.</text> 
+				</line>  
+			#end
 		<line>  
 		<text align ="left" length="2">${taxline.printTaxOrder()}</text>  
 		<text align ="left" length="15">${taxline.getTaxInfo()}</text>  
@@ -144,20 +155,13 @@
         </line> 
         <line></line> 
         <line size="2">
-            <text align ="left" length="13" bold="true">Summe </text>
-            <text align ="right" length="7" bold="true">${ticket.printTotal()}</text>
+            <text align ="left" length="10" bold="true">Summe </text>
+            <text align ="right" length="10" bold="true">${ticket.printTotal()}</text>
         </line>    
-        <line></line>     
-        <line>
-            <text bold="true">Ihre Zahlung:</text>
-        </line>  
         #foreach ($paymentline in $ticket.payments)      
          #if ($paymentline.name == "cash")
         <line>
-            <text bold="true">Bar</text>
-        </line>  
-        <line>
-             <text align="left" length="26">Gegeben:</text>
+             <text align="left" length="26">Bar gegeben:</text>
              <text align ="right" length="14">${paymentline.printPaid()}</text>
          </line>  
 			#if ($paymentline.getChange() > 0)
@@ -213,6 +217,16 @@
         <line>
             <text align ="right" length="40">${paymentline.printTotal()}</text>
         </line>    
+        <line></line>     
+        <line>
+            <text>Bitte innerhalb 14 Tagen überweisen auf</text>
+        </line>    
+        <line>
+            <text>Konto Nr. 5367360 - BLZ 60250010</text>
+        </line>    
+        <line>
+            <text>bei der Kreissparkasse Waiblingen.</text>
+        </line>    
          #end
          #if ($paymentline.name == "chequerefund")
         <line></line>     
@@ -262,6 +276,16 @@
         <line></line>            
         <line>
             <text align="center" length="40">Vielen Dank fair Ihren Einkauf!</text>
+        </line>   
+        <line></line>            
+        <line>
+            <text align="center" length="40">Unsere Öffnungszeiten:</text>
+        </line>   
+        <line>
+            <text align="center" length="40">Mo.-Fr. 9:00-18:30</text>
+        </line>   
+        <line>
+            <text align="center" length="40">Sa. 9:00-14:00</text>
         </line>   
     </ticket>
     #foreach ($paymentline in $ticket.payments)      

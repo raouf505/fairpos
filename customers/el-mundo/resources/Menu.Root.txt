@@ -36,8 +36,8 @@
     submenu = group.addSubmenu("/com/openbravo/images/contents.png", "Menu.StockManagement", "com.openbravo.pos.forms.MenuStockManagement");
         submenu.addTitle("Menu.StockManagement.Edit");
         submenu.addPanel("/com/openbravo/images/clipart.png", "Menu.Products", "com.openbravo.pos.inventory.ProductsPanel");
-        submenu.addPanel("/com/openbravo/images/ark2.png", "Menu.Auxiliar", "com.openbravo.pos.inventory.AuxiliarPanel");
         submenu.addPanel("/com/openbravo/images/package.png", "Menu.Categories", "com.openbravo.pos.inventory.CategoriesPanel");
+        submenu.addPanel("/com/openbravo/images/ark2.png", "Menu.Auxiliar", "com.openbravo.pos.inventory.AuxiliarPanel");
 
         submenu.addPanel("/com/openbravo/images/cash.png", "Menu.Taxes", "com.openbravo.pos.inventory.TaxPanel");
         submenu.addPanel("/com/openbravo/images/package.png", "Menu.TaxCategories", "com.openbravo.pos.inventory.TaxCategoriesPanel");
