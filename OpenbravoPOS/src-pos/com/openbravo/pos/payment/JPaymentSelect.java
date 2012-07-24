@@ -84,12 +84,12 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
         });
     }
     
-    public void m_jButtonPrintActionPerformed(java.awt.event.ActionEvent evt, javax.swing.JToggleButton button)
-    {        
-        if (button.isSelected())            
-            m_jButtonPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/fileprint.png"))); // NOI18N
-        else
-            m_jButtonPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/fileprintDeselect.png"))); // NOI18N        
+    private void m_jButtonSetSelectedIcon(boolean selected) {        
+            m_jButtonPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource(selected ? "/com/openbravo/images/fileprint.png" : "/com/openbravo/images/fileprintDeselect.png")));        
+    }
+    
+    public void m_jButtonPrintActionPerformed(java.awt.event.ActionEvent evt, javax.swing.JToggleButton button) {        
+        m_jButtonSetSelectedIcon(button.isSelected());
     }
             
     public void setPrintSelected(boolean value) {
@@ -114,6 +114,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
         this.customerext = customerext;        
 
         m_jButtonPrint.setSelected(printselected);     
+        m_jButtonSetSelectedIcon(printselected);
         
         m_jTotalEuros.setText(Formats.CURRENCY.formatValue(new Double(m_dTotal)));
         
