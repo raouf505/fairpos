@@ -35,12 +35,16 @@ import com.openbravo.data.gui.MessageInf;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.sales.TaxesLogic;
 import com.openbravo.pos.ticket.TaxInfo;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author adrianromero
  */
 public class JCatalog extends JPanel implements ListSelectionListener, CatalogSelector {
+    
+    private static Logger logger = Logger.getLogger("com.openbravo.pos.catalog.JCatalog");
     
     protected EventListenerList listeners = new EventListenerList();
     private DataLogicSales m_dlSales;   
@@ -192,10 +196,26 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
                     jcurrTab.addButton(new ImageIcon(tnbbutton.getThumbNailText(cat.getImage(), cat.getName())), new SelectedCategory(cat));
                 }
                 
-                // Add products
+                
                 java.util.List<ProductInfoExt> products = m_dlSales.getProductCatalog(catid);
-                for (ProductInfoExt prod : products) {
-                    jcurrTab.addButton(new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod))), new SelectedAction(prod));
+                
+                boolean reduceIcons = false;
+                
+                if (products.size()>1000) {
+                    logger.log(Level.WARNING, "there are more than 1000 items in the category! Reducing icons.");
+                    reduceIcons = true;
+                }
+                Icon sameIcon = null;
+                
+                //if (products.size()<1000) 
+                for (ProductInfoExt prod : products) {                                        
+                    if (sameIcon == null) sameIcon = new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(), "" + products.size() + " items! No icons."));
+                    
+                    if (reduceIcons) {
+                        jcurrTab.addButton(sameIcon, new SelectedAction(prod)); //use same image & (this also implies) text... IOT: prevent extensive memory usage (each icon is 33 kB)
+                    } else {
+                        jcurrTab.addButton(new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod))), new SelectedAction(prod));                                        
+                    }
                 }
             }
             
