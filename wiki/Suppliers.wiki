@@ -16,7 +16,7 @@
 ||[http://www.mahafaly.de MAHAFALY]||MAH||o||-||-||-||-||?||
 ||[http://www.suedsinn.de/ Südsinn] ^1^||SUD||o||-||-||-||-||?||
 ||[http://www.nature-and-art.de/ nature+art] ^1^||NAR||o||-||-||-||-||?||
-||_self-defined_||CSV||o||-||-||-||-||o||
+||_self-defined_||MAN||o||-||-||-||-||o||
 
  
 Legend:
