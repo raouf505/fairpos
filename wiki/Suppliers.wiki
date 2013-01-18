@@ -2,21 +2,21 @@
 
 = List of Suppliers =
 
-||Supplier  ||short||    articles  ||product info|| delivery receipt ||pictures||project info||auto update||
-||[http://www.gepa.de/wug Gepa]||GEP||x||o||o||o||o||o||
-||[http://www.el-puente.de/download/kataloge/ El Puente]||ELP||x||o||o||o||o||o||
-||[ftp://dwp.login-freiburg.de dwp eG]||DWP||x||o||o||o||-||o||
-||[ftp://contigozentrale.dyndns.org Contigo]||CON||x||-||-||-||-||o||
-||[http://www.globo-fairtrade.de/ Globo]||GLO||o||-||-||-||-||mail||
-||[http://akar-fairtrade.de/ Akar]||AKA||o||-||-||-||-||mail||
-||[http://www.regenwaldladen.de/ Regenwaldladen RWL]||RWL||o||-||-||-||-||o||
-||[http://www.fairhandeln-bayern.de FAIRKAUF Handelskontor eG (FKM), München]||FKM||o||o||-||-||-||?||
-||[http://www.sued-nord-kontor.de Süd-Nord Kontor GmbH, Hamburg]||SNK||o||o||-||-||-||?||
-||[http://www.fairtradecenter.info FTC - FairTradeCenter Breisgau GmbH]||FTC||o||-||-||-||-||?||
-||[http://www.mahafaly.de MAHAFALY]||MAH||o||-||-||-||-||?||
-||[http://www.suedsinn.de/ Südsinn] ^1^||SUD||o||-||-||-||-||?||
-||[http://www.nature-and-art.de/ nature+art] ^1^||NAR||o||-||-||-||-||?||
-||_self-defined_||MAN||o||-||-||-||-||o||
+||Supplier  ||short||    articles  || delivery receipt ||pictures||project info||auto update||
+||[http://www.gepa.de/wug Gepa]||GEP||x||o||o||o||o||
+||[http://www.el-puente.de/download/kataloge/ El Puente]||ELP||x||o||o||o||o||
+||[ftp://dwp.login-freiburg.de dwp eG]||DWP||x||o||o||-||o||
+||[ftp://contigozentrale.dyndns.org Contigo]||CON||x||o||o||-||o||
+||[http://www.globo-fairtrade.de/ Globo]||GLO||o||-||-||-||mail||
+||[http://akar-fairtrade.de/ Akar]||AKA||o||-||-||-||mail||
+||[http://www.regenwaldladen.de/ Regenwaldladen RWL]||RWL||o||-||-||-||o||
+||[http://www.fairhandeln-bayern.de FAIRKAUF Handelskontor eG (FKM), München]||FKM||o||o||-||-||?||
+||[http://www.sued-nord-kontor.de Süd-Nord Kontor GmbH, Hamburg]||SNK||o||o||-||-||?||
+||[http://www.fairtradecenter.info FTC - FairTradeCenter Breisgau GmbH]||FTC||o||-||-||-||?||
+||[http://www.mahafaly.de MAHAFALY]||MAH||o||-||-||-||?||
+||[http://www.suedsinn.de/ Südsinn] ^1^||SUD||o||-||-||-||?||
+||[http://www.nature-and-art.de/ nature+art] ^1^||NAR||o||-||-||-||?||
+||_self-defined_||MAN||o||-||-||-||o||
 
  
 Legend:
@@ -24,6 +24,8 @@ Legend:
   * o open point,to do
   * - currently not offered by supplier
   * auto update means we have an URL to automatically download
+
+Short name is used as prefix to make article numbers unique.
 
 ^1^ - not in WLP
 
