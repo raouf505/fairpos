@@ -7,6 +7,7 @@ Hints for reports with JasperReport / iReport.
 
 = Configuring iReport =
 
+  * install newest version
   * go to Extras->Options
     * set General->Compatibility to 3.1.4 *before* opening any FairPOS report
     * add OpenBravoPOS.jar under Classpath->Add JAR from your installation or for developers from your netbeans/dist dir
