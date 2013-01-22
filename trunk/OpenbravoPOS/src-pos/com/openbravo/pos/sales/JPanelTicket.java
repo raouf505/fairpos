@@ -407,6 +407,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     }
     
     protected void addTicketLine(TicketLineInfo oLine) {   
+        addTicketLine(oLine, true);
+    }
+    
+    protected void addTicketLine(TicketLineInfo oLine, boolean addAuxiliary) {   
         
         if (executeEventAndRefresh("ticket.addline", new ScriptArg("line", oLine)) == null) {
         
@@ -436,19 +440,20 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 m_ticketlines.addTicketLine(oLine); // Pintamos la linea en la vista... 
             }
             
-            
-            try {
-                //get attached non-auxiliary items & put them directly into ticket
-                java.util.List<ProductInfoExt> productsAttachedNonauxiliary = dlSales.getAttachedNonauxiliary(oLine.getProductID());
+            if (addAuxiliary) {
+                try {
+                    //get attached non-auxiliary items & put them directly into ticket
+                    java.util.List<ProductInfoExt> productsAttachedNonauxiliary = dlSales.getAttachedNonauxiliary(oLine.getProductID());
 
-                for (ProductInfoExt prodA: productsAttachedNonauxiliary) {
-                    //addTicketLineScaleCheck(prod, 1.0);   
-                    prodA.setCom(true);
-                    addTicketLine(prodA, oLine.getMultiply());
-                    prodA=prodA;
+                    for (ProductInfoExt prodA: productsAttachedNonauxiliary) {
+                        //addTicketLineScaleCheck(prod, 1.0);   
+                        prodA.setCom(true);
+                        addTicketLine(prodA, oLine.getMultiply());
+                        prodA=prodA;
+                    }
+                } catch (BasicException eb) {
+                    //
                 }
-            } catch (BasicException eb) {
-                //
             }
 
             visorTicketLine(oLine);

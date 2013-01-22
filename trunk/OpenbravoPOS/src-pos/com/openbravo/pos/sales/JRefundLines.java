@@ -134,7 +134,7 @@ public JRefundLines(DataLogicSystem dlSystem, JPanelTicketEdits jTicketEdit) {
             if (!DiscountManager.isDiscountLine(oLine)) {
                 TicketLineInfo oNewLine = new TicketLineInfo(oLine);            
                 oNewLine.setMultiply(-oLine.getMultiply());
-                m_jTicketEdit.addTicketLine(oNewLine);
+                m_jTicketEdit.addTicketLine(oNewLine, false);
                 m_jTicketEdit.dm.discountRowsUpdate(m_jTicketEdit.getActiveTicket());
             }
         }
@@ -151,7 +151,7 @@ public JRefundLines(DataLogicSystem dlSystem, JPanelTicketEdits jTicketEdit) {
             if (!DiscountManager.isDiscountLine(oLine)) {
                 TicketLineInfo oNewLine = new TicketLineInfo(oLine);
                 oNewLine.setMultiply(-1.0);
-                m_jTicketEdit.addTicketLine(oNewLine);                
+                m_jTicketEdit.addTicketLine(oNewLine, false);                
                 m_jTicketEdit.dm.discountRowsUpdate(m_jTicketEdit.getActiveTicket());
             }
         }   
@@ -168,7 +168,7 @@ public JRefundLines(DataLogicSystem dlSystem, JPanelTicketEdits jTicketEdit) {
             if (!DiscountManager.isDiscountLine(oLine)) {
                 TicketLineInfo oNewLine = new TicketLineInfo(oLine);            
                 oNewLine.setMultiply(-oLine.getMultiply());
-                m_jTicketEdit.addTicketLine(oNewLine);
+                m_jTicketEdit.addTicketLine(oNewLine, false);
                 m_jTicketEdit.dm.discountRowsUpdate(m_jTicketEdit.getActiveTicket());
             }
         }        
