@@ -19,6 +19,8 @@
 
 package com.openbravo.data.gui;
 
+import com.openbravo.pos.forms.AppLocal;
+
 import java.awt.*;
 import javax.swing.*;
 import com.openbravo.data.loader.LocalRes;
@@ -47,8 +49,68 @@ public class JMessageDialog extends javax.swing.JDialog {
         }
     }
     
-    public static void showMessage(Component parent, MessageInf inf) {
+    private static String replaceErrorMessage(String str) {
+        String ret = new String("-no_replacing-");
         
+        while (str.contains("\n")) {str = str.replace("\n", "");}
+        
+        
+        if (str.contains("ERROR: null value in column")) {
+            ret = str.replaceAll(".*ERROR: null value in column \"", "");
+            ret = ret.replaceAll("\" violates not-null.*","");
+            
+            if (ret.equals("pricebuy")) ret = AppLocal.getIntString("label.prodpricebuy");
+            if (ret.equals("pricesell")) ret = AppLocal.getIntString("label.prodpricesell");
+            if (ret.equals("taxcat")) ret = AppLocal.getIntString("label.taxcategory");
+            if (ret.equals("category"))  ret = AppLocal.getIntString("label.prodcategory");
+            ret = AppLocal.getIntString("message.CannotCreateEmpty",ret);                    
+            // pricebuy -> label.prodpricebuy
+        }
+        
+        if (str.contains("ERROR: duplicate key value violates unique constraint")) {
+            String key      = str.replaceAll(".*Detail: Key \\(", "").replaceAll("\\)=\\(.*","");
+            String value    = str.replaceAll(".*\\)=\\(","").replaceAll("\\) already exists.*","");
+            ret = AppLocal.getIntString("message.CannotCreateKey",key,value);                    
+        }   
+        
+        if (str.contains("is still referenced from table")) {            
+            String tab0 = str.replaceAll(".*update or delete on table \"", "").replaceAll("\" violates foreign key.*","");
+            String tab1 = str.replaceAll(".*is still referenced from table \"","").replaceAll("\".$","");
+            String keyName = str.replaceAll(".*Detail: Key \\(","").replaceAll("\\)=\\(.*","");
+            String keyVal = str.replaceAll(".*\\)=\\(","").replaceAll("\\) is still referenced from table.*","");
+            ret = AppLocal.getIntString("message.CannotDelete", keyName, keyVal, tab0, tab1);
+        }
+        
+        return ret;
+    }
+    
+    /*
+     * replaces in message dialog 'myMsg' if we
+     * 
+     */
+    private static JMessageDialog replaceErrorsWithKnownTemplates(JMessageDialog myMsg, MessageInf inf) {                
+        String windowText = "-no_replacing-";
+        
+        if (inf.getCause() != null) {
+            if (inf.getCause() instanceof Throwable) {
+                Throwable t = (Throwable) inf.getCause();
+                
+                windowText += "\n" + t.getMessage();
+                windowText = replaceErrorMessage(t.getMessage());                
+            }
+        }
+        
+        if (windowText.equals("-no_replacing-")) return myMsg;
+        
+        myMsg.jtxtException.setVisible(false);
+        myMsg.setTitle(AppLocal.getIntString("message.Error"));
+        myMsg.jlblMessage.setText(windowText);
+        myMsg.jscrException.setVisible(false);
+
+        return myMsg;
+    }
+    
+    public static void showMessage(Component parent, MessageInf inf) {
         Window window = getWindow(parent);      
         
         JMessageDialog myMsg;
@@ -67,7 +129,7 @@ public class JMessageDialog extends javax.swing.JDialog {
         myMsg.jlblErrorCode.setText(inf.getErrorCodeMsg());
         myMsg.jlblErrorCode.setVisible(false);
         myMsg.jlblMessage.setText("<html>" + inf.getMessageMsg());
-        
+                
         // Capturamos el texto de la excepcion...
         if (inf.getCause() == null) {
             myMsg.jtxtException.setText(null);
@@ -110,10 +172,15 @@ public class JMessageDialog extends javax.swing.JDialog {
             if (sb.length() > 0) {
                 myMsg.jscrException.setVisible(true);
                 myMsg.setSize(myMsg.getWidth(), 310);
-                myMsg.validateTree();
+                synchronized(myMsg.getTreeLock()) { //no idea why this is needed (...but it avoids: java.lang.IllegalStateException: This function should be called while holding treeLock    at java.awt.Component.checkTreeLock(Component.java:1196)
+                    myMsg.validateTree();
+                }
             }
         }       
         myMsg.jtxtException.setCaretPosition(0);            
+        
+        //FairPOS - replacing error messages (-> simplicity for users)
+        myMsg = replaceErrorsWithKnownTemplates(myMsg, inf); //comment this line to disable replacing
         
         //myMsg.show();
         myMsg.setVisible(true);
