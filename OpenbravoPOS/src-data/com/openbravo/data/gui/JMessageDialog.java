@@ -48,7 +48,7 @@ public class JMessageDialog extends javax.swing.JDialog {
             return getWindow(parent.getParent());
         }
     }
-    
+        
     private static String replaceErrorMessage(String str) {
         String ret = new String("-no_replacing-");
         
@@ -85,7 +85,7 @@ public class JMessageDialog extends javax.swing.JDialog {
     }
     
     /*
-     * replaces in message dialog 'myMsg' if we
+     * replaces in message dialog 'myMsg' if we recognize text of given error (in replaceErrorMessage())
      * 
      */
     private static JMessageDialog replaceErrorsWithKnownTemplates(JMessageDialog myMsg, MessageInf inf) {                
