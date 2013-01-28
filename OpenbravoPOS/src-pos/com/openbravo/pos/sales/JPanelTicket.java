@@ -996,7 +996,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
             // Totals() Igual;
             } else if (cTrans == ' ' || cTrans == '=') {
-                if (m_oTicket.getLinesCount() > 0) {
+                if ((m_oTicket.getLinesCount() > 0) || (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUNDCOMMISSION)) {
                     
                     if (closeTicket(m_oTicket, m_oTicketExt)) {
                         // Ends edition of current receipt
