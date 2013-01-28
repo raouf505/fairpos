@@ -198,7 +198,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         paymentdialogreceipt.init(m_App);
         paymentdialogrefund = JPaymentSelectRefund.getDialog(this); 
         paymentdialogrefund.init(m_App);
-        paymentdialogcommission = JPaymentSelectCustomer.getDialog(this); 
+        paymentdialogcommission = JPaymentSelectCommission.getDialog(this);         
         paymentdialogcommission.init(m_App);
         
         // impuestos incluidos seleccionado ?
