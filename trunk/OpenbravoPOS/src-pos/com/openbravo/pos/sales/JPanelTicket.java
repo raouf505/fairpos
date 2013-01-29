@@ -53,6 +53,7 @@ import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.forms.BeanFactoryApp;
 import com.openbravo.pos.forms.BeanFactoryException;
 import com.openbravo.pos.inventory.TaxCategoryInfo;
+import com.openbravo.pos.payment.JPaymentSelectCommission;
 import com.openbravo.pos.payment.JPaymentSelectCustomer;
 import com.openbravo.pos.payment.JPaymentSelectReceipt;
 import com.openbravo.pos.payment.JPaymentSelectRefund;
