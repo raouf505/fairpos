@@ -24,12 +24,15 @@ import com.openbravo.pos.forms.AppLocal;
 import java.awt.*;
 import javax.swing.*;
 import com.openbravo.data.loader.LocalRes;
+
 /**
  *
  * @author  adrian
  */
 public class JMessageDialog extends javax.swing.JDialog {
     
+    public static final String NO_REPLACING = "#no_replacing#";
+
     /** Creates new form JMessageDialog */
     private JMessageDialog(java.awt.Frame parent, boolean modal) {        
         super(parent, modal);       
@@ -49,36 +52,77 @@ public class JMessageDialog extends javax.swing.JDialog {
         }
     }
         
-    private static String replaceErrorMessage(String str) {
-        String ret = new String("-no_replacing-");
+
+    /**
+     * Change field/table name in SQL exception to resource text if known field.
+     * @param str SQL exception or extracted field/table name
+     * @return key name or unchanged if not found
+     */
+    private static String getLabelForDbField(String str) {
+        // fields
+        if (str.contains("pricebuy")) return AppLocal.getIntString("label.prodpricebuy");
+        if (str.contains("pricesell")) return AppLocal.getIntString("label.prodpricesell");
+        if (str.contains("taxcat")) return AppLocal.getIntString("label.taxcategory");
+        if (str.contains("category"))  return AppLocal.getIntString("label.prodcategory");
+        if (str.contains("name"))  return AppLocal.getIntString("label.prodname");
+        if (str.contains("reference"))  return AppLocal.getIntString("label.prodref");
+        if (str.contains("code"))  return AppLocal.getIntString("label.prodbarcode");
+        // tables
+        if (str.contains("products"))  return AppLocal.getIntString("Menu.Products");
+        if (str.contains("categories"))  return AppLocal.getIntString("label.prodcategory");
+        return str;
+    }
+    
+    /**
+     * Find field name in SQL exception between brackets and before "=" sign.
+     * Change to resource text if possible.
+     * @param str SQL exception
+     * @return key name
+     */
+    private static String getDbFieldName (String str) {
+        return getLabelForDbField( str.replaceAll(".* [»\"]\\(","").replaceAll("\\)=\\(.*","") );
+    }
+    
+    /**
+     * Find field value in SQL exception between brackets and after "=" sign.
+     * @param str SQL exception
+     * @return field value
+     */
+    private static String getDbValue(String str) {
+        return ( str.replaceAll(".*\\)=\\(","").replaceAll("\\).*","") );
+    }
+
+    /**
+     * Make known exceptions to more convenient error messages from text 
+     * resources, e.g. DB SQL exceptions.
+     * @param str exception text
+     * @return error specific text
+     */
+    private static String replaceErrorMessage(String msg) {
+        String ret = NO_REPLACING;
+        String str = msg.toLowerCase();
         
         while (str.contains("\n")) {str = str.replace("\n", "");}
         
+        if (str.contains("sqlexception")) {
         
-        if (str.contains("ERROR: null value in column")) {
-            ret = str.replaceAll(".*ERROR: null value in column \"", "");
-            ret = ret.replaceAll("\" violates not-null.*","");
-            
-            if (ret.equals("pricebuy")) ret = AppLocal.getIntString("label.prodpricebuy");
-            if (ret.equals("pricesell")) ret = AppLocal.getIntString("label.prodpricesell");
-            if (ret.equals("taxcat")) ret = AppLocal.getIntString("label.taxcategory");
-            if (ret.equals("category"))  ret = AppLocal.getIntString("label.prodcategory");
-            ret = AppLocal.getIntString("message.CannotCreateEmpty",ret);                    
-            // pricebuy -> label.prodpricebuy
-        }
-        
-        if (str.contains("ERROR: duplicate key value violates unique constraint")) {
-            String key      = str.replaceAll(".*Detail: Key \\(", "").replaceAll("\\)=\\(.*","");
-            String value    = str.replaceAll(".*\\)=\\(","").replaceAll("\\) already exists.*","");
-            ret = AppLocal.getIntString("message.CannotCreateKey",key,value);                    
-        }   
-        
-        if (str.contains("is still referenced from table")) {            
-            String tab0 = str.replaceAll(".*update or delete on table \"", "").replaceAll("\" violates foreign key.*","");
-            String tab1 = str.replaceAll(".*is still referenced from table \"","").replaceAll("\".$","");
-            String keyName = str.replaceAll(".*Detail: Key \\(","").replaceAll("\\)=\\(.*","");
-            String keyVal = str.replaceAll(".*\\)=\\(","").replaceAll("\\) is still referenced from table.*","");
-            ret = AppLocal.getIntString("message.CannotDelete", keyName, keyVal, tab0, tab1);
+            // SQL constraints, check for locale-independent keywords
+            if (str.contains("constraint")) {
+                // not null constraint
+                if (str.contains("null")) {
+                    ret = AppLocal.getIntString("message.CannotCreateEmpty", getDbFieldName(str) );
+                }
+                // unique key constraint//
+                else if (str.contains("unique")) {
+                    ret = AppLocal.getIntString("message.CannotCreateKey", getDbFieldName(str), getDbValue(str));                    
+                }   
+                // all the rest assumed as foreign key constraint problem = cannot delete (no locale-independent keywword found)
+                else {
+                    String tab0 = getLabelForDbField( str.replaceAll(".* [»\"]", "").replaceAll("[«\"].*","") );
+                    String tab1 = getLabelForDbField( str.replaceAll(".* \\(.*\\)=\\(.*\\).*[»\"]","").replaceAll("[«\"].*","") );
+                    ret = AppLocal.getIntString("message.CannotDelete", getDbFieldName(str), getDbValue(str), tab0, tab1);
+                }
+            }
         }
         
         return ret;
@@ -89,7 +133,7 @@ public class JMessageDialog extends javax.swing.JDialog {
      * 
      */
     private static JMessageDialog replaceErrorsWithKnownTemplates(JMessageDialog myMsg, MessageInf inf) {                
-        String windowText = "-no_replacing-";
+        String windowText = NO_REPLACING;
         
         if (inf.getCause() != null) {
             if (inf.getCause() instanceof Throwable) {
@@ -100,7 +144,7 @@ public class JMessageDialog extends javax.swing.JDialog {
             }
         }
         
-        if (windowText.equals("-no_replacing-")) return myMsg;
+        if (windowText.equals(NO_REPLACING)) return myMsg;
         
         myMsg.jtxtException.setVisible(false);
         myMsg.setTitle(AppLocal.getIntString("message.Error"));
@@ -134,7 +178,7 @@ public class JMessageDialog extends javax.swing.JDialog {
         if (inf.getCause() == null) {
             myMsg.jtxtException.setText(null);
         } else {            
-            StringBuffer sb = new StringBuffer(); 
+            StringBuilder sb = new StringBuilder(); 
             
             if (inf.getCause() instanceof Throwable) {
                 Throwable t = (Throwable) inf.getCause();
@@ -202,6 +246,7 @@ public class JMessageDialog extends javax.swing.JDialog {
         jlblIcon = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        jcmdDetails = new javax.swing.JButton();
         jcmdOK = new javax.swing.JButton();
 
         setTitle(LocalRes.getIntString("title.message")); // NOI18N
@@ -240,7 +285,18 @@ public class JMessageDialog extends javax.swing.JDialog {
 
         jPanel3.setLayout(new java.awt.BorderLayout());
 
+        jcmdDetails.setText(LocalRes.getIntString("button.details")); // NOI18N
+        jcmdDetails.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcmdDetailsActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jcmdDetails);
+
         jcmdOK.setText(LocalRes.getIntString("button.ok")); // NOI18N
+        jcmdOK.setAlignmentY(0.0F);
+        jcmdOK.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jcmdOK.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jcmdOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcmdOKActionPerformed(evt);
@@ -267,12 +323,17 @@ public class JMessageDialog extends javax.swing.JDialog {
         setVisible(false);
         dispose();
     }//GEN-LAST:event_closeDialog
+
+    private void jcmdDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdDetailsActionPerformed
+    jscrException.setVisible(!jscrException.isVisible());
+    }//GEN-LAST:event_jcmdDetailsActionPerformed
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JButton jcmdDetails;
     private javax.swing.JButton jcmdOK;
     private javax.swing.JLabel jlblErrorCode;
     private javax.swing.JLabel jlblIcon;
