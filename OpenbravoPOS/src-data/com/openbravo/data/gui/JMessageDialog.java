@@ -246,7 +246,6 @@ public class JMessageDialog extends javax.swing.JDialog {
         jlblIcon = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jcmdDetails = new javax.swing.JButton();
         jcmdOK = new javax.swing.JButton();
 
         setTitle(LocalRes.getIntString("title.message")); // NOI18N
@@ -285,18 +284,7 @@ public class JMessageDialog extends javax.swing.JDialog {
 
         jPanel3.setLayout(new java.awt.BorderLayout());
 
-        jcmdDetails.setText(LocalRes.getIntString("button.details")); // NOI18N
-        jcmdDetails.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcmdDetailsActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jcmdDetails);
-
         jcmdOK.setText(LocalRes.getIntString("button.ok")); // NOI18N
-        jcmdOK.setAlignmentY(0.0F);
-        jcmdOK.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jcmdOK.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jcmdOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcmdOKActionPerformed(evt);
@@ -323,17 +311,12 @@ public class JMessageDialog extends javax.swing.JDialog {
         setVisible(false);
         dispose();
     }//GEN-LAST:event_closeDialog
-
-    private void jcmdDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdDetailsActionPerformed
-    jscrException.setVisible(!jscrException.isVisible());
-    }//GEN-LAST:event_jcmdDetailsActionPerformed
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JButton jcmdDetails;
     private javax.swing.JButton jcmdOK;
     private javax.swing.JLabel jlblErrorCode;
     private javax.swing.JLabel jlblIcon;
