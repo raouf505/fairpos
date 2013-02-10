@@ -57,7 +57,9 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
     private Map<String, ProductInfoExt> m_productsset = new HashMap<String, ProductInfoExt>();
     
     // Set of Categoriespanels
-     private Set<String> m_categoriesset = new HashSet<String>();
+    private Set<String> m_categoriesset = new HashSet<String>();
+    // "too much products" messages
+    private Map<String,String> m_categoriessetMsg = new HashMap<String,String>();
         
     private ThumbNailBuilder tnbbutton;
     private ThumbNailBuilder tnbcat;
@@ -179,7 +181,6 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
     }   
     
     private void selectCategoryPanel(String catid) {
-
         try {
             // Load categories panel if not exists
             if (!m_categoriesset.contains(catid)) {
@@ -217,10 +218,20 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
                             jcurrTab.addButton(new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod))), new SelectedAction(prod));                                        
                         }
                     }
-                } else {                    
-                    JOptionPane.showConfirmDialog(this, "Too much items in category! ("+products.size()+") Nothing will be displayed.", AppLocal.getIntString("message.Error"), JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE);        
+                } else {                                  
+                    //do not create product icons, just set error message
+                    m_categoriessetMsg.put(catid, AppLocal.getIntString("message.toomuchitems", products.size())); 
                 }
             }
+            
+
+            //prevent diplaying too much items (not enough memory) & just display error 
+            String tooMuchProductsMsg = m_categoriessetMsg.get(catid);
+            if (tooMuchProductsMsg != null) {
+                JOptionPane.showConfirmDialog(this, tooMuchProductsMsg, AppLocal.getIntString("message.Error"), JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE);        
+                return;
+            }
+                    
             
             // Show categories panel
             CardLayout cl = (CardLayout)(m_jProducts.getLayout());
