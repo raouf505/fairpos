@@ -80,7 +80,8 @@ public class JMessageDialog extends javax.swing.JDialog {
      * @return key name
      */
     private static String getDbFieldName (String str) {
-        return getLabelForDbField( str.replaceAll(".* [»\"]\\(","").replaceAll("\\)=\\(.*","") );
+        str = str.replaceAll(".*detail: ((auf )*schlüssel »*|key )\\(",""); //detail: schlüssel »(code)= <<<vs>>> detail: auf schlüssel (id)
+        return getLabelForDbField( str.replaceAll("\\)=\\(.*","") );
     }
     
     /**
@@ -102,6 +103,10 @@ public class JMessageDialog extends javax.swing.JDialog {
         String ret = NO_REPLACING;
         String str = msg.toLowerCase();
         
+        //str = "org.postgresql.util.PSQLException: FEHLER: Aktualisieren oder Löschen in Tabelle »categories« verletzt Fremdschlüssel-Constraint »products_fk_1« von Tabelle »products«   Detail: Auf Schlüssel (id)=(9a4e0f4f-d9cc-45a5-943f-ee6495d86251) wird noch aus Tabelle »products« verwiesen.".toLowerCase();
+        //str = "com.openbravo.basic.BasicException: org.postgresql.util.PSQLException: FEHLER: NULL-Wert in Spalte »pricebuy« verletzt Not-Null-Constraint".toLowerCase();
+
+        
         while (str.contains("\n")) {str = str.replace("\n", "");}
         
         if (str.contains("sqlexception")) {
@@ -116,10 +121,10 @@ public class JMessageDialog extends javax.swing.JDialog {
                 else if (str.contains("unique")) {
                     ret = AppLocal.getIntString("message.CannotCreateKey", getDbFieldName(str), getDbValue(str));                    
                 }   
-                // all the rest assumed as foreign key constraint problem = cannot delete (no locale-independent keywword found)
+                // all the rest assumed as foreign key constraint problem = cannot delete (no locale-independent keyword found)
                 else {
-                    String tab0 = getLabelForDbField( str.replaceAll(".* [»\"]", "").replaceAll("[«\"].*","") );
-                    String tab1 = getLabelForDbField( str.replaceAll(".* \\(.*\\)=\\(.*\\).*[»\"]","").replaceAll("[«\"].*","") );
+                    String tab0 = getLabelForDbField( str.replaceAll(".*(aktualisieren oder löschen in tabelle »|update or delete on table \")", "").replaceAll("[«\"].*","") );
+                    String tab1 = getLabelForDbField( str.replaceAll(".*(is still referenced from table \"|wird noch aus tabelle »)","").replaceAll("(« verwiesen.|\"\\.)$","") );
                     ret = AppLocal.getIntString("message.CannotDelete", getDbFieldName(str), getDbValue(str), tab0, tab1);
                 }
             }
