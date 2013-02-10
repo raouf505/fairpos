@@ -198,6 +198,9 @@ public class JProductLineEdit extends javax.swing.JDialog {
         }
         
         TicketLineInfo newline = myMsg.init(app, oLine);
+        if (newline == null) {
+            return null;
+        }
         
         // put '* ' prefix to ticket lines where we changed the price (-> notice no printed ticket that these items are not available for refund)
         String prefixChangedPrice = "* ";
