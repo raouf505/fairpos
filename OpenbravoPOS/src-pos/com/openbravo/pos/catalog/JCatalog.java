@@ -207,15 +207,18 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
                 }
                 Icon sameIcon = null;
                 
-                //if (products.size()<1000) 
-                for (ProductInfoExt prod : products) {                                        
-                    if (sameIcon == null) sameIcon = new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(), "" + products.size() + " items! No icons."));
-                    
-                    if (reduceIcons) {
-                        jcurrTab.addButton(sameIcon, new SelectedAction(prod)); //use same image & (this also implies) text... IOT: prevent extensive memory usage (each icon is 33 kB)
-                    } else {
-                        jcurrTab.addButton(new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod))), new SelectedAction(prod));                                        
+                if (products.size()<1000) {
+                    for (ProductInfoExt prod : products) {
+                        if (sameIcon == null) sameIcon = new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(), "" + products.size() + " items! No icons."));
+
+                        if (reduceIcons) {
+                            jcurrTab.addButton(sameIcon, new SelectedAction(prod)); //use same image & (this also implies) text... IOT: prevent extensive memory usage (each icon is 33 kB)
+                        } else {
+                            jcurrTab.addButton(new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod))), new SelectedAction(prod));                                        
+                        }
                     }
+                } else {                    
+                    JOptionPane.showConfirmDialog(this, "Too much items in category! ("+products.size()+") Nothing will be displayed.", AppLocal.getIntString("message.Error"), JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE);        
                 }
             }
             
