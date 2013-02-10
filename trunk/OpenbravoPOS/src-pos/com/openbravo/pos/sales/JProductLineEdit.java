@@ -52,15 +52,15 @@ public class JProductLineEdit extends javax.swing.JDialog {
     }
     
     private TicketLineInfo init(AppView app, TicketLineInfo oLine) throws BasicException {
-        // Inicializo los componentes
+         // Inicializo los componentes
         initComponents();
-        oLine.setPrice(oLine.getPrice()*100);
+        m_oLine = new TicketLineInfo(oLine);
+        m_oLine.setPrice(m_oLine.getPrice()*100);
         
-        if (oLine.getTaxInfo() == null) {
+        if (m_oLine.getTaxInfo() == null) {
             throw new BasicException(AppLocal.getIntString("message.cannotcalculatetaxes"));
         }
 
-        m_oLine = new TicketLineInfo(oLine);
         m_bunitsok = true;
         m_bpriceok = true;
 
@@ -69,10 +69,10 @@ public class JProductLineEdit extends javax.swing.JDialog {
         m_jPriceTax.setEnabled(app.getAppUserView().getUser().hasPermission("com.openbravo.pos.sales.JPanelTicketEdits"));
         
         m_jName.setText(m_oLine.getProperty("product.name"));
-        m_jUnits.setDoubleValue(oLine.getMultiply());
-        m_jPrice.setDoubleValue(oLine.getPrice()); 
-        m_jPriceTax.setDoubleValue(oLine.getPriceTax());
-        m_jTaxrate.setText(oLine.getTaxInfo().getName());
+        m_jUnits.setDoubleValue(m_oLine.getMultiply());
+        m_jPrice.setDoubleValue(m_oLine.getPrice()); 
+        m_jPriceTax.setDoubleValue(m_oLine.getPriceTax());
+        m_jTaxrate.setText(m_oLine.getTaxInfo().getName());
         
         m_jName.addPropertyChangeListener("Edition", new RecalculateName());
         m_jUnits.addPropertyChangeListener("Edition", new RecalculateUnits());
