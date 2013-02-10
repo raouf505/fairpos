@@ -68,8 +68,8 @@ public class JMessageDialog extends javax.swing.JDialog {
         if (str.contains("reference"))  return AppLocal.getIntString("label.prodref");
         if (str.contains("code"))  return AppLocal.getIntString("label.prodbarcode");
         // tables
-        if (str.contains("products"))  return AppLocal.getIntString("Menu.Products");
-        if (str.contains("categories"))  return AppLocal.getIntString("label.prodcategory");
+        if (str.equals("products"))  return AppLocal.getIntString("Menu.Products");
+        if (str.equals("categories"))  return AppLocal.getIntString("label.prodcategory");
         return str;
     }
     
