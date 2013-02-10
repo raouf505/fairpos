@@ -23,6 +23,8 @@ import java.util.Locale;
 import javax.swing.UIManager;
 import com.openbravo.format.Formats;
 import com.openbravo.pos.instance.InstanceQuery;
+import java.awt.Font;
+import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.LookAndFeel;
@@ -54,6 +56,20 @@ public class StartPOS {
             return true;
         }  
     }
+    
+    private static void setApplicationFont(float size)  {  //just changes the font size  
+    Enumeration enumer = UIManager.getDefaults().keys();  
+    while(enumer.hasMoreElements())   {  
+      Object key = enumer.nextElement();  
+      Object value = UIManager.get(key);  
+      if (value instanceof Font)  
+      {  
+        UIManager.put( key, new javax.swing.plaf.FontUIResource(((Font)value).deriveFont(size)) );  
+      }  
+    }  
+  } 
+
+
     
     public static void main (final String args[]) {
         
@@ -90,13 +106,15 @@ public class StartPOS {
                     Object laf = Class.forName(config.getProperty("swing.defaultlaf")).newInstance();
                     
                     if (laf instanceof LookAndFeel){
-                        UIManager.setLookAndFeel((LookAndFeel) laf);
+                        UIManager.setLookAndFeel((LookAndFeel) laf); //look and feel setting
                     } else if (laf instanceof SubstanceSkin) {                      
                         SubstanceLookAndFeel.setSkin((SubstanceSkin) laf);                   
                     }
                 } catch (Exception e) {
                     logger.log(Level.WARNING, "Cannot set look and feel", e);
                 }
+                
+                //setApplicationFont(30); //font size override
                 
                 String screenmode = config.getProperty("machine.screenmode");
                 if ("fullscreen".equals(screenmode)) {
