@@ -196,7 +196,17 @@ public class JProductLineEdit extends javax.swing.JDialog {
         } else {
             myMsg = new JProductLineEdit((Dialog) window, true);
         }
-        return myMsg.init(app, oLine);
+        
+        TicketLineInfo newline = myMsg.init(app, oLine);
+        
+        // put '* ' prefix to ticket lines where we changed the price (-> notice no printed ticket that these items are not available for refund)
+        String prefixChangedPrice = "* ";
+        String productName = newline.getProductName();
+        if (!productName.startsWith(prefixChangedPrice)) {
+            newline.setProperty("product.name", prefixChangedPrice + productName);
+        }
+        
+        return newline;
     }        
 
     
