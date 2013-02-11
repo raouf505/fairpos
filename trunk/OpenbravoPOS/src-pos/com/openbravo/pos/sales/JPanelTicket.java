@@ -65,7 +65,10 @@ import com.openbravo.pos.util.JRPrinterAWT300;
 import com.openbravo.pos.util.ReportUtils;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -274,11 +277,16 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     protected abstract void resetSouthComponent();
      
     public void setActiveTicket(TicketInfo oTicket, Object oTicketExt) {
-       
         m_oTicket = oTicket;
         m_oTicketExt = oTicketExt;
         
         if (m_oTicket != null) {            
+            
+            if (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUNDCOMMISSION) {
+                //CommissionInvoice.setActive(m_oTicket);
+                oTicket=oTicket;
+            }
+            
             // Asign preeliminary properties to the receipt
             m_oTicket.setUser(m_App.getAppUserView().getUser().getUserInfo());
             m_oTicket.setActiveCash(m_App.getActiveCashIndex());
@@ -1035,13 +1043,15 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                     
                     // Select the Payments information
                     JPaymentSelect paymentdialog = paymentdialogreceipt;
-                    if (ticket.getTicketType() == TicketInfo.RECEIPT_REFUND) paymentdialog = paymentdialogrefund;
+                    if (ticket.getTicketType() == TicketInfo.RECEIPT_REFUND) {
+                        paymentdialog = paymentdialogrefund;                        
+                    }
                     
                     Double addedValue=0.0;
                     
                     if (ticket.getTicketType() == TicketInfo.RECEIPT_REFUNDCOMMISSION) { 
                         paymentdialog = paymentdialogcommission;
-                        addedValue = ticket.getCustomer().getCurdebt();
+                        addedValue = ticket.getCustomer().getCurdebt();                        
                     }
 
                     
@@ -1078,6 +1088,16 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                         }
                     }
                 }
+                
+                if (ticket.getTicketType() == TicketInfo.RECEIPT_REFUNDCOMMISSION) {
+                    printReport("/com/openbravo/reports/invoice",Arrays.asList(CommissionInvoice.getSource(), CommissionInvoice.getRefund()));
+                } else {
+                    if (true) {//print invoice also for normal tickets
+                        printReport("/com/openbravo/reports/invoice",Arrays.asList(ticket));
+                    }
+                }
+                //resultok = false; //FIXME:removeme
+                
             } catch (TaxesException e) {
                 MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotcalculatetaxes"));
                 msg.show(this);
@@ -1119,7 +1139,52 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         }
     }
     
+    private Object[] prepareTicketInfoArray(java.util.List<TicketInfo> ticketList) {
+        java.util.List<HashMap> list = new LinkedList<HashMap>();
+        
+        for (TicketInfo ticket : ticketList) {
+            java.util.List<TicketLineInfo> lines = ticket.getLines();
+
+            for (TicketLineInfo line : lines) {
+                HashMap<String,Object> m = new HashMap<String,Object>();
+
+                java.lang.Double negative = 1.00;
+                
+                m.put("GROUP_TITLE", "COMMISSION TICKET");
+
+                if (ticket.getTicketType() == TicketInfo.RECEIPT_REFUNDCOMMISSION) {
+                    m.put("GROUP_TITLE", "COMMISSION TICKET - returned items");
+                    negative = -1.00;
+                }
+
+                m.put("REFERENCE", line.getProductID());
+
+                m.put("NAME", line.getProductName());                
+                m.put("PRICESELL", negative * line.getPrice());
+                m.put("CATEGORY", line.getProductCategoryID());            
+                m.put("TAXCAT", line.getProductTaxCategoryID());
+                m.put("TAXCATNAME", line.printTaxRate());
+                m.put("TAX", negative * line.getPriceTax());
+                m.put("UNITS", line.getMultiply());
+                m.put("PRICELINETOTAL", (negative * line.getMultiply() * line.getPriceTax()));
+                
+              
+                list.add(m);      
+            }
+        }
+        
+        
+        Object[] ret = new Object[list.size()];
+        list.toArray(ret); 
+        return ret; 
+    }
+    
     private void printReport(String resourcefile, TicketInfo ticket, Object ticketext) {
+        assert ticketext == null;
+        printReport(resourcefile, Arrays.asList(ticket));
+    }
+    
+    private void printReport(String resourcefile, java.util.List<TicketInfo> ticketList) {
         
         try {     
          
@@ -1128,7 +1193,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             InputStream in = getClass().getResourceAsStream(resourcefile + ".ser");
             if (in == null) {      
                 // read and compile the report
-                JasperDesign jd = JRXmlLoader.load(getClass().getResourceAsStream(resourcefile + ".jrxml"));            
+                InputStream stream = getClass().getResourceAsStream(resourcefile + ".jrxml");
+                JasperDesign jd = JRXmlLoader.load(stream);            
                 jr = JasperCompileManager.compileReport(jd);    
             } else {
                 // read the compiled reporte
@@ -1141,16 +1207,33 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             Map reportparams = new HashMap();
             // reportparams.put("ARG", params);
             try {
-                reportparams.put("REPORT_RESOURCE_BUNDLE", ResourceBundle.getBundle(resourcefile + ".properties"));
+                reportparams.put("REPORT_RESOURCE_BUNDLE", ResourceBundle.getBundle(resourcefile.replaceAll("^/","").replaceAll("/",".")+"_messages"));
+                jr = jr;
             } catch (MissingResourceException e) {
             }
-            reportparams.put("TAXESLOGIC", taxeslogic); 
+            
+            reportparams.put("TAXESLOGIC", taxeslogic);             
+            
+            /*
+            Map r2 = new HashMap();
+            r2.put("PRICEBUY", 1.236486);
             
             Map reportfields = new HashMap();
             reportfields.put("TICKET", ticket);
-            reportfields.put("PLACE", ticketext);
+            //reportfields.put("PLACE", ticketext);
+            reportfields.put("REFERENCE", ticket.getId());
+            reportfields.put("NAME", ticket.getId());
+            reportfields.put("PRICEBUY", 1.23);
+            reportfields.put("UNITS", 10);
+            ArrayList<String> list = new ArrayList<String>();
+            list.add("ahoj");
+            reportfields.put("CDATA", list);
+            //ticket.getL
 
-            JasperPrint jp = JasperFillManager.fillReport(jr, reportparams, new JRMapArrayDataSource(new Object[] { reportfields } ));
+            JasperPrint jp = JasperFillManager.fillReport(jr, reportparams, new JRMapArrayDataSource(new Object[] { reportfields,r2 } ));
+            */
+            
+            JasperPrint jp = JasperFillManager.fillReport(jr, reportparams, new JRMapArrayDataSource(prepareTicketInfoArray(ticketList)));
             
             PrintService service = ReportUtils.getPrintService(m_App.getProperties().getProperty("machine.printername"));
             
