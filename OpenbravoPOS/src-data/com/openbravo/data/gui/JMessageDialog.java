@@ -100,6 +100,9 @@ public class JMessageDialog extends javax.swing.JDialog {
      * @return error specific text
      */
     private static String replaceErrorMessage(String msg) {
+        if (msg == null) {
+            return "";
+        }
         String ret = NO_REPLACING;
         String str = msg.toLowerCase();
         
