@@ -176,7 +176,6 @@ public class JTicketsBagTicket extends JTicketsBag {
     }
     
     private void printTicket() {
-        
         // imprimo m_ticket
         
         try {
@@ -484,7 +483,10 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         refundticket.setTicketType(TicketInfo.RECEIPT_REFUNDCOMMISSION);
         refundticket.setCustomer(m_ticket.getCustomer());
         refundticket.setPayments(m_ticket.getPayments());
-        m_panelticketedit.setActiveTicket(refundticket, null);      
+        m_panelticketedit.setActiveTicket(refundticket, null);   
+        
+        CommissionInvoice.setSource(m_ticket);
+        CommissionInvoice.setRefund(refundticket);
     }//GEN-LAST:event_m_jCommissionActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
