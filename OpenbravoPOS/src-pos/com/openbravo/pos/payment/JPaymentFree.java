@@ -22,6 +22,7 @@ package com.openbravo.pos.payment;
 import com.openbravo.pos.customers.CustomerInfoExt;
 import java.awt.Component;
 import com.openbravo.pos.forms.AppLocal;
+import javax.swing.JOptionPane;
 
 public class JPaymentFree extends javax.swing.JPanel implements JPaymentInterface {
     
@@ -43,6 +44,10 @@ public class JPaymentFree extends javax.swing.JPanel implements JPaymentInterfac
     }
     
     public PaymentInfo executePayment() {
+        //open Yes/No message box to confirm voucher is OK
+        int failed = JOptionPane.showConfirmDialog(this, AppLocal.getIntString("message.paymentfreevoucherchecked"),AppLocal.getIntString("Label.Payment") + " - " + AppLocal.getIntString("transpayment.free"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (failed != 0) return null;        
+        
         return new PaymentInfoFree(m_dTotal);
     }
     public Component getComponent() {
