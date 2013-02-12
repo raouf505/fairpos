@@ -284,4 +284,10 @@ public abstract class Formats {
             return javax.swing.SwingConstants.LEADING;
         }
     }     
+    
+    public static String makeEmptyStringNull (String s) {
+        if (s != null && s.equals(""))
+            return null;
+        return s;
+    }
 }
