@@ -52,6 +52,9 @@ public class JPanelPayments extends JPanelTable {
         super.startNavigation();
         // create new record when saving in this panel
         setAutoInsert(true);
+        // do not use save button here
+        setSaveVisible(false);
+        
         // create new record on entry
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override

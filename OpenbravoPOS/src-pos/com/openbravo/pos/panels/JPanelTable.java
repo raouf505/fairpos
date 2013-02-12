@@ -177,10 +177,40 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
      * @param autoInsert true-enable auto-insert on save
      */
     public void setAutoInsert(boolean autoInsert) {
+        JSaver saver = getJSaver();
+        if (saver!=null)
+            saver.setAutoInsert(autoInsert);
+    }
+
+    /**
+     * Show or hide save button.
+     * @param enabled 
+     */
+    public void setSaveVisible (boolean enabled) {
+        JSaver saver = getJSaver();
+        if (saver!=null)
+            saver.setSaveVisible(enabled);
+    }
+    
+    /**
+     * Trigger save action of save button manually.
+     */
+    public void save () {
+        JSaver saver = getJSaver();
+        if (saver!=null)
+            saver.save();
+    }
+    
+    /**
+     * Helper to get saver toolbar.
+     * @return JSaver object or null if not exists
+     */
+    private JSaver getJSaver () {
         for (Component c:toolbar.getComponents()) {
             if (c instanceof JSaver)
-                ((JSaver)c).setAutoInsert(autoInsert);
+                return (JSaver)c;
         }
+        return null;
     }
 
     /** This method is called from within the constructor to
