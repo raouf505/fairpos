@@ -153,9 +153,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         dlSales = (DataLogicSales) m_App.getBean("com.openbravo.pos.forms.DataLogicSales");
         dlCustomers = (DataLogicCustomers) m_App.getBean("com.openbravo.pos.customers.DataLogicCustomers");
                     
-        // borramos el boton de bascula si no hay bascula conectada
-        if (!m_App.getDeviceScale().existsScale()) {
-            m_jbtnDiscount.setVisible(false);
+        // disable scale button if scale does not exist or if it is only screen dialog, no real HW
+        if (!m_App.getDeviceScale().existsScale() || m_App.getDeviceScale().isScaleDialog() ) {
+            m_jbtnScale1.setVisible(false);
         }
         
         if ( (m_ticketsbag = getJTicketsBag()) != null) {
@@ -1391,16 +1391,11 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         }              
         
         public void printerStart() {
-            String sresource = dlSystem.getResourceAsXML("Printer.Start");
-            if (sresource == null) {
-                m_App.getDeviceTicket().getDeviceDisplay().writeVisor(AppLocal.APP_NAME, AppLocal.APP_VERSION);
-            } else {
-                try {
-                    m_TTP.printTicket(sresource);
-                } catch (TicketPrinterException eTP) {
-                    m_App.getDeviceTicket().getDeviceDisplay().writeVisor(AppLocal.APP_NAME, AppLocal.APP_VERSION);
-                }
-            }        
+            m_App.printerStart();   
+        }
+
+        public void openDrawer() {
+            m_App.openDrawer();   
         }
 
         public Object evalScript(String code, ScriptArg... args) throws ScriptException {
@@ -1447,6 +1442,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jPanContainer = new javax.swing.JPanel();
         m_jOptions = new javax.swing.JPanel();
         m_jButtons = new javax.swing.JPanel();
+        m_jLblTitle = new javax.swing.JLabel();
         m_jTicketId = new javax.swing.JLabel();
         btnCustomer = new javax.swing.JButton();
         btnSplit = new javax.swing.JButton();
@@ -1479,14 +1475,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jLblTotalEuros5 = new javax.swing.JLabel();
         m_jContEntries = new javax.swing.JPanel();
         m_jPanEntries = new javax.swing.JPanel();
+        m_jKeyFactory = new javax.swing.JTextField();
+        m_jNumberKeys = new com.openbravo.beans.JNumberKeys();
         jPanel9 = new javax.swing.JPanel();
         m_jPrice = new javax.swing.JLabel();
         m_jPor = new javax.swing.JLabel();
         m_jEnter = new javax.swing.JButton();
         m_jTax = new javax.swing.JComboBox();
         m_jaddtax = new javax.swing.JToggleButton();
-        m_jKeyFactory = new javax.swing.JTextField();
-        m_jNumberKeys = new com.openbravo.beans.JNumberKeys();
         catcontainer = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 204, 153));
@@ -1495,6 +1491,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jPanContainer.setLayout(new java.awt.BorderLayout());
 
         m_jOptions.setLayout(new java.awt.BorderLayout());
+
+        m_jButtons.add(m_jLblTitle);
 
         m_jTicketId.setBackground(java.awt.Color.white);
         m_jTicketId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1782,11 +1780,37 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
         m_jPanEntries.setLayout(new javax.swing.BoxLayout(m_jPanEntries, javax.swing.BoxLayout.Y_AXIS));
 
+        m_jKeyFactory.setBackground(javax.swing.UIManager.getDefaults().getColor("Panel.background"));
+        m_jKeyFactory.setForeground(javax.swing.UIManager.getDefaults().getColor("Panel.background"));
+        m_jKeyFactory.setBorder(null);
+        m_jKeyFactory.setCaretColor(javax.swing.UIManager.getDefaults().getColor("Panel.background"));
+        m_jKeyFactory.setPreferredSize(new java.awt.Dimension(1, 1));
+        m_jKeyFactory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_jKeyFactoryActionPerformed(evt);
+            }
+        });
+        m_jKeyFactory.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                m_jKeyFactoryKeyTyped(evt);
+            }
+        });
+        m_jPanEntries.add(m_jKeyFactory);
+
+        m_jContEntries.add(m_jPanEntries, java.awt.BorderLayout.NORTH);
+
+        m_jNumberKeys.addJNumberEventListener(new com.openbravo.beans.JNumberEventListener() {
+            public void keyPerformed(com.openbravo.beans.JNumberEvent evt) {
+                m_jNumberKeysKeyPerformed(evt);
+            }
+        });
+        m_jContEntries.add(m_jNumberKeys, java.awt.BorderLayout.CENTER);
+
         jPanel9.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         jPanel9.setLayout(new java.awt.GridBagLayout());
 
         m_jPrice.setBackground(java.awt.Color.white);
-        m_jPrice.setFont(new java.awt.Font("Tahoma", 0, 16));
+        m_jPrice.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         m_jPrice.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         m_jPrice.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
         m_jPrice.setMaximumSize(new java.awt.Dimension(107, 30));
@@ -1802,7 +1826,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         jPanel9.add(m_jPrice, gridBagConstraints);
 
         m_jPor.setBackground(java.awt.Color.white);
-        m_jPor.setFont(new java.awt.Font("Tahoma", 0, 16));
+        m_jPor.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         m_jPor.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         m_jPor.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
         m_jPor.setMaximumSize(new java.awt.Dimension(68, 30));
@@ -1865,33 +1889,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
         jPanel9.add(m_jaddtax, gridBagConstraints);
 
-        m_jPanEntries.add(jPanel9);
-
-        m_jKeyFactory.setBackground(javax.swing.UIManager.getDefaults().getColor("Panel.background"));
-        m_jKeyFactory.setForeground(javax.swing.UIManager.getDefaults().getColor("Panel.background"));
-        m_jKeyFactory.setBorder(null);
-        m_jKeyFactory.setCaretColor(javax.swing.UIManager.getDefaults().getColor("Panel.background"));
-        m_jKeyFactory.setPreferredSize(new java.awt.Dimension(1, 1));
-        m_jKeyFactory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                m_jKeyFactoryActionPerformed(evt);
-            }
-        });
-        m_jKeyFactory.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                m_jKeyFactoryKeyTyped(evt);
-            }
-        });
-        m_jPanEntries.add(m_jKeyFactory);
-
-        m_jContEntries.add(m_jPanEntries, java.awt.BorderLayout.NORTH);
-
-        m_jNumberKeys.addJNumberEventListener(new com.openbravo.beans.JNumberEventListener() {
-            public void keyPerformed(com.openbravo.beans.JNumberEvent evt) {
-                m_jNumberKeysKeyPerformed(evt);
-            }
-        });
-        m_jContEntries.add(m_jNumberKeys, java.awt.BorderLayout.CENTER);
+        m_jContEntries.add(jPanel9, java.awt.BorderLayout.PAGE_END);
 
         m_jPanContainer.add(m_jContEntries, java.awt.BorderLayout.LINE_END);
 
@@ -2078,6 +2076,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     private javax.swing.JButton m_jEditLine;
     private javax.swing.JButton m_jEnter;
     private javax.swing.JTextField m_jKeyFactory;
+    private javax.swing.JLabel m_jLblTitle;
     private javax.swing.JLabel m_jLblTotalEuros2;
     private javax.swing.JLabel m_jLblTotalEuros3;
     private javax.swing.JLabel m_jLblTotalEuros4;
