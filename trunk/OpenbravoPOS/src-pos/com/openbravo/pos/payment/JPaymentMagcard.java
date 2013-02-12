@@ -77,7 +77,7 @@ public class JPaymentMagcard extends javax.swing.JPanel implements JPaymentInter
         m_paymentgateway.execute(payinfo);  
         
         //open Yes/No message box to confirm card payment (we do not have card reader attached & we want to be sure payment was done)
-        int failed = JOptionPane.showConfirmDialog(this, AppLocal.getIntString("message.paymentgatewayextsuccessful"),AppLocal.getIntString("Label.Payment") + " - " + AppLocal.getIntString("label.card"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);        
+        int failed = JOptionPane.showConfirmDialog(this, AppLocal.getIntString("message.paymentgatewayextsuccessful"),AppLocal.getIntString("Label.Payment") + " - " + AppLocal.getIntString("transpayment.magcard"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (failed != 0) return null;        
         
         if (payinfo.isPaymentOK()) {
