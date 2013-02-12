@@ -52,6 +52,10 @@ public class DeviceScale {
         return m_scale != null;
     }
     
+    public boolean isScaleDialog() {
+        return m_scale instanceof ScaleDialog;
+    }
+    
     public Double readWeight() throws ScaleException {
         
         if (m_scale == null) {

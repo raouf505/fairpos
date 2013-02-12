@@ -114,7 +114,8 @@ public class StartPOS {
                     logger.log(Level.WARNING, "Cannot set look and feel", e);
                 }
                 
-                //setApplicationFont(30); //font size override
+                //TODO put this in config
+                setApplicationFont(16); //font size override
                 
                 String screenmode = config.getProperty("machine.screenmode");
                 if ("fullscreen".equals(screenmode)) {

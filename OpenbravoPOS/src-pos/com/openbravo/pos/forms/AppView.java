@@ -51,5 +51,9 @@ public interface AppView {
     public void waitCursorEnd();
     
     public AppUserView getAppUserView();
+    
+    public void printerStart();
+    public void openDrawer();
+
 }
 
