@@ -144,6 +144,9 @@ public class JFrmSQL extends javax.swing.JFrame implements AppView {
         return null;
     }
     
+    public void printerStart() {};
+    public void openDrawer() {};
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
