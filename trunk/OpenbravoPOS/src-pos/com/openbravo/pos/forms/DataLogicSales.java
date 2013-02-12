@@ -789,7 +789,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     public final TableDefinition getTablePayments() {
         // show only todays payments
         return new TableDefinition(s,
-            "PAYMENTS as p, RECEIPTS as r WHERE r.ID = p.RECEIPT AND (p.payment = 'cashin' OR p.payment = 'cashout') AND r.DATENEW >= CURRENT_DATE"
+            "PAYMENTS as p, RECEIPTS as r, CLOSEDCASH as c WHERE r.ID = p.RECEIPT AND (p.payment = 'cashin' OR p.payment = 'cashout') AND r.money=c.money AND c.dateend IS NULL"
             , new String[] {"r.ID", "r.MONEY", "r.DATENEW", "p.ID", "p.PAYMENT", "p.TOTAL", "p.NOTES"}
             , new String[] {"Receipt ID", "MONEY", "DATENEW", "Payment ID", AppLocal.getIntString("label.paymentreason"), AppLocal.getIntString("label.paymenttotal"), AppLocal.getIntString("label.paymentnotes")}
             , new Datas[] {Datas.STRING, Datas.STRING, Datas.TIMESTAMP, Datas.STRING, Datas.STRING, Datas.DOUBLE, Datas.STRING}
@@ -797,7 +797,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             , new int[] {0}
         );
     }
- 
+
     protected static class CustomerExtRead implements SerializerRead {
         public Object readValues(DataRead dr) throws BasicException {
             CustomerInfoExt c = new CustomerInfoExt(dr.getString(1));
