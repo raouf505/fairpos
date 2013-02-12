@@ -339,9 +339,9 @@ public class ProductsEditor extends JPanel implements EditorRecord {
         
         Object[] myprod = new Object[19];
         myprod[0] = m_id;
-        myprod[1] = m_jRef.getText();
-        myprod[2] = m_jCode.getText();
-        myprod[3] = m_jName.getText();
+        myprod[1] = Formats.makeEmptyStringNull(m_jRef.getText());
+        myprod[2] = Formats.makeEmptyStringNull(m_jCode.getText());
+        myprod[3] = Formats.makeEmptyStringNull(m_jName.getText());
         myprod[4] = Boolean.valueOf(m_jComment.isSelected());
         myprod[5] = Boolean.valueOf(m_jScale.isSelected());
         myprod[6] = Formats.CURRENCY.parseValue(m_jPriceBuy.getText());
@@ -621,85 +621,85 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
         jLabel1.setText(AppLocal.getIntString("label.prodref")); // NOI18N
         add(jLabel1);
-        jLabel1.setBounds(10, 50, 80, 16);
+        jLabel1.setBounds(10, 30, 80, 16);
 
         jLabel2.setText(AppLocal.getIntString("label.prodname")); // NOI18N
         add(jLabel2);
-        jLabel2.setBounds(180, 50, 70, 16);
+        jLabel2.setBounds(180, 30, 70, 16);
         add(m_jRef);
-        m_jRef.setBounds(90, 50, 70, 22);
+        m_jRef.setBounds(90, 30, 70, 22);
         add(m_jName);
-        m_jName.setBounds(250, 50, 220, 22);
+        m_jName.setBounds(250, 30, 220, 22);
 
-        m_jTitle.setFont(new java.awt.Font("SansSerif", 3, 18));
+        m_jTitle.setFont(new java.awt.Font("SansSerif", 3, 18)); // NOI18N
         add(m_jTitle);
-        m_jTitle.setBounds(10, 10, 320, 30);
+        m_jTitle.setBounds(10, 5, 320, 22);
 
         jPanel1.setLayout(null);
 
         jLabel6.setText(AppLocal.getIntString("label.prodbarcode")); // NOI18N
         jPanel1.add(jLabel6);
-        jLabel6.setBounds(10, 20, 150, 16);
+        jLabel6.setBounds(10, 10, 150, 16);
         jPanel1.add(m_jCode);
-        m_jCode.setBounds(160, 20, 170, 22);
+        m_jCode.setBounds(160, 10, 170, 22);
         jPanel1.add(m_jImage);
-        m_jImage.setBounds(340, 20, 200, 180);
+        m_jImage.setBounds(340, 20, 200, 160);
 
         jLabel3.setText(AppLocal.getIntString("label.prodpricebuy")); // NOI18N
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(10, 50, 150, 16);
+        jLabel3.setBounds(10, 40, 150, 16);
 
         m_jPriceBuy.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel1.add(m_jPriceBuy);
-        m_jPriceBuy.setBounds(160, 50, 80, 22);
+        m_jPriceBuy.setBounds(160, 40, 80, 22);
 
         jLabel4.setText(AppLocal.getIntString("label.prodpricesell")); // NOI18N
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(10, 100, 150, 16);
+        jLabel4.setBounds(10, 90, 150, 16);
 
         m_jPriceSell.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel1.add(m_jPriceSell);
-        m_jPriceSell.setBounds(160, 100, 80, 22);
+        m_jPriceSell.setBounds(160, 90, 80, 22);
 
         jLabel5.setText(AppLocal.getIntString("label.prodcategory")); // NOI18N
         jPanel1.add(jLabel5);
-        jLabel5.setBounds(10, 220, 150, 16);
+        jLabel5.setBounds(10, 210, 150, 16);
         jPanel1.add(m_jCategory);
-        m_jCategory.setBounds(160, 220, 170, 20);
+        m_jCategory.setBounds(160, 210, 170, 20);
 
         jLabel7.setText(AppLocal.getIntString("label.taxcategory")); // NOI18N
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(10, 190, 150, 16);
+        jLabel7.setBounds(10, 180, 150, 16);
         jPanel1.add(m_jTax);
-        m_jTax.setBounds(160, 190, 170, 20);
+        m_jTax.setBounds(160, 180, 170, 20);
 
         m_jmargin.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel1.add(m_jmargin);
-        m_jmargin.setBounds(250, 100, 80, 22);
+        m_jmargin.setBounds(250, 90, 80, 22);
 
         m_jPriceSellTax.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel1.add(m_jPriceSellTax);
-        m_jPriceSellTax.setBounds(160, 130, 80, 22);
+        m_jPriceSellTax.setBounds(160, 120, 80, 22);
 
         jLabel16.setText(AppLocal.getIntString("label.prodpriceselltax")); // NOI18N
         jPanel1.add(jLabel16);
-        jLabel16.setBounds(10, 130, 150, 16);
+        jLabel16.setBounds(10, 120, 150, 16);
         jPanel1.add(m_jCodetype);
         m_jCodetype.setBounds(250, 40, 80, 20);
 
         jLabel13.setText(AppLocal.getIntString("label.attributes")); // NOI18N
         jPanel1.add(jLabel13);
-        jLabel13.setBounds(10, 250, 150, 16);
+        jLabel13.setBounds(370, 190, 150, 16);
         jPanel1.add(m_jAtt);
-        m_jAtt.setBounds(160, 250, 170, 20);
+        m_jAtt.setBounds(370, 210, 170, 20);
 
         jLabel14.setText(AppLocal.getIntString("label.prodpricerecommended")); // NOI18N
         jPanel1.add(jLabel14);
-        jLabel14.setBounds(10, 160, 150, 16);
+        jLabel14.setBounds(10, 150, 150, 16);
 
         m_jPriceSellRecommendedTax.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel1.add(m_jPriceSellRecommendedTax);
-        m_jPriceSellRecommendedTax.setBounds(160, 160, 80, 22);
+        m_jPriceSellRecommendedTax.setBounds(160, 150, 80, 22);
 
         m_jManualPrice.setText(AppLocal.getIntString("label.manualprice")); // NOI18N
         m_jManualPrice.addActionListener(new java.awt.event.ActionListener() {
@@ -708,7 +708,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
             }
         });
         jPanel1.add(m_jManualPrice);
-        m_jManualPrice.setBounds(5, 73, 320, 20);
+        m_jManualPrice.setBounds(10, 60, 310, 20);
 
         jTabbedPane1.addTab(AppLocal.getIntString("label.prodgeneral"), jPanel1); // NOI18N
 
@@ -775,7 +775,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
         jTabbedPane1.addTab(AppLocal.getIntString("label.properties"), jPanel3); // NOI18N
 
         add(jTabbedPane1);
-        jTabbedPane1.setBounds(10, 90, 560, 310);
+        jTabbedPane1.setBounds(10, 60, 560, 270);
     }// </editor-fold>//GEN-END:initComponents
 
     private void m_jInCatalogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jInCatalogActionPerformed
