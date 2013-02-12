@@ -75,6 +75,21 @@ public class JSaver extends JPanel implements StateListener {
     public void setAutoInsert(boolean autoInsert) {
         this.autoInsert = autoInsert;
     }
+
+    /**
+     * Show or hide save button.
+     * @param enabled 
+     */
+    public void setSaveVisible (boolean enabled) {
+        jbtnSave.setVisible(enabled);
+    }
+    
+    /**
+     * Trigger save action of save button manually.
+     */
+    public void save () {
+        jbtnSaveActionPerformed(null);
+    }
         
     /** This method is called from within the constructor to
      * initialize the form.
