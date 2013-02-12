@@ -226,6 +226,9 @@ public class JRootApp extends JPanel implements AppView {
         //m_jHost.setText("<html>" + m_props.getHost() + " - " + sWareHouse + "<br>" + url);
         
         showLogin();
+        
+        //TODO put in config? don't allow users to close app
+        m_jClose.setVisible(false);
 
         return true;
     }
@@ -386,7 +389,6 @@ public class JRootApp extends JPanel implements AppView {
         return m_principalapp;
     }
 
-    
     public void printerStart() {
         
         String sresource = m_dlSystem.getResourceAsXML("Printer.Start");
@@ -401,6 +403,11 @@ public class JRootApp extends JPanel implements AppView {
         }        
     }
     
+    public void openDrawer() {
+        for (DevicePrinter printer : getDeviceTicket().getDevicePrinterAll())
+            printer.openDrawer();
+    }
+
     private void listPeople() {
         
         try {

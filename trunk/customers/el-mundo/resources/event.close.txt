@@ -25,9 +25,10 @@ for (i=0; i<ticket.payments.size(); i++) {
 }
 if( (isCash || isVoucher) && change > 0) {
     if (isCash) {
-    JOptionPane.showMessageDialog(null, "Bitte Rückgeld " + changeText + " geben.", "Wechselgeld", JOptionPane.PLAIN_MESSAGE);
+        sales.openDrawer();
+        JOptionPane.showMessageDialog(null, "Bitte Rückgeld " + changeText + " geben.", "Wechselgeld", JOptionPane.PLAIN_MESSAGE);
     } else {
-      JOptionPane.showMessageDialog(null, "Bitte Restbetrag " + changeText + " in den Gutschein eintragen und diesen dem Kunden zurückgeben. \nRestbeträge werden nicht in Bar ausbezahlt.", "Restbetrag Gutschein", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Bitte Restbetrag " + changeText + " in den Gutschein eintragen und diesen dem Kunden zurückgeben. \nRestbeträge werden nicht in Bar ausbezahlt.", "Restbetrag Gutschein", JOptionPane.PLAIN_MESSAGE);
     }
 }
 
