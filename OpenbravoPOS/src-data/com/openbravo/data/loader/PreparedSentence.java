@@ -132,8 +132,6 @@ public class PreparedSentence extends JDBCSentence {
 
         try {
 
-            logger.info("Executing prepared SQL: " + m_sentence);
-
             m_Stmt = m_s.getConnection().prepareStatement(m_sentence);
  
             if (m_SerWrite != null) {
@@ -141,6 +139,8 @@ public class PreparedSentence extends JDBCSentence {
                 m_SerWrite.writeValues(new PreparedSentencePars(m_Stmt), params);
             }
 
+            logger.info("Executing prepared SQL: " + m_Stmt.toString());
+            
             if (m_Stmt.execute()) {
                 return new JDBCDataResultSet(m_Stmt.getResultSet(), m_SerRead);
             } else { 
