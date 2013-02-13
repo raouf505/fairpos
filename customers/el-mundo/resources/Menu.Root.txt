@@ -48,6 +48,7 @@
         submenu.addTitle("Menu.StockManagement.Reports");
         submenu.addPanel("/com/openbravo/images/appointment.png", "Menu.Products", "/com/openbravo/reports/products.bs");
         submenu.addPanel("/com/openbravo/images/appointment.png", "Menu.ProductLabels", "/com/openbravo/reports/productlabels.bs");
+        submenu.addPanel("/com/openbravo/images/appointment.png", "Menu.ProductLabelsMini", "/com/openbravo/reports/productlabels-mini.bs");
         submenu.addPanel("/com/openbravo/images/appointment.png", "Menu.Catalog", "/com/openbravo/reports/productscatalog.bs");
         submenu.addPanel("/com/openbravo/images/appointment.png", "Menu.Inventory", "/com/openbravo/reports/inventory.bs");
         submenu.addPanel("/com/openbravo/images/appointment.png", "Menu.Inventory2", "/com/openbravo/reports/inventoryb.bs");

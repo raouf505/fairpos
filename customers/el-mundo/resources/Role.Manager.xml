@@ -61,6 +61,7 @@
     <class name="com.openbravo.pos.inventory.AuxiliarPanel"/>
     <class name="/com/openbravo/reports/products.bs"/>      
     <class name="/com/openbravo/reports/productlabels.bs"/>      
+    <class name="/com/openbravo/reports/productlabels-mini.bs"/>     
     <class name="/com/openbravo/reports/productscatalog.bs"/>
     <class name="/com/openbravo/reports/inventory.bs"/>
     <class name="/com/openbravo/reports/inventoryb.bs"/>
@@ -77,4 +78,5 @@
     <class name="Menu.ChangePassword"/>
     <class name="button.print"/>
     <class name="button.opendrawer"/>
+    <class name="button.discount"/>
 </permissions>
