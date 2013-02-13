@@ -38,10 +38,12 @@ public class JTicketsBagSimple extends JTicketsBag {
         
         m_panelticket.setActiveTicket(new TicketInfo(), null);
         
-        // Authorization
-        //m_jDelTicket.setEnabled(m_App.getAppUserView().getUser().hasPermission("com.openbravo.pos.sales.JPanelTicketEdits"));
-        m_jDelTicket.setEnabled(false);
-        m_jDelTicket.setVisible(false);
+        boolean deleteRight = false;
+        if (m_App.getAppUserView().getUser().hasPermission("sales.DeleteTicket")) {
+            deleteRight = true;
+        }
+        m_jDelTicket.setEnabled(deleteRight);
+        m_jDelTicket.setVisible(deleteRight);
     }
     public boolean deactivate() {
         m_panelticket.setActiveTicket(null, null);      

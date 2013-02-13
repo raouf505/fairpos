@@ -71,7 +71,12 @@ public class JTicketsBagTicket extends JTicketsBag {
         
         initComponents();
         
-        m_TicketsBagTicketBag = new JTicketsBagTicketBag(this);
+        // enable dlete ticket button only when right defined
+        boolean deleteRight = false;
+        if (m_App.getAppUserView().getUser().hasPermission("sales.DeleteTicket")) {
+            deleteRight = true;
+        }
+        m_TicketsBagTicketBag = new JTicketsBagTicketBag(this, deleteRight);
         
         m_jTicketEditor.addEditorKeys(m_jKeys);
         

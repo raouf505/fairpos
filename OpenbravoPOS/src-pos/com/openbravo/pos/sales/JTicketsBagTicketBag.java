@@ -28,9 +28,12 @@ public class JTicketsBagTicketBag extends javax.swing.JPanel {
     private JTicketsBagTicket m_ticketsbagticket;
     
     /** Creates new form JTicketsBagTicketBag */
-    public JTicketsBagTicketBag(JTicketsBagTicket ticketsbagticket) {
+    public JTicketsBagTicketBag(JTicketsBagTicket ticketsbagticket, boolean deleteRight) {
         m_ticketsbagticket = ticketsbagticket;
         initComponents();
+
+        m_jBtnDelete.setEnabled(deleteRight);
+        m_jBtnDelete.setVisible(deleteRight);
     }
     
     public void showEdit() {
@@ -116,20 +119,18 @@ public class JTicketsBagTicketBag extends javax.swing.JPanel {
 
     }//GEN-LAST:event_m_jBtnCancel1ActionPerformed
 
+    private void m_jBtnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jBtnCancelActionPerformed
+        
+        m_ticketsbagticket.canceleditionTicket();
+    }//GEN-LAST:event_m_jBtnCancelActionPerformed
+
     private void m_jBtnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jBtnDeleteActionPerformed
         
         int res = JOptionPane.showConfirmDialog(this, AppLocal.getIntString("message.wannadelete"), AppLocal.getIntString("title.editor"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (res == JOptionPane.YES_OPTION) {
             m_ticketsbagticket.deleteTicket();
         }
-        
     }//GEN-LAST:event_m_jBtnDeleteActionPerformed
-
-    private void m_jBtnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jBtnCancelActionPerformed
-
-        m_ticketsbagticket.canceleditionTicket();
-        
-    }//GEN-LAST:event_m_jBtnCancelActionPerformed
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
