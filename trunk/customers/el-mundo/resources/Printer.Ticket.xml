@@ -29,6 +29,14 @@
            <text align="left" length="40">Vielen Dank fair Ihren Einkauf!</text>
         </line>
     </display>
+    #foreach ($paymentline in $ticket.payments)      
+     #if ($paymentline.name == "cash")
+     <opendrawer/>
+     #end
+     #if ($paymentline.name == "cashrefund")
+     <opendrawer/>
+     #end  
+    #end
     <ticket>
         <image>Printer.Ticket.Logo</image>
         <line></line>
@@ -45,6 +53,14 @@
             <text align="center" length="40">www.elmundo.de - kontakt@elmundo.de</text>
         </line>
         <line></line>
+       #foreach ($paymentline in $ticket.payments)      
+        #if ($paymentline.name == "debt")
+        <line></line>     
+        <line size="2">
+           <text align="left" bold="true">Kommissionsschein</text>
+        </line>    
+        #end  
+       #end
         #if (${ticket.ticketType} == 0)
         <line>
             <text align="left" length="15">Beleg:</text>
@@ -155,8 +171,8 @@
         </line> 
         <line></line> 
         <line size="2">
-            <text align ="left" length="10" bold="true">Summe </text>
-            <text align ="right" length="10" bold="true">${ticket.printTotal()}</text>
+            <text align ="left" length="26" bold="true">Summe </text>
+            <text align ="right" length="14" bold="true">${ticket.printTotal()}</text>
         </line>    
         #foreach ($paymentline in $ticket.payments)      
          #if ($paymentline.name == "cash")
@@ -261,13 +277,23 @@
          #if ($paymentline.name == "debt")
         <line></line>     
         <line>
-            <text bold="true">Kommission</text>
+            <text bold="true">auf Kommission</text>
         </line>    
         <line>
             <text align ="right" length="40">${paymentline.printTotal()}</text>
         </line>    
+        <line></line>     
+        <line>
+            <text>Bitte spätestens </text><text bold="true">nach 3 Wochen</text><text> die</text>
+        </line>    
+        <line>
+            <text>nicht verkaufte Ware zurückbringen!</text>
+        </line>    
+        <line>
+            <text>Dazu unbedingt </text><text bold="true">diesen Bon</text><text> mitbringen!</text>
+        </line>    
          #end 
-         #end 
+        #end 
         <line></line>
         <line>
             <text align="left" length="18">Es bediente Sie: </text>
@@ -288,12 +314,4 @@
             <text align="center" length="40">Sa. 9:00-14:00</text>
         </line>   
     </ticket>
-    #foreach ($paymentline in $ticket.payments)      
-     #if ($paymentline.name == "cash")
-    <opendrawer/>
-     #end
-     #if ($paymentline.name == "cashrefund")
-    <opendrawer/>
-     #end  
-    #end
 </output>

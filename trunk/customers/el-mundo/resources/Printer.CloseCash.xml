@@ -28,6 +28,18 @@
             <text align ="center" length="40" bold="true">Kassensturz-Bericht</text>            
         </line>
         <line>
+            <text length="16">Nummer:</text>
+            <text length="24" align="right">${payments.printSequence()}</text>
+        </line> 
+        <line>
+            <text length="16">Startdatum/Zeit:</text>
+            <text length="24" align="right">${payments.printDateStart()}</text>
+        </line>  
+        <line>
+            <text length="16">Enddatum/Zeit:</text>
+            <text length="24" align="right">${payments.printDateEnd()}</text>
+        </line>  
+        <line>
             <text align ="left" length="30">Anzahl Kassenbons</text>
             <text align ="right" length="10">${payments.printSales()}</text>
         </line>
@@ -90,21 +102,9 @@
             <text align ="right" length="10" bold="true">${payments.printSalesTaxes()}</text>
         </line>
         <line>
-            <text align ="left" length="30" bold="true">Umsatz bruto</text>
+            <text align ="left" length="30" bold="true">Umsatz brutto</text>
             <text align ="right" length="10" bold="true">${payments.printSalesTotal()}</text>
         </line>
         <line></line>
-        <line>
-            <text length="16">Nummer:</text>
-            <text length="24" align="right">${payments.printSequence()}</text>
-        </line> 
-        <line>
-            <text length="16">Startdatum/Zeit:</text>
-            <text length="24" align="right">${payments.printDateStart()}</text>
-        </line>  
-        <line>
-            <text length="16">Enddatum/Zeit:</text>
-            <text length="24" align="right">${payments.printDateEnd()}</text>
-        </line>  
     </ticket>
 </output>
