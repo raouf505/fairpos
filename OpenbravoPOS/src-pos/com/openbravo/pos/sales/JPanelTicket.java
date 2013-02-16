@@ -1152,21 +1152,23 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 
                 m.put("GROUP_TITLE", "COMMISSION TICKET");
 
+                
                 if (ticket.getTicketType() == TicketInfo.RECEIPT_REFUNDCOMMISSION) {
                     m.put("GROUP_TITLE", "COMMISSION TICKET - returned items");
-                    negative = -1.00;
                 }
+                
 
                 m.put("REFERENCE", line.getProductID());
 
-                m.put("NAME", line.getProductName());                
-                m.put("PRICESELL", negative * line.getPrice());
-                m.put("CATEGORY", line.getProductCategoryID());            
-                m.put("TAXCAT", line.getProductTaxCategoryID());
-                m.put("TAXCATNAME", line.printTaxRate());
-                m.put("TAX", negative * line.getPriceTax());
-                m.put("UNITS", line.getMultiply());
-                m.put("PRICELINETOTAL", (negative * line.getMultiply() * line.getPriceTax()));
+                m.put("NAME",               line.getProductName());                
+                m.put("CATEGORY",           line.getProductCategoryID());            
+                m.put("TAXCAT",             line.getProductTaxCategoryID());
+                m.put("TAXCATNAME",         line.printTaxRate());
+                m.put("TAX",                line.getPriceTax());
+                m.put("UNITS",              line.getMultiply());
+                
+                m.put("PRICESELL",          line.getPrice());
+                m.put("PRICELINETOTAL",     (line.getMultiply() * line.getPriceTax()));
                 
               
                 list.add(m);      
