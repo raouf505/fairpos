@@ -281,10 +281,16 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_oTicketExt = oTicketExt;
         
         if (m_oTicket != null) {            
-            
+                        
             if (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUNDCOMMISSION) {
-                //CommissionInvoice.setActive(m_oTicket);
-                oTicket=oTicket;
+                btnCustomer.setVisible(false);
+                m_jLblTitle.setText(AppLocal.getIntString("button.commission"));                
+            } else if (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUND) {
+                m_jLblTitle.setText(AppLocal.getIntString("button.refund"));                
+                btnCustomer.setVisible(false);
+            } else {
+                m_jLblTitle.setText("");
+                btnCustomer.setVisible(true);
             }
             
             // Asign preeliminary properties to the receipt
@@ -1513,6 +1519,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
         m_jOptions.setLayout(new java.awt.BorderLayout());
 
+        m_jLblTitle.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        m_jLblTitle.setText("nil/Commission/Refund");
         m_jButtons.add(m_jLblTitle);
 
         m_jTicketId.setBackground(java.awt.Color.white);
@@ -1831,7 +1839,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         jPanel9.setLayout(new java.awt.GridBagLayout());
 
         m_jPrice.setBackground(java.awt.Color.white);
-        m_jPrice.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        m_jPrice.setFont(new java.awt.Font("Tahoma", 0, 16));
         m_jPrice.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         m_jPrice.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
         m_jPrice.setMaximumSize(new java.awt.Dimension(107, 30));
@@ -1847,7 +1855,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         jPanel9.add(m_jPrice, gridBagConstraints);
 
         m_jPor.setBackground(java.awt.Color.white);
-        m_jPor.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        m_jPor.setFont(new java.awt.Font("Tahoma", 0, 16));
         m_jPor.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         m_jPor.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
         m_jPor.setMaximumSize(new java.awt.Dimension(68, 30));

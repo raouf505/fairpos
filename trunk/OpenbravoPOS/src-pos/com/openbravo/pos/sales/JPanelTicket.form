@@ -54,6 +54,12 @@
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="m_jLblTitle">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="24" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="nil/Commission/Refund"/>
+                  </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="m_jTicketId">
                   <Properties>
