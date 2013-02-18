@@ -57,6 +57,8 @@ import com.openbravo.pos.payment.JPaymentSelectCommission;
 import com.openbravo.pos.payment.JPaymentSelectCustomer;
 import com.openbravo.pos.payment.JPaymentSelectReceipt;
 import com.openbravo.pos.payment.JPaymentSelectRefund;
+import com.openbravo.pos.payment.PaymentInfo;
+import com.openbravo.pos.payment.PaymentInfoCash;
 import com.openbravo.pos.ticket.ProductInfoExt;
 import com.openbravo.pos.ticket.TaxInfo;
 import com.openbravo.pos.ticket.TicketInfo;
@@ -1173,7 +1175,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                         name = customer.getName();
                     }
                 
-                    m.put("CUSTOMER_INFO", "" + name +                        
+                    m.put("CUSTOMERINFO", "" + name +                        
                         "\n" + ((customer.getAddress() != null)     ? customer.getAddress() : "") +
                         "\n" + ((customer.getCity() !=null)         ? customer.getCity()    : "") +
                         "\n" + ((customer.getPostal() !=null)       ? customer.getPostal()    : "") +
@@ -1204,6 +1206,35 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                     //priceFinal.put("COMMISSION TICKET - returned items");
                     m.put("PRICEGRANDTOTAL", CommissionInvoice.getSource().getTotal() + CommissionInvoice.getRefund().getTotal());
                     //list.add(priceFinal);
+                }
+                
+                
+                for (PaymentInfo pi : ticket.getPayments()) {
+                    if (pi instanceof PaymentInfoCash) {                        
+                        m.put("LABELPAY0", "Cash:");                            
+                        m.put("PAY0", ((PaymentInfoCash) pi).getPaid());
+                        m.put("LABELPAY1", "Returned change:");
+                        m.put("PAY1", ((PaymentInfoCash) pi).getChange());                    
+                    } else {
+                        m.put("LABELPAY0", "Non-cash payment (TODO):");                            
+                        m.put("PAY0", pi.getTotal());
+
+                    }
+                    
+                    
+                    /*  Other possible way to integrate payment list (using second jasper report):
+                     * 
+                        JasperPrint jp1 = JasperFillManager.fillReport(url.openStream(), parameters, new JRBeanCollectionDataSource(inspBean));
+                        JasperPrint jp2 = JasperFillManager.fillReport(url.openStream(), parameters, new JRBeanCollectionDataSource(inspBean));
+                       
+                        List pages = jp2.getPages();
+                        for (int j = 0; j < pages.size(); j++) {
+                            JRPrintPage object = (JRPrintPage)pages.get(j);
+                            jp1.addPage(object);        
+                        }
+                        JasperViewer.viewReport(jp1,false);
+                     */
+                    
                 }
                 
                 list.add(m);      
