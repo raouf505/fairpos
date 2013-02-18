@@ -1057,7 +1057,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                     
                     if (ticket.getTicketType() == TicketInfo.RECEIPT_REFUNDCOMMISSION) { 
                         paymentdialog = paymentdialogcommission;
-                        addedValue = ticket.getCustomer().getCurdebt();                        
+                        //addedValue = ticket.getCustomer().getCurdebt();                        
+                        addedValue = CommissionInvoice.getSource().getTotal();
                     }
 
                     
@@ -1196,6 +1197,15 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 m.put("PRICETICKETTOTAL", new Double(ticket.getTotal()));
                 
               
+                
+                if (ticket.getTicketType() == TicketInfo.RECEIPT_REFUNDCOMMISSION) {
+                    //HashMap<String,Object> priceFinal = new HashMap<String,Object>();
+                    
+                    //priceFinal.put("COMMISSION TICKET - returned items");
+                    m.put("PRICEGRANDTOTAL", CommissionInvoice.getSource().getTotal() + CommissionInvoice.getRefund().getTotal());
+                    //list.add(priceFinal);
+                }
+                
                 list.add(m);      
             }
         }

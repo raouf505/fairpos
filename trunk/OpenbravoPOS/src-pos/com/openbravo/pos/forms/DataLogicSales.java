@@ -41,16 +41,19 @@ import com.openbravo.pos.inventory.TaxCategoryInfo;
 import com.openbravo.pos.mant.FloorsInfo;
 import com.openbravo.pos.payment.PaymentInfo;
 import com.openbravo.pos.payment.PaymentInfoTicket;
+import com.openbravo.pos.sales.CommissionInvoice;
 import com.openbravo.pos.ticket.FindTicketsInfo;
 import com.openbravo.pos.ticket.TicketTaxInfo;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 /**
  *
  * @author adrianromero
  */
 public class DataLogicSales extends BeanFactoryDataSingle {
+    private static Logger logger = Logger.getLogger("com.openbravo.pos.forms.DataLogicSales");
 
     protected Session s;
 
@@ -340,8 +343,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         return ticket;
     }
 
-    private void updateCustomerDebtToZero(final CustomerInfoExt customer) throws BasicException {
-        customer.setCurdebt(0.0);
+    private void updateCustomerDebt(final CustomerInfoExt customer, double moneySum) throws BasicException {
+        customer.setCurdebt(moneySum );
         getDebtUpdate().exec(new DataParams() { public void writeValues() throws BasicException {
                             setDouble(1, customer.getCurdebt());
                             setTimestamp(2, customer.getCurdate());
@@ -361,7 +364,16 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                             ticket.setTicketId(getNextTicketIndex().intValue());
                             break;
                         case TicketInfo.RECEIPT_REFUNDCOMMISSION:
-                            updateCustomerDebtToZero(ticket.getCustomer()); //after giving back items from commision, customer pays the rest from the commision ticket (ie. sum which was stored in customer's debt)
+                            assert(CommissionInvoice.getSource().getCustomer() == CommissionInvoice.getRefund().getCustomer());
+                            logger.info("commission ticket price: "       + CommissionInvoice.getSource().getTotal());
+                            logger.info("refund ticket price: "     + CommissionInvoice.getRefund().getTotal());
+                            logger.info("debt (before update): "    + CommissionInvoice.getRefund().getCustomer().printCurDebt());
+                            
+                            
+                            ticket.getCustomer().updateCurDebt(-CommissionInvoice.getSource().getTotal(), new Date());
+                            logger.info("debt (after update): "       + CommissionInvoice.getRefund().getCustomer().printCurDebt());
+                            
+                            //updateCustomerDebtToZero(ticket.getCustomer()); //after giving back items from commision, customer pays the rest from the commision ticket (ie. sum which was stored in customer's debt)
                             ticket.setTicketId(getNextTicketRefundIndex().intValue());
                             break;
                         case TicketInfo.RECEIPT_REFUND:                        
