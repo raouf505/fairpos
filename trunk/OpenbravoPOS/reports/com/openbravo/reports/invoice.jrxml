@@ -26,7 +26,15 @@ ORDER BY PRODUCTS.CATEGORY]]>
 	<field name="PRICELINETOTAL" class="java.lang.Double"/>
 	<field name="PRICETICKETTOTAL" class="java.lang.Double"/>
 	<field name="PRICEGRANDTOTAL" class="java.lang.Double"/>
-	<field name="CUSTOMER_INFO" class="java.lang.String"/>
+	<field name="CUSTOMERINFO" class="java.lang.String"/>
+	
+	<field name="PAY0" class="java.lang.Double"/>
+	<field name="LABELPAY0" class="java.lang.String"/>
+	
+	<field name="PAY1" class="java.lang.Double"/>
+	<field name="LABELPAY1" class="java.lang.String"/>
+	
+	
 	<group name="Categorias">
 		<groupExpression><![CDATA[$F{GROUP_TITLE}]]></groupExpression>
 		<groupHeader>
@@ -167,6 +175,10 @@ ORDER BY PRODUCTS.CATEGORY]]>
 			</band>
 		</groupFooter>
 	</group>
+	
+	
+	
+	
 	<background>
 		<band/>
 	</background>
@@ -206,7 +218,7 @@ ORDER BY PRODUCTS.CATEGORY]]>
 			</textField>
 			<textField pattern="" isBlankWhenNull="false">
 				<reportElement key="textField-12" mode="Transparent" x="0" y="74" width="376" height="28" forecolor="#000000" backcolor="#FFFFFF">
-					<printWhenExpression><![CDATA[new Boolean($F{CUSTOMER_INFO} != null)]]></printWhenExpression>
+					<printWhenExpression><![CDATA[new Boolean($F{CUSTOMERINFO} != null)]]></printWhenExpression>
 				</reportElement>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -221,7 +233,7 @@ ORDER BY PRODUCTS.CATEGORY]]>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement key="textField-4" mode="Transparent" x="0" y="102" width="309" height="87" forecolor="#000000" backcolor="#FFFFFF">
-					<printWhenExpression><![CDATA[new Boolean($F{CUSTOMER_INFO} != null)]]></printWhenExpression>
+					<printWhenExpression><![CDATA[new Boolean($F{CUSTOMERINFO} != null)]]></printWhenExpression>
 				</reportElement>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -232,11 +244,11 @@ ORDER BY PRODUCTS.CATEGORY]]>
 				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
 					<font fontName="Dialog" size="14" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{CUSTOMER_INFO}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{CUSTOMERINFO}]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement key="line-4" mode="Opaque" x="0" y="205" width="536" height="1" forecolor="#000000" backcolor="#FFFFFF">
-					<printWhenExpression><![CDATA[new Boolean($F{CUSTOMER_INFO} != null)]]></printWhenExpression>
+					<printWhenExpression><![CDATA[new Boolean($F{CUSTOMERINFO} != null)]]></printWhenExpression>
 				</reportElement>
 				<graphicElement fill="Solid">
 					<pen lineWidth="1.0" lineStyle="Solid"/>
@@ -244,7 +256,7 @@ ORDER BY PRODUCTS.CATEGORY]]>
 			</line>
 			<line>
 				<reportElement key="line-4" mode="Opaque" x="0" y="74" width="536" height="1" forecolor="#000000" backcolor="#FFFFFF">
-					<printWhenExpression><![CDATA[new Boolean($F{CUSTOMER_INFO} != null)]]></printWhenExpression>
+					<printWhenExpression><![CDATA[new Boolean($F{CUSTOMERINFO} != null)]]></printWhenExpression>
 				</reportElement>
 				<graphicElement fill="Solid">
 					<pen lineWidth="1.0" lineStyle="Solid"/>
@@ -396,10 +408,85 @@ new Double($F{PRICESELL}.doubleValue() * (1.0 + $P{TAXESLOGIC}.getTaxRate($F{TAX
 			</line>
 		</band>
 	</pageFooter>
+	
+	
+	
 	<summary>
-		<band height="30">
+	
+		<band height="300">
+		  <textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement key="textField-1" mode="Transparent" x="400" y="30" width="100" height="30" forecolor="#000000" backcolor="#FFFFFF">
+				  <printWhenExpression><![CDATA[new Boolean($F{PAY0} != null)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+					<font fontName="Dialog" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{PAY0})]]></textFieldExpression>
+			</textField>
+			
+			
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-11" mode="Opaque" x="0" y="30" width="400" height="30" forecolor="#000000" backcolor="#FFFFFF">				  
+				  <printWhenExpression><![CDATA[new Boolean($F{PAY0} != null)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+					<font fontName="Dialog" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{LABELPAY0}]]></textFieldExpression>
+			</textField>
+			
+				
+		
+		  <textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement key="textField-1" mode="Transparent" x="400" y="60" width="100" height="30" forecolor="#000000" backcolor="#FFFFFF">
+				  <printWhenExpression><![CDATA[new Boolean($F{PAY1} != null)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+					<font fontName="Dialog" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{PAY1})]]></textFieldExpression>
+			</textField>
+			
+			
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-11" mode="Opaque" x="0" y="60" width="400" height="30" forecolor="#000000" backcolor="#FFFFFF">				  
+				  <printWhenExpression><![CDATA[new Boolean($F{PAY1} != null)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+					<font fontName="Dialog" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{LABELPAY1}]]></textFieldExpression>
+			</textField>
+			
+				
+		  
+		  
 			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
-				<reportElement key="textField-1" mode="Transparent" x="400" y="0" width="100" height="26" forecolor="#000000" backcolor="#FFFFFF">
+				<reportElement key="textField-1" mode="Transparent" x="400" y="0" width="100" height="30" forecolor="#000000" backcolor="#FFFFFF">
 				  <printWhenExpression><![CDATA[new Boolean($F{PRICEGRANDTOTAL} != null)]]></printWhenExpression>
 				</reportElement>
 				<box>
@@ -413,8 +500,10 @@ new Double($F{PRICESELL}.doubleValue() * (1.0 + $P{TAXESLOGIC}.getTaxRate($F{TAX
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{PRICEGRANDTOTAL})]]></textFieldExpression>
 			</textField>
+			
+			
 			<textField pattern="" isBlankWhenNull="false">
-				<reportElement key="textField-11" mode="Opaque" x="0" y="0" width="400" height="26" forecolor="#000000" backcolor="#FFFFFF">				  
+				<reportElement key="textField-11" mode="Opaque" x="0" y="0" width="400" height="30" forecolor="#000000" backcolor="#FFFFFF">				  
 				  <printWhenExpression><![CDATA[new Boolean($F{PRICEGRANDTOTAL} != null)]]></printWhenExpression>
 				</reportElement>
 				<box>
@@ -428,6 +517,8 @@ new Double($F{PRICESELL}.doubleValue() * (1.0 + $P{TAXESLOGIC}.getTaxRate($F{TAX
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$R{label.ticketTotalGrand}]]></textFieldExpression>
 			</textField>
+			
+			
 		</band>
 	</summary>
 </jasperReport>
